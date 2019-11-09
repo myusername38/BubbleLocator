@@ -1,0 +1,26 @@
+<div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="center center">
+  <div (click)="onMouseClick($event)" id="video-parent" class="p-0">
+    <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': bubble.x - 14 + widthOffset, 'top.px': bubble.y - 14 + heightOffset, 'color': selectedColor }">clear</mat-icon>
+    <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }">
+      <h1>Selector Color</h1>
+      <button mat-fab class="m-xs" (click)="this.selectedColor=color" *ngFor="let color of colors" [ngStyle]="{ 'background-color': color }"></button>
+    </div>
+    <div class="frame-buttons" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset + videoWidth + 16 }">
+      <h1 class="mt-xs mb-xs">KeyFrames</h1>
+      <div class="" *ngFor="let frame of frameLocations" fxLayout="row" fxLayoutAlign="start center">
+        <p>{{ frame.frameSlot + 1 }}.</p>
+        <button mat-button (click)="setFrame(frame.time)" *ngIf="frame.time !== -1">Frame: {{ getFrame(frame.time) }}</button>
+        <button mat-icon-button (click)="deleteSelectedFrame(frame.time)" *ngIf="frame.time !== -1">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="https://www.dropbox.com/s/s2iwihszgm7d97z/VIDEO-02%2003_05_09_12_11_19.mp4?raw=1"></mat-video>
+  </div>
+
+  <button mat-button (click)="locateBubbles()" *ngIf="!locatingBubbles">Locate Bubbles</button>
+  <button mat-button (click)="deleteBubble()" *ngIf="locatingBubbles">Delete Bubble</button>
+  <button mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles">Done Locating Bubles</button>
+  <button mat-button (click)="openDialog()" *ngIf="locatingBubbles">Open Dialog</button>
+  <h1>Current Frame {{ this.frame }}</h1>
+</div>

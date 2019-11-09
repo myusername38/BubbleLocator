@@ -1,1 +1,145 @@
 /* You can add global styles to this file, and also import other style files */
+@import'./vars.scss';
+
+
+/* CUSTOM CLASSES  */
+.mlr-auto { margin-left: auto !important; margin-right: auto !important; }
+.m-0 { margin: 0; }
+.m-xs { margin: $spacing-xs !important; }
+.m-sm { margin: $spacing-sm !important; }
+.m-md { margin: $spacing-md !important; }
+.m-lg { margin: $spacing-lg !important; }
+.m-xl { margin: $spacing-xl !important; }
+.mt-0 { margin-top: 0 !important; }
+.mt-auto { margin-top: auto !important; }
+.mt-xs { margin-top: $spacing-xs !important; }
+.mt-sm { margin-top: $spacing-sm !important; }
+.mt-md { margin-top: $spacing-md !important; }
+.mt-lg { margin-top: $spacing-lg !important; }
+.mt-xl { margin-top: $spacing-xl !important; }
+.mr-0 { margin-right: 0 !important; }
+.mr-auto { margin-right: auto !important; }
+.mr-xs { margin-right: $spacing-xs !important; }
+.mr-sm { margin-right: $spacing-sm !important; }
+.mr-md { margin-right: $spacing-md !important; }
+.mr-lg { margin-right: $spacing-lg !important; }
+.mr-xl { margin-right: $spacing-xl !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.mb-auto { margin-bottom: auto !important; }
+.mb-xs { margin-bottom: $spacing-xs !important; }
+.mb-sm { margin-bottom: $spacing-sm !important; }
+.mb-md { margin-bottom: $spacing-md !important; }
+.mb-lg { margin-bottom: $spacing-lg !important; }
+.mb-xl { margin-bottom: $spacing-xl !important; }
+.ml-0 { margin-left: 0 !important; }
+.ml-auto { margin-left: auto !important; }
+.ml-xs { margin-left: $spacing-xs !important; }
+.ml-sm { margin-left: $spacing-sm !important; }
+.ml-md { margin-left: $spacing-md !important; }
+.ml-lg { margin-left: $spacing-lg !important; }
+.ml-xl { margin-left: $spacing-xl !important; }
+.p-0 { padding: 0 !important; }
+.p-xs { padding: $spacing-xs !important; }
+.p-sm { padding: $spacing-sm !important; }
+.p-md { padding: $spacing-md !important; }
+.p-lg { padding: $spacing-lg !important; }
+.p-xl { padding: $spacing-xl !important; }
+.pt-0 { padding-top: 0 !important; }
+.pt-xs { padding-top: $spacing-xs !important; }
+.pt-sm { padding-top: $spacing-sm !important; }
+.pt-md { padding-top: $spacing-md !important; }
+.pt-lg { padding-top: $spacing-lg !important; }
+.pt-xl { padding-top: $spacing-xl !important; }
+.pr-0 { padding-right: 0 !important; }
+.pr-xs { padding-right: $spacing-xs !important; }
+.pr-sm { padding-right: $spacing-sm !important; }
+.pr-md { padding-right: $spacing-md !important; }
+.pr-lg { padding-right: $spacing-lg !important; }
+.pr-xl { padding-right: $spacing-xl !important; }
+.pb-0 { padding-bottom: 0 !important; }
+.pb-xs { padding-bottom: $spacing-xs !important; }
+.pb-sm { padding-bottom: $spacing-sm !important; }
+.pb-md { padding-bottom: $spacing-md !important; }
+.pb-lg { padding-bottom: $spacing-lg !important; }
+.pb-xl { padding-bottom: $spacing-xl !important; }
+.pl-xs { padding-left: $spacing-xs !important; }
+.pl-sm { padding-left: $spacing-sm !important; }
+.pl-md { padding-left: $spacing-md !important; }
+.pl-lg { padding-left: $spacing-lg !important; }
+.pl-xl { padding-left: $spacing-xl !important; }
+.w-100 { width: 100% !important; }
+.h-100 { height: 100% !important; }
+// Text Align
+.text-center {
+  text-align: center;
+}
+.ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+// Font Weights
+.fw-400 { font-weight: 400 !important; }
+.fw-500 { font-weight: 500 !important; }
+.fw-700 { font-weight: 700 !important; }
+
+.rank-picture{
+	height: 300px;
+	width: 188px;
+	border: $spacing-xs / 4 solid black;
+	border-radius: 10px;
+}
+.fade-in-fast {
+  -webkit-animation: fadein .1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein .1s; /* Firefox < 16 */
+  -ms-animation: fadein .1s; /* Internet Explorer */
+  -o-animation: fadein .1s; /* Opera < 12.1 */
+  animation: fadein .1s;
+}
+.fade-in-slow {
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+  -ms-animation: fadein 1s; /* Internet Explorer */
+  -o-animation: fadein 1s; /* Opera < 12.1 */
+  animation: fadein 1s;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* OTHER THINGS */
+
+body {
+  background-color: #587291;
+	background-repeat: no-repeat;
+	background-size: cover;
+  background-attachment: fixed;
+  padding: 0px;
+  margin: 0px;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
