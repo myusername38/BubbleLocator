@@ -133,13 +133,14 @@
 /* OTHER THINGS */
 
 body {
-  background-color: #587291;
-	background-repeat: no-repeat;
-	background-size: cover;
-  background-attachment: fixed;
+  background-color: #e8ebee;
   padding: 0px;
   margin: 0px;
 }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-dialog-container {
+  margin-top: -300px;
+}

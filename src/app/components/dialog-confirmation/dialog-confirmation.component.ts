@@ -8,11 +8,18 @@ import { DialogData } from '../bubble-locator/bubble-locator.component';
   styleUrls: ['./dialog-confirmation.component.scss']
 })
 export class DialogConfirmationComponent {
+  conformationData = null;
   constructor(
     public dialogRef: MatDialogRef<DialogConfirmationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+      this.conformationData = data;
+    }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  click(result) {
+    this.dialogRef.close(result);
   }
 }

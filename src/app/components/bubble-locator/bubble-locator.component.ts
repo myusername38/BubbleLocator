@@ -38,6 +38,7 @@ export class BubbleLocatorComponent implements OnInit {
   currentFrameBubbles: Bubble[] = [];
   times = [];
   frameLocations: FrameLocations[] = [];
+  edited = false;
   colors = [
     '#FF6700',
     '#F4F4F8',
@@ -74,6 +75,7 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   locateBubbles() {
+    this.edited = false;
     this.video.pause();
     this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
     this.locatingBubbles = true;
@@ -93,6 +95,7 @@ export class BubbleLocatorComponent implements OnInit {
   doneLocatingBubbles() {
     this.locatingBubbles = false;
     this.deletingBubbles = false;
+    this.edited = false;
     if (this.currentFrameBubbles[0]) {
       this.bubbles.find(f => f.frame === this.getCurrentFrame()).bubbles = [...this.currentFrameBubbles];
       if (!this.times.includes(this.video.currentTime)) {
@@ -106,8 +109,29 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   setFrame(time) {
-    this.video.currentTime = time;
-    this.locateBubbles();
+    if (this.edited) {
+      const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+        width: '500px',
+        data: {
+          frame: this.getCurrentFrame(),
+          options: [
+            'Yes', 'No'
+          ],
+          message: 'Save Changes?'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'yes') {
+          console.log('working');
+          this.doneLocatingBubbles();
+          this.video.currentTime = time;
+          this.locateBubbles();
+        }
+      });
+    } else {
+      this.video.currentTime = time;
+      this.locateBubbles();
+    }
   }
 
   deleteBubble() {
@@ -115,9 +139,24 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   deleteSelectedFrame(time: number) {
-    this.times = this.times.filter(t =>  t !== time);
-    this.bubbles = this.bubbles.filter(b => b.frame !== this.getFrame(time));
-    this.generateFrameButtons();
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
+      data: {
+        frame: this.getCurrentFrame(),
+        options: [
+          'Delete', 'Cancel'
+        ],
+        message: `Delete Frame ${ this.getFrame(time) }?`
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Delete') {
+        console.log('working');
+        this.times = this.times.filter(t =>  t !== time);
+        this.bubbles = this.bubbles.filter(b => b.frame !== this.getFrame(time));
+        this.generateFrameButtons();
+      }
+    });
   }
 
   generateFrameButtons() {
@@ -135,6 +174,7 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   onMouseClick(e: MouseEvent) {
+    const startLen = this.currentFrameBubbles.length;
     if (this.locatingBubbles
       && e.clientX > this.widthOffset && e.clientX < this.widthOffset + this.videoWidth
       && e.clientY > this.heightOffset && e.clientY < this.heightOffset + this.videoHeight) {
@@ -152,16 +192,25 @@ export class BubbleLocatorComponent implements OnInit {
         this.currentFrameBubbles.push(bubble);
       }
     }
+    if (startLen !== this.currentFrameBubbles.length) {
+      this.edited = true;
+    }
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '500px',
-      data: { frame: this.getCurrentFrame() }
+      data: {
+        frame: this.getCurrentFrame(),
+        options: [
+          'Yes', 'No'
+        ],
+        message: ''
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      return(result);
     });
   }
 }
