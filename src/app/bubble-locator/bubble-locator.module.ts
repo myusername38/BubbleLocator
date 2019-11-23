@@ -5,11 +5,14 @@ import {
   MatButtonModule,
   MatDialogModule,
   MatIconModule,
+  MatSliderModule,
 } from '@angular/material';
 import { BubbleLocatorRoutingModule } from './bubble-locator-routing.module';
 import { BubbleLocatorComponent } from '../components/bubble-locator/bubble-locator.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
+import { GestureConfig } from '@angular/material';
 
 
 @NgModule({
@@ -25,9 +28,13 @@ import { DialogConfirmationComponent } from '../components/dialog-confirmation/d
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
+    MatSliderModule,
   ],
   entryComponents: [
     DialogConfirmationComponent,
+  ],
+  providers: [
+    {provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig}
   ]
 })
 export class BubbleLocatorModule { }

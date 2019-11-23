@@ -4,6 +4,7 @@ import {
   MatButtonModule,
   MatDialogModule,
   MatIconModule,
+  MatSliderModule,
 } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

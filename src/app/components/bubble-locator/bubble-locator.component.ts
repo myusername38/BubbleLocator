@@ -4,6 +4,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatVideoComponent } from 'mat-video';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { Bubble } from '../../interfaces/bubble';
+import { MatSliderChange } from '@angular/material';
 
 export interface DialogData {
   frame: number;
@@ -40,13 +41,13 @@ export class BubbleLocatorComponent implements OnInit {
   frameLocations: FrameLocations[] = [];
   edited = false;
   colors = [
-    '#FF6700',
-    '#F4F4F8',
-    '#FE4A49',
-    '#20FC8F',
-    '#020100'
+    '#990033',
+    '#345995',
+    '#32746D',
+    '#EEC170',
   ];
   selectedColor = '#F4F4F8';
+  playbackSpeed = 100;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -76,6 +77,7 @@ export class BubbleLocatorComponent implements OnInit {
 
   locateBubbles() {
     this.edited = false;
+    this.deletingBubbles = false;
     this.video.pause();
     this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
     this.locatingBubbles = true;
@@ -121,9 +123,11 @@ export class BubbleLocatorComponent implements OnInit {
         }
       });
       dialogRef.afterClosed().subscribe(result => {
-        if (result === 'yes') {
-          console.log('working');
+        if (result === 'Yes') {
           this.doneLocatingBubbles();
+          this.video.currentTime = time;
+          this.locateBubbles();
+        } else {
           this.video.currentTime = time;
           this.locateBubbles();
         }
@@ -134,8 +138,12 @@ export class BubbleLocatorComponent implements OnInit {
     }
   }
 
-  deleteBubble() {
+  deleteBubbles() {
     this.deletingBubbles = true;
+  }
+
+  doneDeletingBubbles() {
+    this.deletingBubbles = false;
   }
 
   deleteSelectedFrame(time: number) {
@@ -171,6 +179,11 @@ export class BubbleLocatorComponent implements OnInit {
         time
       };
     }
+  }
+
+  setPlaybackSpeed(event: MatSliderChange) {
+    this.playbackSpeed = event.value;
+    this.video.playbackRate = (this.playbackSpeed / 100);
   }
 
   onMouseClick(e: MouseEvent) {
@@ -214,4 +227,3 @@ export class BubbleLocatorComponent implements OnInit {
     });
   }
 }
-

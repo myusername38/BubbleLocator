@@ -1,5 +1,5 @@
 <div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="center center">
-  <div (click)="onMouseClick($event)" id="video-parent" class="p-0">
+  <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0">
     <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': bubble.x - 13 + widthOffset, 'top.px': bubble.y - 13 + heightOffset, 'color': selectedColor }">clear</mat-icon>
     <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }">
       <h1 class="mt-xs mb-xs">Selector Color</h1>
@@ -7,9 +7,9 @@
     </div>
     <div class="frame-buttons" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset + videoWidth + 16 }">
       <h1 class="mt-xs mb-xs">Key Frames</h1>
-      <div class="fade-in-fast w-100 p-xs" *ngFor="let frame of frameLocations" fxLayout="row" fxLayoutAlign="start start">
+      <div class="button-box fade-in-fast w-100" *ngFor="let frame of frameLocations" fxLayout="row" fxLayoutAlign="start start">
         <div class="mr-sm">
-          <p class="mt-xs mb-0">{{ frame.frameSlot + 1 }}.</p>
+          <p class="frame-slot-text mb-0">{{ frame.frameSlot + 1 }}.</p>
         </div>
         <div fxFill>
             <button class="frame-button" mat-raised-button (click)="setFrame(frame.time)" *ngIf="frame.time !== -1" [ngStyle]="{ 'background-color': '#57b8ff' }">Frame: {{ getFrame(frame.time) }}</button>
@@ -20,10 +20,16 @@
       </div>
     </div>
     <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="https://www.dropbox.com/s/s2iwihszgm7d97z/VIDEO-02%2003_05_09_12_11_19.mp4?raw=1"></mat-video>
+    <div *ngIf="!locatingBubbles" fxFlex="row" fxLayoutAlign="start start">
+      <div class="playbackBox mr-md">
+        <mat-slider class="fade-in-fast" min="10" max="100" step="5" value="{{ playbackSpeed }}" (input)="setPlaybackSpeed($event)"></mat-slider>
+        <p class="m-0 fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
+      </div>
+      <button class="bottom-buttons ml-xs fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
+    </div>
   </div>
 
-  <button mat-button (click)="locateBubbles()" *ngIf="!locatingBubbles">Locate Bubbles</button>
-  <button mat-button (click)="deleteBubble()" *ngIf="locatingBubbles">Delete Bubble</button>
-  <button mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles">Done Locating Bubles</button>
-  <button mat-button (click)="openDialog()" *ngIf="locatingBubbles">Open Dialog</button>
+  <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles">Done Locating Bubles</button>
+  <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
+  <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Delete Bubble</button>
 </div>
