@@ -1,6 +1,6 @@
 <div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="center center">
-  <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0">
-    <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': bubble.x - 13 + widthOffset, 'top.px': bubble.y - 13 + heightOffset, 'color': selectedColor }">clear</mat-icon>
+  <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }">
+    <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
     <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }">
       <h1 class="mt-xs mb-xs">Selector Color</h1>
       <button mat-fab class="m-xs" (click)="this.selectedColor=color" *ngFor="let color of colors" [ngStyle]="{ 'background-color': color }"></button>
@@ -28,7 +28,6 @@
       <button class="bottom-buttons ml-xs fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
     </div>
   </div>
-
   <button class="bottom-buttons fade-in-fast" mat-button (click)="whiteWashed()" *ngIf="locatingBubbles">Whashed</button>
   <button class="bottom-buttons fade-in-fast" mat-button (click)="noBubbles()" *ngIf="locatingBubbles">No Bubbles</button>
   <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles">Done Locating Bubles</button>

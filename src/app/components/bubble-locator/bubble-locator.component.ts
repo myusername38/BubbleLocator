@@ -21,7 +21,7 @@ export interface FrameLocations {
 })
 export class BubbleLocatorComponent implements OnInit {
 
-  @ViewChild('video', {static: true}) matVideo: MatVideoComponent;
+  @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
   video: HTMLVideoElement;
   bubbleRadius = 12;
   fps = 0;
@@ -48,6 +48,7 @@ export class BubbleLocatorComponent implements OnInit {
   ];
   selectedColor = '#F4F4F8';
   playbackSpeed = 100;
+  scaled = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -63,8 +64,17 @@ export class BubbleLocatorComponent implements OnInit {
     this.video.addEventListener('ended', () => console.log('video ended'));
     this.video.addEventListener('pause', (e) => { this.paused = true; });
     this.video.addEventListener('clicked', (e) => { e.preventDefault(); });
-    this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
-    this.generateFrameButtons();
+    this.video.addEventListener('canplay', (e) => {
+      this.videoWidth = this.video.videoWidth;
+      this.videoHeight = this.video.videoHeight;
+      if (this.videoHeight > 600 || this.videoWidth > 1000) {
+        this.videoHeight = this.videoHeight / 2;
+        this.videoWidth = this.videoWidth / 2;
+        this.scaled = true;
+      }
+      this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
+      this.generateFrameButtons();
+    });
   }
 
   getCurrentFrame() {
@@ -91,6 +101,20 @@ export class BubbleLocatorComponent implements OnInit {
       this.currentFrameBubbles = this.bubbles.find(f => f.frame === this.getCurrentFrame()).bubbles;
     } else {
       this.currentFrameBubbles = b.bubbles;
+      if (this.scaled) {
+        this.currentFrameBubbles = this.currentFrameBubbles.map(bubble => {
+          if (bubble.x >= 0) {
+            return bubble;
+          }
+          return (
+            {
+              x: bubble.x / 2,
+              y: bubble.y / 2,
+              frame: b.frame,
+            }
+          );
+        });
+      }
     }
   }
 
@@ -210,13 +234,33 @@ export class BubbleLocatorComponent implements OnInit {
     this.video.playbackRate = (this.playbackSpeed / 100);
   }
 
+  getX(bubble) {
+    let x = bubble.x;
+    if (this.scaled) {
+      x = x / 2;
+    }
+    return x - 13 + this.widthOffset;
+  }
+
+  getY(bubble) {
+    let y = bubble.y;
+    if (this.scaled) {
+      y = y / 2;
+    }
+    return y - 13 + this.heightOffset;
+  }
+
   onMouseClick(e: MouseEvent) {
     const startLen = this.currentFrameBubbles.length;
     if (this.locatingBubbles
       && e.clientX > this.widthOffset && e.clientX < this.widthOffset + this.videoWidth
       && e.clientY > this.heightOffset && e.clientY < this.heightOffset + this.videoHeight) {
-      const x = e.clientX - this.widthOffset;
-      const y = e.clientY - this.heightOffset;
+      let x = e.clientX - this.widthOffset;
+      let y = e.clientY - this.heightOffset;
+      if (this.scaled) {
+        x = x * 2;
+        y = y * 2;
+      }
       if (this.deletingBubbles) {
         this.currentFrameBubbles =
           this.currentFrameBubbles.filter(b => (Math.abs(x - b.x) > this.bubbleRadius || Math.abs(y - b.y) > this.bubbleRadius));

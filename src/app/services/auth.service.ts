@@ -38,6 +38,15 @@ export class AuthService {
     return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
+  async register({ email, password }: { email: string; password: string; }): Promise<any> {
+    // register user
+    // return this.firebaseAuth.auth.regis(email, password);
+  }
+
+  async sendVerificationEmail() {
+    return this.firebaseAuth.auth.currentUser.sendEmailVerification();
+  }
+
   logout() {
     return this.firebaseAuth.auth.signOut();
   }

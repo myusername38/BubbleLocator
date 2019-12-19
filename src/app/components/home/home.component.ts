@@ -12,4 +12,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  learnMore() {
+    const height = window.innerHeight - 85;
+    window.scrollBy(0, height);
+  }
 }

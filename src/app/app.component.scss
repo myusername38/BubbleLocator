@@ -1,0 +1,34 @@
+@import '../vars.scss';
+
+$button-font-size: 22px;
+
+.logo {
+  width: 384px;
+  height: 69px;
+}
+
+.tool-bar {
+  height: 85px;
+}
+
+.buttons {
+  font-family: $roboto;
+  margin-right: 10px;
+  margin-left: auto;
+
+}
+
+.login-button {
+  font-size: $button-font-size;
+}
+
+.register-button {
+  font-size: $button-font-size;
+}
+
+.tool-bar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000;
+}

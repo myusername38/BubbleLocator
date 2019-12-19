@@ -1,1 +1,13 @@
+<mat-toolbar class="tool-bar">
+    <img (click)="home()" class="logo" src="../assets/pictures/BME_logo.png"/>
+    <div class="buttons" fxLayout="row" fxLayoutAlign="center center">
+      <button mat-button class="login-button" (click)="login()">
+        LOGIN
+      </button>
+      <button mat-button class="register-button" (click)="register()">
+        REGISTER
+      </button>
+    </div>
+</mat-toolbar>
+
 <router-outlet></router-outlet>

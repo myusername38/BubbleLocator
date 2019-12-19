@@ -1,5 +1,7 @@
 /* Component shrinking pixel numbers */
 $screen-shrink: 1000px;
+$screen-large: 1280px;
+$screen-medium: 960px;
 $screen-small: 600px;
 $screen-extra-small: 400px;
 
@@ -17,17 +19,16 @@ $spacing-md: 2rem;
 $spacing-lg: 3rem;
 $spacing-xl: 4rem;
 
+$roboto: 'Roboto', sans-serif;
+
 $border-width: 2px;
 
 $font-xs: 0.5rem;
 $font-sm: 1rem;
 $font-md: 1.25rem;
-$font-large: 2rem;
+$font-lg: 2rem;
 
 $small: 4px;
 $medium: 8px;
 $large: 12px;
 $xl: 16px;
-
-$button-height: 48px;
-
