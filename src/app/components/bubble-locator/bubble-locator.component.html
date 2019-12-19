@@ -12,14 +12,14 @@
           <p class="frame-slot-text mb-0">{{ frame.frameSlot + 1 }}.</p>
         </div>
         <div fxFill>
-            <button class="frame-button" mat-raised-button (click)="setFrame(frame.time)" *ngIf="frame.time !== -1" [ngStyle]="{ 'background-color': '#57b8ff' }">Frame: {{ getFrame(frame.time) }}</button>
-            <button mat-icon-button (click)="deleteSelectedFrame(frame.time)" *ngIf="frame.time !== -1">
-              <mat-icon>delete</mat-icon>
-            </button>
+          <button class="frame-button" mat-raised-button (click)="setFrame(frame.time)" *ngIf="frame.time !== -1" [ngStyle]="{ 'background-color': '#57b8ff' }">Frame: {{ getFrame(frame.time) }}</button>
+          <button mat-icon-button (click)="deleteSelectedFrame(frame.time)" *ngIf="frame.time !== -1">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </div>
     </div>
-    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="https://www.dropbox.com/s/s2iwihszgm7d97z/VIDEO-02%2003_05_09_12_11_19.mp4?raw=1"></mat-video>
+    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="https://www.dropbox.com/s/8f6maveu31lvjrk/cropped_201801211715390010CARD.mp4?raw=1"></mat-video>
     <div *ngIf="!locatingBubbles" fxFlex="row" fxLayoutAlign="start start">
       <div class="playbackBox mr-md">
         <mat-slider class="fade-in-fast" min="10" max="100" step="5" value="{{ playbackSpeed }}" (input)="setPlaybackSpeed($event)"></mat-slider>
@@ -29,6 +29,8 @@
     </div>
   </div>
 
+  <button class="bottom-buttons fade-in-fast" mat-button (click)="whiteWashed()" *ngIf="locatingBubbles">Whashed</button>
+  <button class="bottom-buttons fade-in-fast" mat-button (click)="noBubbles()" *ngIf="locatingBubbles">No Bubbles</button>
   <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles">Done Locating Bubles</button>
   <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
   <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Delete Bubble</button>

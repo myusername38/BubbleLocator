@@ -110,6 +110,30 @@ export class BubbleLocatorComponent implements OnInit {
     this.currentFrameBubbles = [];
   }
 
+  noBubbles() {
+    const bubble: Bubble = {
+      x: -2,
+      y: -2,
+      frame: this.getCurrentFrame()
+    };
+    this.currentFrameBubbles.push(bubble);
+    this.doneLocatingBubbles();
+  }
+
+  badQuality() {
+
+  }
+
+  whiteWashed() {
+    const bubble: Bubble = {
+      x: -1,
+      y: -1,
+      frame: this.getCurrentFrame()
+    };
+    this.currentFrameBubbles.push(bubble);
+    this.doneLocatingBubbles();
+  }
+
   setFrame(time) {
     if (this.edited) {
       const dialogRef = this.dialog.open(DialogConfirmationComponent, {
