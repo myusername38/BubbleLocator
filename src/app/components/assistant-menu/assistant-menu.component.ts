@@ -9,7 +9,7 @@ import { RoleData } from '../../interfaces/role-data';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-admin-menu',
+  selector: 'app-assistant-menu',
   templateUrl: './assistant-menu.component.html',
   styleUrls: ['./assistant-menu.component.scss']
 })
@@ -26,16 +26,15 @@ export class AssistantMenuComponent implements OnInit {
                private userService: UserService,
                private authService: AuthService,
                private router: Router,
-               public dialog: MatDialog ) { }
+               public dialog: MatDialog ) {
+                this.authService.userRole.subscribe(role => {
+                  this.owner = role === 'owner';
+                });
+              }
 
   ngOnInit(): void {
     this.userData.paginator = this.paginator;
     this.loadAssistants();
-    if (!this.authService.role) {
-      setTimeout(() => this.owner = this.authService.role === 'owner', 500);
-    } else {
-      this.owner = this.authService.role === 'owner';
-    }
   }
 
   addAdmin() {

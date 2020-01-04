@@ -17,8 +17,6 @@ export class AdminMenuComponent implements OnInit {
 
   userData = new MatTableDataSource<RoleData>();
   loading = false;
-  owner = false;
-
   displayedColumns: string[] = ['email', 'role', 'uid', 'date', 'expand'];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -32,11 +30,6 @@ export class AdminMenuComponent implements OnInit {
   ngOnInit(): void {
     this.userData.paginator = this.paginator;
     this.loadAdmins();
-    if (!this.authService.role) {
-      setTimeout(() => this.owner = this.authService.role === 'owner', 500);
-    } else {
-      this.owner = this.authService.role === 'owner';
-    }
   }
 
   addAdmin() {

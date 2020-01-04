@@ -3,8 +3,8 @@
     <div class="menu-buttons p-sm">
       <button mat-button class="w-100" (click)="navigate('videos')">Videos</button>
       <button mat-button class="w-100" (click)="navigate('assistants')">Assistants</button>
-      <button mat-button class="w-100" *ngIf="owner" (click)="navigate('admins')">Admins</button>
-      <button mat-button class="w-100" *ngIf="owner" (click)="navigate('owners')">Owners</button>
+      <button mat-button class="w-100" (click)="navigate('admins')">Admins</button>
+      <button mat-button class="w-100" (click)="navigate('owners')">Owners</button>
     </div>
   </div>
   <div class="content p-sm w-100" fxLayout="column" fxLayoutAlign="start center">

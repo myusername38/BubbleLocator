@@ -9,7 +9,7 @@ import { RoleData } from '../../interfaces/role-data';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-admin-menu',
+  selector: 'app-owner-menu',
   templateUrl: './owner-menu.component.html',
   styleUrls: ['./owner-menu.component.scss']
 })
@@ -22,20 +22,15 @@ export class OwnerMenuComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor( private snackbarService: SnackbarService,
-               private userService: UserService,
-               private authService: AuthService,
-               private router: Router,
-               public dialog: MatDialog ) { }
+  constructor(private snackbarService: SnackbarService,
+              private userService: UserService,
+              private authService: AuthService,
+              private router: Router,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userData.paginator = this.paginator;
     this.loadOwners();
-    if (!this.authService.role) {
-      setTimeout(() => this.owner = this.authService.role === 'owner', 500);
-    } else {
-      this.owner = this.authService.role === 'owner';
-    }
   }
 
   addOwner() {

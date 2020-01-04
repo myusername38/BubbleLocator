@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service'
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RouteConfigLoadEnd } from '@angular/router';
 
@@ -17,10 +17,9 @@ export class AuthService {
   // tslint:disable-next-line: variable-name
   public _token = null;
 
-  public _role = null;
-
   url = environment.apiUrl;
 
+  userRole = new BehaviorSubject(null);
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject(null);
   userSubject: BehaviorSubject<any> = new BehaviorSubject(null);
 
@@ -32,7 +31,7 @@ export class AuthService {
   }
 
   get role() {
-    return this._role;
+    return this.userRole;
   }
 
   constructor(public firebaseAuth: AngularFireAuth, private http: HttpClient, private userService: UserService) {
@@ -44,7 +43,7 @@ export class AuthService {
         this._token = await user.getIdToken();
         this.tokenSubject.next(this._token);
         const idTokenResult = await user.getIdTokenResult();
-        this._role = this.getRole(idTokenResult);
+        this.userRole.next(this.getRole(idTokenResult));
       }
     });
   }

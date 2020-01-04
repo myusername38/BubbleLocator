@@ -19,6 +19,8 @@ import { AddPermissionDialogComponent } from '../components/add-permission-dialo
 import { OwnerMenuComponent } from '../components/owner-menu/owner-menu.component';
 import { DeleteUserDialogComponent } from '../components/delete-user-dialog/delete-user-dialog.component';
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
+import { VideoMenuComponent } from '../components/video-menu/video-menu.component';
+import { AddVideoDialogComponent } from '../components/add-video-dialog/add-video-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +28,10 @@ import { DialogConfirmationComponent } from '../components/dialog-confirmation/d
     AddPermissionDialogComponent,
     DeleteUserDialogComponent,
     DialogConfirmationComponent,
+    AddVideoDialogComponent,
     AssistantMenuComponent,
     OwnerMenuComponent,
+    VideoMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +52,7 @@ import { DialogConfirmationComponent } from '../components/dialog-confirmation/d
     AddPermissionDialogComponent,
     DeleteUserDialogComponent,
     DialogConfirmationComponent,
+    AddVideoDialogComponent,
   ],
 })
 export class AdminModule { }
