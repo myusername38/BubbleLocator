@@ -6,6 +6,7 @@ import {
   MatDialogModule,
   MatIconModule,
   MatSliderModule,
+
 } from '@angular/material';
 import { BubbleLocatorRoutingModule } from './bubble-locator-routing.module';
 import { BubbleLocatorComponent } from '../components/bubble-locator/bubble-locator.component';

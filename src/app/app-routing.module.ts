@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'bubbleLocator', loadChildren: () => import ('./bubble-locator/bubble-locator.module').then(mod => mod.BubbleLocatorModule) },
+  { path: 'admin', loadChildren: () => import ('./admin/admin.module').then(mod => mod.AdminModule) },
 ];
 
 @NgModule({

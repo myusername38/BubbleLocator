@@ -1,7 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { UserService } from '../services/user.service'
 import { BehaviorSubject } from 'rxjs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { RouteConfigLoadEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +16,11 @@ export class AuthService {
   public _user = null;
   // tslint:disable-next-line: variable-name
   public _token = null;
+
+  public _role = null;
+
+  url = environment.apiUrl;
+
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject(null);
   userSubject: BehaviorSubject<any> = new BehaviorSubject(null);
 
@@ -21,27 +31,50 @@ export class AuthService {
     return this._token;
   }
 
-  constructor(public firebaseAuth: AngularFireAuth) {
+  get role() {
+    return this._role;
+  }
+
+  constructor(public firebaseAuth: AngularFireAuth, private http: HttpClient, private userService: UserService) {
     this.firebaseAuth.user.subscribe(async user => {
       this._user = user;
       this.userSubject.next(user);
       if (user) {
+        this.userService.testToken();
         this._token = await user.getIdToken();
-        // console.log('this._token', this._token);
         this.tokenSubject.next(this._token);
+        const idTokenResult = await user.getIdTokenResult();
+        this._role = this.getRole(idTokenResult);
       }
     });
   }
 
-  // TODO: any
   async login({ email, password }: { email: string; password: string; }): Promise<any> {
-    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
   }
 
   async register({ email, password }: { email: string; password: string; }): Promise<any> {
     // register user
     // return this.firebaseAuth.auth.regis(email, password);
   }
+
+  async deleteUser(uid: string) {
+    const params = new HttpParams().set('uid', uid);
+    return this.http.delete(`${ this.url }/delete-user`, { params }).toPromise();
+  }
+
+  getRole(idTokenResult) {
+    if (idTokenResult.claims.assistant && idTokenResult.claims.assistant === true) {
+      return 'assistant';
+    } else if (idTokenResult.claims.admin && idTokenResult.claims.admin === true) {
+      return 'admin';
+    } else if (idTokenResult.claims.owner && idTokenResult.claims.owner === true) {
+      return 'owner';
+    } else {
+      return 'user';
+    }
+  }
+
 
   async sendVerificationEmail() {
     return this.firebaseAuth.auth.currentUser.sendEmailVerification();

@@ -13,7 +13,8 @@ export const environment = {
     messagingSenderId: '932510009393',
     appId: '1:932510009393:web:d9b5ff2e6fb97fcca4ad10',
     measurementId: 'G-F9F4SME7WN'
-  }
+  },
+  apiUrl: 'http://localhost:5000/bubblelocatorapi/us-central1/api'
 };
 
 /*

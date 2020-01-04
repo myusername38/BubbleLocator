@@ -1,11 +1,13 @@
 <div class="confirmation" fxLayout="column" fxLayoutAlign="center center">
-  <h1>{{ conformationData.message }}</h1>
+  <div class="title">
+      <h1>{{ conformationData.message }}</h1>
+  </div>
   <div class="button-row" fxLayout="row" fxLayoutAlign="center center">
     <button mat-button class="mr-xs p-xs" (click)="click(conformationData.options[0])" [ngStyle]="{ 'background-color': '#57b8ff' }">
-      <p class="m-0">{{ conformationData.options[0] }}</p>
+      <p class="m-0 mlr-auto">{{ conformationData.options[0] }}</p>
     </button>
     <button mat-button class="ml-xs p-xs" (click)="click(conformationData.options[1])" [ngStyle]="{ 'background-color': '#6F8695' }">
-      <p class="m-0">{{ conformationData.options[1] }}</p>
+      <p class="m-0 mlr-auto">{{ conformationData.options[1] }}</p>
     </button>
   </div>
 </div>
