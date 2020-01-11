@@ -53,10 +53,6 @@ export class OwnerMenuComponent implements OnInit {
 
   }
 
-  makeAssistant() {
-
-  }
-
   async loadOwners() {
     try {
       this.loading = true;
@@ -81,11 +77,11 @@ export class OwnerMenuComponent implements OnInit {
     }
   }
 
-  async makeOwner(user: RoleData) {
+  async makeAssistant(user: RoleData) {
     try {
       this.loading = true;
       await this.userService.grantAssistant(user.uid);
-      this.snackbarService.showInfo(`${ user.email } is now an Owner`);
+      this.snackbarService.showInfo(`${ user.email } is now an Assistant`);
       setTimeout(() => this.loadOwners(), 200);
     } catch (err) {
       console.log(err);
@@ -93,6 +89,7 @@ export class OwnerMenuComponent implements OnInit {
       this.loading = false;
     }
   }
+
 
   async removeUserPermissions(user: RoleData) {
     try {

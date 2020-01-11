@@ -26,6 +26,7 @@ import { InterceptorService } from './services/interceptor.service';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     RegisterComponent,
     ResetPasswordComponent,
     LoginComponent,
+    RecoverPasswordComponent,
   ],
   imports: [
     BrowserModule,

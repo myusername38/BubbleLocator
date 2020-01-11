@@ -27,7 +27,7 @@ export class EmailErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterComponent implements OnInit {
 
-  loginForm: FormGroup;
+  registerForm: FormGroup;
   loading = false;
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit {
               public afAuth: AngularFireAuth) { }
 
   ngOnInit() {
-    this.loginForm = new FormGroup({
+    this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required]),
@@ -73,17 +73,13 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-  async sendEmail(username, password) {
-    await this.afAuth.auth.signInWithEmailAndPassword(username, password);
-    setTimeout(() => { this.afAuth.auth.currentUser.sendEmailVerification(); }, 1000);
-  }
-
   async onSubmit() {
     try {
+      const formData = this.registerForm.getRawValue();
       this.loading = true;
-      await this.authService.register(this.loginForm.getRawValue());
+      await this.authService.register(formData.email, formData.password);
+      this.authService.login({ email: formData.email, password: formData.password });
       this.registered = true;
-      this.sendEmail(this.loginForm.getRawValue().email, this.loginForm.getRawValue().password);
     } catch (err) {
       console.log(err);
     } finally {

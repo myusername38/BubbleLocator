@@ -3,21 +3,21 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { UserService } from '../services/user.service'
+import { UserService } from '../services/user.service';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { RouteConfigLoadEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  // tslint:disable-next-line: variable-name
   public _user = null;
   // tslint:disable-next-line: variable-name
   public _token = null;
 
   url = environment.apiUrl;
+  sendEmail = false;
 
   userRole = new BehaviorSubject(null);
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject(null);
@@ -39,6 +39,10 @@ export class AuthService {
       this._user = user;
       this.userSubject.next(user);
       if (user) {
+        if (this.sendEmail) {
+          this.firebaseAuth.auth.currentUser.sendEmailVerification();
+          this.sendEmail = false;
+        }
         this.userService.testToken();
         this._token = await user.getIdToken();
         this.tokenSubject.next(this._token);
@@ -48,13 +52,19 @@ export class AuthService {
     });
   }
 
-  async login({ email, password }: { email: string; password: string; }): Promise<any> {
-    this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
+  async resendEmail() {
+    if (this._user) {
+      this._user.sendEmailVerification();
+    }
   }
 
-  async register({ email, password }: { email: string; password: string; }): Promise<any> {
-    // register user
-    // return this.firebaseAuth.auth.regis(email, password);
+  async login({ email, password }: { email: string; password: string; }): Promise<any> {
+    this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  async register(email: string, password: string): Promise<any> {
+    this.sendEmail = true;
+    return this.http.post(`${ this.url }/signup`, { email, password }).toPromise();
   }
 
   async deleteUser(uid: string) {
@@ -74,6 +84,9 @@ export class AuthService {
     }
   }
 
+  async sendPasswordResetEmail(email: string) {
+    return this.firebaseAuth.auth.sendPasswordResetEmail(email);
+  }
 
   async sendVerificationEmail() {
     return this.firebaseAuth.auth.currentUser.sendEmailVerification();

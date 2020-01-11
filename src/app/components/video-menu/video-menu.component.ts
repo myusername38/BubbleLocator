@@ -29,7 +29,6 @@ export class VideoMenuComponent implements OnInit {
               private router: Router,
               public dialog: MatDialog) {
                 this.authService.userRole.subscribe(role => {
-                  console.log('here');
                   this.role = role;
                 });
               }
@@ -59,7 +58,7 @@ export class VideoMenuComponent implements OnInit {
       width: '500px',
       data: {
         options: [
-          'Confirm', 'Cancel'
+          'Confirm', 'Cancel',
         ],
         message: `Delete video ${ video.title }?`
       }

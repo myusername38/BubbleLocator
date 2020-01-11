@@ -42,8 +42,8 @@
                 <mat-icon class="icon">more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu" xPosition="before">
-                <button mat-menu-item (click)="makeAdmin(element)">Make Admin</button>
-                <button mat-menu-item (click)="makeOwner(element)">Make Owner</button>
+                <button mat-menu-item (click)="makeAdmin(element)" *ngIf="owner">Make Admin</button>
+                <button mat-menu-item (click)="makeOwner(element)" *ngIf="owner">Make Owner</button>
                 <button mat-menu-item (click)="removeUserPermissions(element)">Remove Assistant</button>
                 <button mat-menu-item (click)="deleteUser(element)">Delete User</button>
               </mat-menu>

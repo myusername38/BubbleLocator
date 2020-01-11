@@ -5,16 +5,16 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-recover-password',
+  templateUrl: './recover-password.component.html',
+  styleUrls: ['./recover-password.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class RecoverPasswordComponent implements OnInit {
 
-  loginForm: FormGroup;
+  recoverForm: FormGroup;
   loading = false;
-  windowRef: any;
   email = new FormControl('', [Validators.required, Validators.email]);
+  emailSent = false;
 
   constructor(
     private router: Router,
@@ -22,9 +22,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    this.loginForm = new FormGroup({
+    this.recoverForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
     });
   }
 
@@ -39,16 +38,26 @@ export class LoginComponent implements OnInit {
   }
 
   resetPassword() {
-    this.router.navigate(['/recover-password']);
+    this.router.navigate(['reset']);
+  }
+
+  goToLogin() {
+    this.router.navigate(['login']);
   }
 
   async onSubmit() {
     try {
       this.loading = true;
-      await this.authService.login(this.loginForm.getRawValue());
-      this.router.navigate(['/']);
-    } catch ({ message = 'Error authentication, please try again' }) {
-      this.snackbarService.showError(message, 'Close');
+      await this.authService.sendPasswordResetEmail(this.recoverForm.getRawValue().email);
+      this.emailSent = true;
+    } catch (err) {
+      if (err.code === 'auth/user-not-found') {
+        this.snackbarService.showError('No user associated with this email');
+      } else if (err.code === 'auth/invalid-email') {
+        this.snackbarService.showError('Invalid Email');
+      } else {
+        console.log(err);
+      }
     } finally {
       this.loading = false;
     }
