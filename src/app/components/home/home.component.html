@@ -1,7 +1,34 @@
-<div class="home-outter">
-  <div class="top" fxLayoutAlign="center end">
-    <button mat-button class="learn-more mb-lg">
-      <p class="mt-xs mb-xs">Learn More</p>
-    </button>
+<div class="main" fxLayout="row">
+  <div class="side-menu">
+    <div class="menu-buttons p-sm">
+      <button mat-button class="w-100" (click)="locateBubbles()">Locate Bubbles</button>
+      <button mat-button class="w-100">Help</button>
+      <button mat-button class="w-100" (click)="adminNav()">Admin Panel</button>
+    </div>
+  </div>
+  <div class="content p-sm w-100" fxLayout="column" fxLayoutAlign="start center">
+    <div class="title mt-sm" fxLayout="row" fxLayoutAlign="center start">
+      <div class="placeholder mr-sm"></div>
+      <h2 class="subtitle-text mlr-auto mt-0 mb-0 questerial">Admins</h2>
+      <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading"></mat-spinner>
+      <div class="placeholder ml-sm" *ngIf="!loading"></div>
+    </div>
+  </div>
+  <div class="chart">
+  <ngx-charts-line-chart
+  [view]="view"
+  [scheme]="colorScheme"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [results]="results"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [timeline]="timeline"
+  [xAxisTickFormatting]="dateTickFormatting">
+  </ngx-charts-line-chart>
   </div>
 </div>

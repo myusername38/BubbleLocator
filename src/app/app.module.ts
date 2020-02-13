@@ -8,6 +8,7 @@ import {
   MatSliderModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
+  MatMenuModule,
   MatToolbarModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +28,10 @@ import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
+import { LandingComponent } from './components/landing/landing.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AdminModule } from './admin/admin.module';
+import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +41,7 @@ import { RecoverPasswordComponent } from './components/recover-password/recover-
     ResetPasswordComponent,
     LoginComponent,
     RecoverPasswordComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +49,7 @@ import { RecoverPasswordComponent } from './components/recover-password/recover-
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    NgxChartsModule,
     FormsModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'BubbleLocatorAPI'),
@@ -53,8 +60,11 @@ import { RecoverPasswordComponent } from './components/recover-password/recover-
     MatProgressSpinnerModule,
     MatSliderModule,
     MatSnackBarModule,
+    MatMenuModule,
     MatToolbarModule,
     MatInputModule,
+    AdminModule,
+    BubbleLocatorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },

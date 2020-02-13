@@ -7,8 +7,8 @@
     </div>
     <div class="frame-buttons" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset + videoWidth + 16 }">
       <h1 class="mt-xs mb-xs">Key Frames</h1>
-      <div class="button-box fade-in-fast w-100" *ngFor="let frame of frameLocations" fxLayout="row" fxLayoutAlign="start start">
-        <div class="mr-sm">
+      <div class="button-box w-100" *ngFor="let frame of frameLocations" fxLayout="row" fxLayoutAlign="start start">
+        <div class="number-container">
           <p class="frame-slot-text mb-0">{{ frame.frameSlot + 1 }}.</p>
         </div>
         <div fxFill>
@@ -19,18 +19,32 @@
         </div>
       </div>
     </div>
-    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="https://www.dropbox.com/s/8f6maveu31lvjrk/cropped_201801211715390010CARD.mp4?raw=1"></mat-video>
+    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="{{ videoUrl }}"></mat-video>
     <div *ngIf="!locatingBubbles" fxFlex="row" fxLayoutAlign="start start">
       <div class="playbackBox mr-md">
         <mat-slider class="fade-in-fast" min="10" max="100" step="5" value="{{ playbackSpeed }}" (input)="setPlaybackSpeed($event)"></mat-slider>
-        <p class="m-0 fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
+        <p class="m-0 ml-xs fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
       </div>
-      <button class="bottom-buttons ml-xs fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <button class="bottom-buttons fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
+        <button class="bottom-buttons fade-in-fast" mat-button (click)="badQuality()">Poor Quality</button>
+        <button class="bottom-buttons fade-in-fast" mat-button (click)="submit()" *ngIf="bubbles.length === 10">Submit Assessment</button>
+      </div>
     </div>
   </div>
-  <button class="bottom-buttons fade-in-fast" mat-button (click)="whiteWashed()" *ngIf="locatingBubbles">Whashed</button>
-  <button class="bottom-buttons fade-in-fast" mat-button (click)="noBubbles()" *ngIf="locatingBubbles">No Bubbles</button>
-  <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles">Done Locating Bubles</button>
-  <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
-  <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Delete Bubble</button>
+  <div class="mt-sm">
+    <label class="bold" *ngIf="locatingBubbles">Frame Options:</label>
+    <div class="mt-xs" fxLayout="row" fxLayoutAlign="center center" *ngIf="locatingBubbles">
+      <mat-radio-group aria-label="Select an option" [(ngModel)]="frameOptions" *ngFor="let option of options">
+        <mat-radio-button class="mr-xs" (click)="edited = true" value="{{ option }}">{{ option }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <button class="bottom-buttons fade-in-fast" mat-button (click)="frameCompleted()" *ngIf="locatingBubbles">Done Locating Bubles</button>
+    <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
+    <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>
+  </div>
 </div>
+
+

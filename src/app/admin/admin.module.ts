@@ -21,13 +21,13 @@ import { DeleteUserDialogComponent } from '../components/delete-user-dialog/dele
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
 import { VideoMenuComponent } from '../components/video-menu/video-menu.component';
 import { AddVideoDialogComponent } from '../components/add-video-dialog/add-video-dialog.component';
+import { SharedModule } from '../shared-modules/shared-module';
 
 @NgModule({
   declarations: [
     AdminMenuComponent,
     AddPermissionDialogComponent,
     DeleteUserDialogComponent,
-    DialogConfirmationComponent,
     AddVideoDialogComponent,
     AssistantMenuComponent,
     OwnerMenuComponent,
@@ -47,6 +47,7 @@ import { AddVideoDialogComponent } from '../components/add-video-dialog/add-vide
     MatInputModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    SharedModule
   ],
   entryComponents: [
     AddPermissionDialogComponent,

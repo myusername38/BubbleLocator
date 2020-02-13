@@ -74,6 +74,7 @@ export class RegisterComponent implements OnInit {
   }
 
   async onSubmit() {
+
     try {
       const formData = this.registerForm.getRawValue();
       this.loading = true;

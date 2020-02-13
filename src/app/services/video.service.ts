@@ -19,4 +19,8 @@ export class VideoService {
   addVideo(url: string) {
     return this.http.post(`${ this.url }/add-video`, { url }).toPromise();
   }
+
+  getVideoLink() {
+    return this.http.get<{ url: string }>(`${ this.url }/get-video-link`).toPromise();
+  }
 }

@@ -48,6 +48,8 @@ export class AuthService {
         this.tokenSubject.next(this._token);
         const idTokenResult = await user.getIdTokenResult();
         this.userRole.next(this.getRole(idTokenResult));
+      } else {
+        this.userRole.next('unathorized');
       }
     });
   }

@@ -1,5 +1,5 @@
 <div class="main" fxLayout="row">
-  <div class="side-menu">
+  <div class="side-menu" fxHide.lt-sm>
     <div class="menu-buttons p-sm">
       <button mat-button class="w-100" (click)="navigate('videos')">Videos</button>
       <button mat-button class="w-100" (click)="navigate('assistants')">Assistants</button>
@@ -42,7 +42,7 @@
               <mat-icon class="icon">more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item (click)="makeAssistant()">Make Assistant</button>
+              <button mat-menu-item (click)="makeAssistant(element)">Make Assistant</button>
               <button mat-menu-item (click)="makeAdmin(element)">Make Admin</button>
               <button mat-menu-item (click)="removeUserPermissions(element)">Remove Assistant</button>
               <button mat-menu-item (click)="deleteUser(element)">Delete User</button>

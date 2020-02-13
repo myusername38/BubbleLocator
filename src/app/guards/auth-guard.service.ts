@@ -27,6 +27,9 @@ export class AuthGuard implements CanActivate {
       case '/admin/videos': {
         return this.role === 'owner' || this.role === 'admin' || this.role === 'assistant';
       }
+      case '/bubbleLocator': {
+        return this.role === 'owner' || this.role === 'admin' || this.role === 'assistant';
+      }
       case '/admin/assistants': {
         return this.role === 'admin' || this.role === 'owner';
       }
@@ -37,7 +40,7 @@ export class AuthGuard implements CanActivate {
         return this.role === 'owner';
       }
       default: {
-        return false;
+        this.router.navigate(['']);
       }
     }
   }

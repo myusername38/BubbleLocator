@@ -5,6 +5,7 @@ import { MatVideoComponent } from 'mat-video';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material';
+import { VideoService } from '../../services/video.service';
 
 export interface DialogData {
   frame: number;
@@ -23,16 +24,21 @@ export class BubbleLocatorComponent implements OnInit {
 
   @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
   video: HTMLVideoElement;
+  videoUrl = '';
   bubbleRadius = 12;
+  frameOptions = 'Good';
+  options = ['Good', 'Wash-Out', 'No Bubbles'];
   fps = 0;
   frame = 0;
   count = 0;
+  videoBadQaulity = false;
   frameCount = 10;
   paused = false;
+  loading = false;
   locatingBubbles = false;
   deletingBubbles = false;
   widthOffset = 0;
-  heightOffset = 16;
+  heightOffset = 85 + 16;
   videoHeight = 450;
   videoWidth = 600;
   bubbles: { frame: number, bubbles: Bubble[] }[] = [];
@@ -41,12 +47,12 @@ export class BubbleLocatorComponent implements OnInit {
   frameLocations: FrameLocations[] = [];
   edited = false;
   colors = [
-    '#990033',
-    '#345995',
-    '#32746D',
-    '#EEC170',
+    '#ff0022',
+    '#27e002',
+    '#0fd6f5',
+    '#eff540',
   ];
-  selectedColor = '#F4F4F8';
+  selectedColor = '#ff0022';
   playbackSpeed = 100;
   scaled = false;
 
@@ -56,10 +62,11 @@ export class BubbleLocatorComponent implements OnInit {
     this.bubbles = [...this.bubbles];
   }
 
-  constructor(private renderer: Renderer2, public dialog: MatDialog) { }
+  constructor(private renderer: Renderer2, public dialog: MatDialog, private videoService: VideoService) { }
 
   ngOnInit(): void {
     this.video = this.matVideo.getVideoTag();
+    this.getVideoUlr();
     this.renderer.listen(this.video, 'ended', () => console.log('video ended'));
     this.video.addEventListener('ended', () => console.log('video ended'));
     this.video.addEventListener('pause', (e) => { this.paused = true; });
@@ -75,6 +82,18 @@ export class BubbleLocatorComponent implements OnInit {
       this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
       this.generateFrameButtons();
     });
+  }
+
+  async getVideoUlr() {
+    try {
+      this.loading = true;
+      const result = await this.videoService.getVideoLink();
+      this.videoUrl = result.url;
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
   }
 
   getCurrentFrame() {
@@ -101,7 +120,22 @@ export class BubbleLocatorComponent implements OnInit {
       this.currentFrameBubbles = this.bubbles.find(f => f.frame === this.getCurrentFrame()).bubbles;
     } else {
       this.currentFrameBubbles = b.bubbles;
-      if (this.scaled) {
+      if (this.currentFrameBubbles && this.currentFrameBubbles[0]) {
+        switch (this.currentFrameBubbles[0].x) {
+          case -1 :
+            this.frameOptions = 'Wash-Out';
+            this.currentFrameBubbles = [];
+            break;
+          case -2 :
+            this.frameOptions = 'No Bubbles';
+            this.currentFrameBubbles = [];
+            break;
+          default:
+            this.frameOptions = 'Good';
+            break;
+        }
+      }
+      if (this.scaled && this.frameOptions === 'Good') {
         this.currentFrameBubbles = this.currentFrameBubbles.map(bubble => {
           if (bubble.x >= 0) {
             return bubble;
@@ -115,6 +149,26 @@ export class BubbleLocatorComponent implements OnInit {
           );
         });
       }
+    }
+  }
+
+  frameCompleted() {
+    switch (this.frameOptions) {
+      case 'Wash-Out':
+        this.whiteWashed();
+        break;
+      case 'No Bubbles':
+        this.noBubbles();
+        break;
+      default:
+        this.doneLocatingBubbles();
+        break;
+    }
+  }
+
+  submit() {
+    if (this.bubbles.length === 10 || this.videoBadQaulity) {
+      console.log(this.bubbles);
     }
   }
 
@@ -132,6 +186,7 @@ export class BubbleLocatorComponent implements OnInit {
       this.bubbles.pop(); // removing the last element if the user added no bubbles
     }
     this.currentFrameBubbles = [];
+    this.frameOptions = 'Good';
   }
 
   noBubbles() {
@@ -140,12 +195,36 @@ export class BubbleLocatorComponent implements OnInit {
       y: -2,
       frame: this.getCurrentFrame()
     };
+    this.currentFrameBubbles = [];
     this.currentFrameBubbles.push(bubble);
     this.doneLocatingBubbles();
   }
 
   badQuality() {
+    const bubble: Bubble = {
+      x: -3,
+      y: -3,
+      frame: 0
+    };
 
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
+      data: {
+        frame: this.getCurrentFrame(),
+        options: [
+          'Confirm', 'Cancel'
+        ],
+        message: `Confirm bad Quality`
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Confirm') {
+        this.bubbles = [{ frame: 0, bubbles: [bubble] }];
+        this.videoBadQaulity = true;
+        this.generateFrameButtons();
+        this.submit();
+      }
+    });
   }
 
   whiteWashed() {
@@ -154,6 +233,7 @@ export class BubbleLocatorComponent implements OnInit {
       y: -1,
       frame: this.getCurrentFrame()
     };
+    this.currentFrameBubbles = [];
     this.currentFrameBubbles.push(bubble);
     this.doneLocatingBubbles();
   }
@@ -172,7 +252,7 @@ export class BubbleLocatorComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Yes') {
-          this.doneLocatingBubbles();
+          this.frameCompleted();
           this.video.currentTime = time;
           this.locateBubbles();
         } else {
@@ -207,7 +287,6 @@ export class BubbleLocatorComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Delete') {
-        console.log('working');
         this.times = this.times.filter(t =>  t !== time);
         this.bubbles = this.bubbles.filter(b => b.frame !== this.getFrame(time));
         this.generateFrameButtons();

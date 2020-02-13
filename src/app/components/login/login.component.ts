@@ -19,7 +19,13 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private snackbarService: SnackbarService,
-    private authService: AuthService) { }
+    private authService: AuthService) {
+      this.authService.userRole.subscribe(role => {
+        if (role && role !== 'unathorized') {
+          this.router.navigate(['/home']);
+        }
+      });
+    }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -46,7 +52,7 @@ export class LoginComponent implements OnInit {
     try {
       this.loading = true;
       await this.authService.login(this.loginForm.getRawValue());
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
     } catch ({ message = 'Error authentication, please try again' }) {
       this.snackbarService.showError(message, 'Close');
     } finally {
