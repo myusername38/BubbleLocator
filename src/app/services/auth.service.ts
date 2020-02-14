@@ -40,7 +40,8 @@ export class AuthService {
       this.userSubject.next(user);
       if (user) {
         if (this.sendEmail) {
-          this.firebaseAuth.auth.currentUser.sendEmailVerification();
+          await this.firebaseAuth.auth.currentUser.sendEmailVerification();
+          this.logout();
           this.sendEmail = false;
         }
         this.userService.testToken();

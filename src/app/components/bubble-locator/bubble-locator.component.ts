@@ -167,7 +167,7 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   submit() {
-    if (this.bubbles.length === 10 || this.videoBadQaulity) {
+    if (this.bubbles.length >= 8 || this.videoBadQaulity) {
       console.log(this.bubbles);
     }
   }
@@ -296,7 +296,11 @@ export class BubbleLocatorComponent implements OnInit {
 
   generateFrameButtons() {
     this.times = this.times.sort((a, b) => a - b );
-    for (let i = 0; i < 10; i++) {
+    let end = 10;
+    if (this.times.length <= 12 && this.times.length >= 10) {
+      end = this.times.length;
+    }
+    for (let i = 0; i < end; i++) {
       let time = -1;
       if (i < this.times.length) {
         time = this.times[i];

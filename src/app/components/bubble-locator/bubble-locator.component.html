@@ -28,7 +28,7 @@
       <div fxLayout="column" fxLayoutAlign="center center">
         <button class="bottom-buttons fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
         <button class="bottom-buttons fade-in-fast" mat-button (click)="badQuality()">Poor Quality</button>
-        <button class="bottom-buttons fade-in-fast" mat-button (click)="submit()" *ngIf="bubbles.length === 10">Submit Assessment</button>
+        <button class="bottom-buttons fade-in-fast" mat-button (click)="submit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
       </div>
     </div>
   </div>
@@ -46,5 +46,3 @@
     <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>
   </div>
 </div>
-
-

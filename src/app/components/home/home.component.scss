@@ -40,11 +40,11 @@
   max-width: 900px;
 }
 
-.chart {
-  background-color: grey;
+::ng-deep .ngx-charts {
+  text{
+    fill: #000000 !important;
+  }
 }
-
-
 
 
 :host ::ng-deep .x.axis {

@@ -15,30 +15,36 @@ export class HomeComponent implements OnInit {
   showXAxis = true;
   showYAxis = true;
   gradient = false;
-  showLegend = false;
-  showXAxisLabel = true;
   xAxisLabel = 'Number';
   showYAxisLabel = true;
-  yAxisLabel = 'Color Value';
+  yAxisLabel = 'Videos Reviewed';
   timeline = true;
   results = [
     {
-      name: 'Timor-Leste',
+      name: 'Videos Reviewed',
       series: [
         {
-          value: 4951,
+          value: 200,
           name: '2016-09-18T14:13:41.141Z'
         },
         {
-          value: 6211,
-          name: '2016-09-15T11:56:32.198Z'
+          value: 250,
+          name: '2016-10-15T11:56:32.198Z'
+        },
+        {
+          value: 100,
+          name: '2016-11-18T14:13:41.141Z'
+        },
+        {
+          value: 300,
+          name: '2016-12-15T11:56:32.198Z'
         },
       ]
     },
   ];
 
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#406E8E', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
   constructor(private authService: AuthService,

@@ -18,7 +18,7 @@
 
 .button-container {
   margin-top: 8px;
-  @media screen and (min-width: $screen-small) {
+  @media screen and (min-width: 800px) {
     margin-top: -10px;
   }
 }
