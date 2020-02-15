@@ -1,11 +1,11 @@
 import { Component, OnInit, Renderer2, ViewChild, Inject, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { MatVideoComponent } from 'mat-video';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material';
 import { VideoService } from '../../services/video.service';
+import { MatVideoComponent } from 'mat-video/app/video/video.component';
 
 export interface DialogData {
   frame: number;
@@ -65,10 +65,13 @@ export class BubbleLocatorComponent implements OnInit {
   constructor(private renderer: Renderer2, public dialog: MatDialog, private videoService: VideoService) { }
 
   ngOnInit(): void {
-    this.video = this.matVideo.getVideoTag();
     this.getVideoUlr();
-    this.renderer.listen(this.video, 'ended', () => console.log('video ended'));
-    this.video.addEventListener('ended', () => console.log('video ended'));
+  }
+
+  setVideoPlayer() {
+    this.video = this.matVideo.getVideoTag();
+    this.renderer.listen(this.video, 'ended', (e) => console.log('video ended'));
+    this.video.addEventListener('ended', (e) => console.log('video ended'));
     this.video.addEventListener('pause', (e) => { this.paused = true; });
     this.video.addEventListener('clicked', (e) => { e.preventDefault(); });
     this.video.addEventListener('canplay', (e) => {
@@ -79,6 +82,7 @@ export class BubbleLocatorComponent implements OnInit {
         this.videoWidth = this.videoWidth / 2;
         this.scaled = true;
       }
+
       this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
       this.generateFrameButtons();
     });
@@ -89,6 +93,7 @@ export class BubbleLocatorComponent implements OnInit {
       this.loading = true;
       const result = await this.videoService.getVideoLink();
       this.videoUrl = result.url;
+      this.setVideoPlayer();
     } catch (err) {
       console.log(err);
     } finally {

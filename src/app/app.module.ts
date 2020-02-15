@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
@@ -32,6 +31,8 @@ import { LandingComponent } from './components/landing/landing.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AdminModule } from './admin/admin.module';
 import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { GestureConfig } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     AngularFireAuthGuard
   ],
   bootstrap: [AppComponent]
