@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar.service';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
       const formData = this.registerForm.getRawValue();
       this.loading = true;
       await this.authService.register(formData.email, formData.password);
-      this.authService.login({ email: formData.email, password: formData.password });
+      await this.authService.sendVerificationEmail(formData.email, formData.password);
       this.registered = true;
     } catch (err) {
       console.log(err);

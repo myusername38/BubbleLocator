@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
-import {
-  MatButtonModule,
-  MatInputModule,
-  MatDialogModule,
-  MatIconModule,
-  MatSliderModule,
-  MatProgressSpinnerModule,
-  MatSnackBarModule,
-  MatMenuModule,
-  MatToolbarModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -32,7 +30,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AdminModule } from './admin/admin.module';
 import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { GestureConfig } from '@angular/material';
+import { GestureConfig } from '@angular/material/core';
 
 @NgModule({
   declarations: [

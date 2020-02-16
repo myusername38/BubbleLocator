@@ -17,11 +17,11 @@ export class AuthService {
   public _token = null;
 
   url = environment.apiUrl;
-  sendEmail = false;
 
   userRole = new BehaviorSubject(null);
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject(null);
   userSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+  sendEmail = false;
 
   get user() {
     return this._user;
@@ -40,9 +40,11 @@ export class AuthService {
       this.userSubject.next(user);
       if (user) {
         if (this.sendEmail) {
-          await this.firebaseAuth.auth.currentUser.sendEmailVerification();
-          this.logout();
           this.sendEmail = false;
+          this.firebaseAuth.auth.currentUser.sendEmailVerification()
+          .then(() => {
+            this.firebaseAuth.auth.signOut();
+          });
         }
         this.userService.testToken();
         this._token = await user.getIdToken();
@@ -55,6 +57,13 @@ export class AuthService {
     });
   }
 
+  currentUserEmailVerified() {
+    if (this.firebaseAuth.auth.currentUser) {
+      return this.firebaseAuth.auth.currentUser.emailVerified;
+    }
+    return false;
+  }
+
   async resendEmail() {
     if (this._user) {
       this._user.sendEmailVerification();
@@ -62,7 +71,7 @@ export class AuthService {
   }
 
   async login({ email, password }: { email: string; password: string; }): Promise<any> {
-    this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
   async register(email: string, password: string): Promise<any> {
@@ -91,7 +100,8 @@ export class AuthService {
     return this.firebaseAuth.auth.sendPasswordResetEmail(email);
   }
 
-  async sendVerificationEmail() {
+  async sendVerificationEmail(email: string, password: string) {
+    await this.login({ email, password });
     return this.firebaseAuth.auth.currentUser.sendEmailVerification();
   }
 

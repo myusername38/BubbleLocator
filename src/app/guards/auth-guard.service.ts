@@ -1,6 +1,7 @@
 import { AuthService } from '../services/auth.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -8,7 +9,7 @@ export class AuthGuard implements CanActivate {
   role = '';
   routeToLoad = '';
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private snackbar: SnackbarService) {
     this.authService.userRole.subscribe(role => {
       this.role = role;
       if (this.routeToLoad) {
@@ -23,7 +24,19 @@ export class AuthGuard implements CanActivate {
     if (!this.role) {
       this.routeToLoad = state.url;
     }
+    if (!this.authService.currentUserEmailVerified()) {
+      this.authService.logout();
+      this.router.navigate(['']);
+      this.snackbar.showError('Please verify your email');
+      return false;
+    }
     switch (state.url ) {
+      case '/home': {
+        return true;
+      }
+      case '/bubbleLocator': {
+        return true;
+      }
       case '/admin/videos': {
         return this.role === 'owner' || this.role === 'admin' || this.role === 'assistant';
       }

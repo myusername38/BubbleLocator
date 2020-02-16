@@ -4,15 +4,13 @@ import { AdminMenuComponent } from '../components/admin-menu/admin-menu.componen
 import { AdminRoutingModule } from './admin-routing.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatDialogModule,
-  MatIconModule,
-  MatTableModule,
-  MatProgressSpinnerModule,
-  MatMenuModule,
-  MatInputModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AssistantMenuComponent } from '../components/assistant-menu/assistant-menu.component';
 import { AddPermissionDialogComponent } from '../components/add-permission-dialog/add-permission-dialog.component';

@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatIconRegistry } from '@angular/material/icon';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { Bubble } from '../../interfaces/bubble';
-import { MatSliderChange } from '@angular/material';
+import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
 import { MatVideoComponent } from 'mat-video/app/video/video.component';
 
