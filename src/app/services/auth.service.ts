@@ -39,6 +39,7 @@ export class AuthService {
       this._user = user;
       this.userSubject.next(user);
       if (user) {
+        /*
         if (this.sendEmail) {
           this.sendEmail = false;
           this.firebaseAuth.auth.currentUser.sendEmailVerification()
@@ -46,6 +47,7 @@ export class AuthService {
             this.firebaseAuth.auth.signOut();
           });
         }
+        */
         this.userService.testToken();
         this._token = await user.getIdToken();
         this.tokenSubject.next(this._token);
@@ -66,7 +68,7 @@ export class AuthService {
 
   async resendEmail() {
     if (this._user) {
-      this._user.sendEmailVerification();
+      return this._user.sendEmailVerification();
     }
   }
 

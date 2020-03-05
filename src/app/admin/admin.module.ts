@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AssistantMenuComponent } from '../components/assistant-menu/assistant-menu.component';
 import { AddPermissionDialogComponent } from '../components/add-permission-dialog/add-permission-dialog.component';
@@ -44,6 +45,7 @@ import { SharedModule } from '../shared-modules/shared-module';
     MatTableModule,
     MatInputModule,
     MatMenuModule,
+    MatRadioModule,
     MatProgressSpinnerModule,
     SharedModule
   ],

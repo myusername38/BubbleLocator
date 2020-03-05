@@ -29,7 +29,6 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-
   private refreshSubject: Subject<any> = new Subject<any>();
 
   private updateToken() {

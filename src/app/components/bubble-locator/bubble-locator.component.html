@@ -36,7 +36,7 @@
     <label class="bold" *ngIf="locatingBubbles">Frame Options:</label>
     <div class="mt-xs" fxLayout="row" fxLayoutAlign="center center" *ngIf="locatingBubbles">
       <mat-radio-group aria-label="Select an option" [(ngModel)]="frameOptions" *ngFor="let option of options">
-        <mat-radio-button class="mr-xs" (click)="edited = true" value="{{ option }}">{{ option }}</mat-radio-button>
+        <mat-radio-button class="mr-sm" (click)="edited = true" value="{{ option }}">{{ option }}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>

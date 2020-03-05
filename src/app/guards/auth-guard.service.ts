@@ -25,9 +25,10 @@ export class AuthGuard implements CanActivate {
       this.routeToLoad = state.url;
     }
     if (!this.authService.currentUserEmailVerified()) {
-      this.authService.logout();
-      this.router.navigate(['']);
-      this.snackbar.showError('Please verify your email');
+      if (!this.authService.token) {
+        return;
+      }
+      this.router.navigate(['verify-email']);
       return false;
     }
     switch (state.url ) {

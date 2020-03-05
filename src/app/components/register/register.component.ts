@@ -34,7 +34,6 @@ export class RegisterComponent implements OnInit {
   passMatch = true;
   matcher = new PasswordErrorStateMatcher();
   matcher2 = new EmailErrorStateMatcher();
-  registered = false;
 
   constructor(private router: Router,
               private authService: AuthService,
@@ -80,14 +79,15 @@ export class RegisterComponent implements OnInit {
       this.loading = true;
       await this.authService.register(formData.email, formData.password);
       await this.authService.sendVerificationEmail(formData.email, formData.password);
-      this.registered = true;
+      this.router.navigate(['verify-email']);
     } catch (err) {
-      console.log(err);
+      if (err.error.email) {
+        this.snackbarService.showError(err.error.email);
+      } else {
+        console.log(err);
+      }
     } finally {
       this.loading = false;
     }
   }
-
 }
-
-

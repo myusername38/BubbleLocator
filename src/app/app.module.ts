@@ -31,6 +31,7 @@ import { AdminModule } from './admin/admin.module';
 import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { GestureConfig } from '@angular/material/core';
+import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { GestureConfig } from '@angular/material/core';
     LoginComponent,
     RecoverPasswordComponent,
     LandingComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,

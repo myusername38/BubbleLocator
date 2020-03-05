@@ -58,6 +58,10 @@ export class AppComponent {
         return true;
       case '/register':
         return true;
+      case '/recover-password':
+        return true;
+      case '/verify-email':
+        return true;
       default:
         return false;
     }

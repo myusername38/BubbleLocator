@@ -53,6 +53,24 @@
   max-width: 900px;
 }
 
+.buttons {
+  @media screen and (min-width: $screen-small) {
+    margin-left: auto;
+    margin-right: 4px;
+  }
+}
+
+.radio-buttons {
+  margin-bottom: 8px;
+  @media screen and (min-width: $screen-small) {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    margin-left: 4px;
+    margin-right: auto;
+  }
+}
+
+
 table {
   width: 800px
 }

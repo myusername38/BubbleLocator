@@ -1,5 +1,5 @@
 <div class="main p-sm fade-in-fast" fxLayoutAlign="center start">
-  <div class="register-box w-100 p-sm" fxLayout="column" fxLayoutAlign="center center" *ngIf="!registered">
+  <div class="register-box w-100 p-sm" fxLayout="column" fxLayoutAlign="center center">
     <div class="underline w-100 mb-sm">
       <h1 class="mt-sm mb-xs mlr-auto weight-300">Register Account</h1>
     </div>
@@ -28,17 +28,5 @@
       </button>
     </form>
     <button mat-button (click)="login()" class="mlr-auto mt-sm white subtitle weight-300">Have an account? Click Here</button>
-  </div>
-  <div class="register-box w-100 p-sm" fxLayout="column" fxLayoutAlign="center center" *ngIf="registered">
-    <div class="underline w-100 mb-sm">
-      <h1 class="mt-sm mb-xs mlr-auto weight-300">You are Registered!</h1>
-    </div>
-    <h2 class="mb-xs mlr-auto weight-300">Please check your email to verify your email.</h2>
-    <h2 class="mlr-auto weight-300">Make sure to check your Junk or Spam mailbox if you do not see the verification email.</h2>
-    <button mat-raised-button (click)="login()" color="primary" class="mb-xs submit-button">
-      <div class="login-button" fxLayout="row" fxLayoutAlign="center center">
-        <h1 class="weight-300">Go to login</h1>
-      </div>
-    </button>
   </div>
 </div>

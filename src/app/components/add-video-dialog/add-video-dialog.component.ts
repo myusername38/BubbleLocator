@@ -13,7 +13,9 @@ export class AddVideoDialogComponent implements OnInit {
 
   permissionData = null;
   loading = false;
-  addUserForm: FormGroup;
+  addVideoForm: FormGroup;
+  tutorial = false;
+  quality = 'good';
 
   constructor(
   public dialogRef: MatDialogRef<AddVideoDialogComponent>,
@@ -21,12 +23,24 @@ export class AddVideoDialogComponent implements OnInit {
   private videoService: VideoService,
   @Inject(MAT_DIALOG_DATA) public data) {
     this.permissionData = data;
+    this.tutorial = data.tutorial;
   }
 
   ngOnInit(): void {
-    this.addUserForm = new FormGroup({
-      url: new FormControl('', [Validators.required]),
-    });
+    if (!this.tutorial) {
+      this.addVideoForm = new FormGroup({
+        url: new FormControl('', [Validators.required]),
+        fps: new FormControl('', [Validators.required])
+      });
+    } else {
+      this.addVideoForm = new FormGroup({
+        url: new FormControl('', [Validators.required]),
+        fps: new FormControl('', [Validators.required]),
+        average: new FormControl('', [Validators.required]),
+        quality: new FormControl(this.quality)
+      });
+    }
+
   }
 
   close() {
@@ -34,10 +48,21 @@ export class AddVideoDialogComponent implements OnInit {
   }
 
   async onSubmit() {
-    const url = this.addUserForm.getRawValue().url;
+    let data = this.addVideoForm.getRawValue();
     try {
       this.loading = true;
-      await this.videoService.addVideo(url);
+      if (this.tutorial) {
+        if (this.quality === 'noBubbles') {
+          data.noBubbles = true;
+          data.washOut = false;
+        } else if (this.quality === 'washOut') {
+          data.noBubbles = false;
+          data.washOut = true;
+        }
+        await this.videoService.addTutorialVideo(data);
+      } else {
+        await this.videoService.addVideo(data);
+      }
       this.snackbarService.showInfo(`Video has been added`);
       this.dialogRef.close({ status: 'complete' });
     } catch (err) {

@@ -8,6 +8,7 @@ import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confi
 import { VideoService } from '../../services/video.service';
 import { VideoMetadata } from '../../interfaces/video-metadata';
 import { AuthService } from '../../services/auth.service';
+import { TutorialVideoMetadata } from '../../interfaces/tutorial-video-metadata';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,10 +19,14 @@ import { Router } from '@angular/router';
 export class VideoMenuComponent implements OnInit {
 
   videoData = new MatTableDataSource<VideoMetadata>();
+  tutorialVideoData = new MatTableDataSource<TutorialVideoMetadata>();
   loading = false;
   role = '';
+  videosDisplayed = 'normal';
 
   displayedColumns: string[] = ['title', 'status', 'added', 'user', 'expand'];
+
+  tutorialDisplayedColumns: string[] = ['title', 'average', 'noBubbles', 'washOut', 'added', 'user', 'expand'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -45,7 +50,8 @@ export class VideoMenuComponent implements OnInit {
       width: '500px',
       data: {
         role: 'admin',
-        status: 'incomplete'
+        status: 'incomplete',
+        tutorial: this.videosDisplayed === 'tutorial',
       },
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -74,6 +80,24 @@ export class VideoMenuComponent implements OnInit {
 
   deleteVideo(video: VideoMetadata) {
 
+  }
+
+
+
+  async loadTutorialVideos() {
+    console.log(this.videosDisplayed);
+    if (!(this.role === 'admin' || this.role === 'owner')) {
+      this.snackbarService.showError('Must be an admin or owner');
+      return;
+    }
+    try {
+      this.loading = true;
+      this.tutorialVideoData.data = await this.videoService.getTutorialVideos();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
   }
 
   async loadVideos() {
