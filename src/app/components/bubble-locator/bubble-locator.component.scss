@@ -4,6 +4,12 @@
   pointer-events: none;
 }
 
+:host ::ng-deep .first-pass {
+  mat-time-control {
+    margin-left: -16px !important;
+  }
+}
+
 #video-parent {
   // width: 600px;
 }
@@ -82,4 +88,8 @@ p {
 
 .number-container {
   min-width: 30px;
+}
+
+.locate-bottom-buttons {
+  margin-top: -68px;
 }

@@ -6,6 +6,7 @@ import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
 import { MatVideoComponent } from 'mat-video/app/video/video.component';
+import { ReviewVideoData } from '../../interfaces/review-video-data';
 
 export interface DialogData {
   frame: number;
@@ -24,11 +25,11 @@ export class BubbleLocatorComponent implements OnInit {
 
   @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
   video: HTMLVideoElement;
-  videoUrl = '';
+  reviewVideo: ReviewVideoData = { url: '', fps: 0 };
+  firstPass = false;
   bubbleRadius = 12;
   frameOptions = 'Good';
   options = ['Good', 'Wash-Out', 'No Bubbles'];
-  fps = 0;
   frame = 0;
   count = 0;
   videoBadQaulity = false;
@@ -52,7 +53,7 @@ export class BubbleLocatorComponent implements OnInit {
     '#0fd6f5',
     '#eff540',
   ];
-  selectedColor = '#ff0022';
+  selectedColor = this.colors[0];
   playbackSpeed = 100;
   scaled = false;
 
@@ -82,7 +83,6 @@ export class BubbleLocatorComponent implements OnInit {
         this.videoWidth = this.videoWidth / 2;
         this.scaled = true;
       }
-
       this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
       this.generateFrameButtons();
     });
@@ -91,8 +91,7 @@ export class BubbleLocatorComponent implements OnInit {
   async getVideoUlr() {
     try {
       this.loading = true;
-      const result = await this.videoService.getVideoLink();
-      this.videoUrl = result.url;
+      this.reviewVideo = await this.videoService.getReviewVideo();
       this.setVideoPlayer();
     } catch (err) {
       console.log(err);
@@ -102,11 +101,11 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   getCurrentFrame() {
-    return Math.floor(this.video.currentTime * 30);
+    return Math.floor(this.video.currentTime * this.reviewVideo.fps); /* fix this with the actual framerate */
   }
 
   getFrame(time) {
-    return Math.floor(time * 30);
+    return Math.floor(time * this.reviewVideo.fps);  /* fix this eventually */
   }
 
   locateBubbles() {
@@ -339,6 +338,7 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   onMouseClick(e: MouseEvent) {
+    console.log('clicked');
     const startLen = this.currentFrameBubbles.length;
     if (this.locatingBubbles
       && e.clientX > this.widthOffset && e.clientX < this.widthOffset + this.videoWidth

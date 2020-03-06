@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { VideoMetadata } from '../interfaces/video-metadata';
 import { TutorialVideoMetadata } from '../interfaces/tutorial-video-metadata';
+import { ReviewVideoData } from '../interfaces/review-video-data';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class VideoService {
     return this.http.post(`${ this.url }/add-video`, { url }).toPromise();
   }
 
-  getVideoLink() {
-    return this.http.get<{ url: string }>(`${ this.url }/get-video-link`).toPromise();
+  getReviewVideo() {
+    return this.http.get<ReviewVideoData>(`${ this.url }/get-review-video`).toPromise();
   }
 
   getTutorialVideos() {
