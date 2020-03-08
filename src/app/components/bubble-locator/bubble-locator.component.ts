@@ -92,6 +92,7 @@ export class BubbleLocatorComponent implements OnInit {
     try {
       this.loading = true;
       this.reviewVideo = await this.videoService.getReviewVideo();
+      this.reviewVideo.fps = 30; // remove this later
       this.setVideoPlayer();
     } catch (err) {
       console.log(err);
@@ -165,6 +166,7 @@ export class BubbleLocatorComponent implements OnInit {
         this.noBubbles();
         break;
       default:
+        console.log('done');
         this.doneLocatingBubbles();
         break;
     }
