@@ -3,7 +3,7 @@
       <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
       <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.first-pass]="firstPass" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="!firstPass" src="{{ reviewVideo.url }}"></mat-video>
     </div>
-  <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }">
+  <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }" *ngIf="!firstPass">
     <h1 class="mt-xs mb-xs">Selector Color</h1>
     <button mat-fab class="m-xs" (click)="this.selectedColor=color" *ngFor="let color of colors" [ngStyle]="{ 'background-color': color }"></button>
   </div>
@@ -21,18 +21,18 @@
       </div>
     </div>
   </div>
-  <div class="outter-playback-box" [ngStyle]="{ 'width.px': videoWidth }" *ngIf="!locatingBubbles" fxFlex="row" fxLayoutAlign="start start">
+  <div class="outter-playback-box" [ngStyle]="{ 'width.px': videoWidth }" *ngIf="!locatingBubbles && canPlay" fxFlex="row" fxLayoutAlign="start start" >
     <div class="playbackBox mr-md">
       <mat-slider class="fade-in-fast" min="10" max="100" step="5" value="{{ playbackSpeed }}" (input)="setPlaybackSpeed($event)"></mat-slider>
       <p class="m-0 ml-xs fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
     </div>
   </div>
-  <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="!locatingBubbles">
+  <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="!locatingBubbles && canPlay && !firstPass">
     <button class="bottom-buttons fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
     <button class="bottom-buttons fade-in-fast" mat-button (click)="badQuality()">Poor Quality</button>
     <button class="bottom-buttons fade-in-fast" mat-button (click)="submit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
   </div>
-  <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center">
+  <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="canPlay && !firstPass">
     <button class="bottom-buttons fade-in-fast" mat-button (click)="frameCompleted()" *ngIf="locatingBubbles">Done Locating Bubles</button>
     <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
     <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>

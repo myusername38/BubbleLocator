@@ -2,11 +2,13 @@ import { Component, OnInit, Renderer2, ViewChild, Inject, HostListener } from '@
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { ReviewQualityDialogComponent } from '../review-quality-dialog/review-quality-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
 import { MatVideoComponent } from 'mat-video/app/video/video.component';
 import { ReviewVideoData } from '../../interfaces/review-video-data';
+
 
 export interface DialogData {
   frame: number;
@@ -26,7 +28,7 @@ export class BubbleLocatorComponent implements OnInit {
   @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
   video: HTMLVideoElement;
   reviewVideo: ReviewVideoData = { url: '', fps: 0 };
-  firstPass = false;
+  firstPass = true;
   bubbleRadius = 12;
   frameOptions = 'Good';
   options = ['Good', 'Wash-Out', 'No Bubbles'];
@@ -56,6 +58,7 @@ export class BubbleLocatorComponent implements OnInit {
   selectedColor = this.colors[0];
   playbackSpeed = 100;
   scaled = false;
+  canPlay = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -65,17 +68,22 @@ export class BubbleLocatorComponent implements OnInit {
 
   constructor(private renderer: Renderer2, public dialog: MatDialog, private videoService: VideoService) { }
 
-  ngOnInit(): void {
-    this.getVideoUlr();
+  ngOnInit() {
+    this.getVideoUrl();
   }
 
   setVideoPlayer() {
     this.video = this.matVideo.getVideoTag();
     this.renderer.listen(this.video, 'ended', (e) => console.log('video ended'));
-    this.video.addEventListener('ended', (e) => console.log('video ended'));
+    this.video.addEventListener('ended', (e) => {
+      if (this.firstPass) {
+        this.openReviewDialog();
+      }
+    });
     this.video.addEventListener('pause', (e) => { this.paused = true; });
     this.video.addEventListener('clicked', (e) => { e.preventDefault(); });
     this.video.addEventListener('canplay', (e) => {
+      this.canPlay = true;
       this.videoWidth = this.video.videoWidth;
       this.videoHeight = this.video.videoHeight;
       if (this.videoHeight > 600 || this.videoWidth > 1000) {
@@ -88,7 +96,27 @@ export class BubbleLocatorComponent implements OnInit {
     });
   }
 
-  async getVideoUlr() {
+  openReviewDialog() {
+    const dialogRef = this.dialog.open(ReviewQualityDialogComponent, {
+      disableClose: true,
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      switch (result) {
+        case 'Good':
+          this.firstPass = false;
+          this.video.currentTime = 0;
+          break;
+        case 'Back':
+          this.video.currentTime = 0;
+          break;
+        default:
+          window.location.reload();
+      }
+    });
+  }
+
+  async getVideoUrl() {
     try {
       this.loading = true;
       this.reviewVideo = await this.videoService.getReviewVideo();
@@ -340,7 +368,6 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   onMouseClick(e: MouseEvent) {
-    console.log('clicked');
     const startLen = this.currentFrameBubbles.length;
     if (this.locatingBubbles
       && e.clientX > this.widthOffset && e.clientX < this.widthOffset + this.videoWidth
