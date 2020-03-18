@@ -12,8 +12,12 @@
     <input type="number" formControlName="fps" class="form-control white" matInput/>
   </mat-form-field>
   <mat-form-field class="w-100" appearance="fill" *ngIf="tutorial">
-    <mat-label>Average:</mat-label>
-    <input type="number" formControlName="average" class="form-control white" matInput/>
+    <mat-label>Range Floor:</mat-label>
+    <input type="number" formControlName="floor" class="form-control white" matInput/>
+  </mat-form-field>
+  <mat-form-field class="w-100" appearance="fill" *ngIf="tutorial">
+    <mat-label>Range Ceiling:</mat-label>
+    <input type="number" formControlName="ceiling" class="form-control white" matInput/>
   </mat-form-field>
   <div class="w-100 mb-sm" fxLayoutAlign="start center" *ngIf="tutorial">
     <label>Quality: </label>

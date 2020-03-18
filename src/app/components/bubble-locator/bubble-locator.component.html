@@ -33,7 +33,7 @@
     <button class="bottom-buttons fade-in-fast" mat-button (click)="submit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
   </div>
   <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="canPlay && !firstPass">
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="frameCompleted()" *ngIf="locatingBubbles">Done Locating Bubles</button>
+    <button class="bottom-buttons fade-in-fast" mat-button (click)="frameCompleted()" *ngIf="locatingBubbles && !deletingBubbles">Done Locating Bubles</button>
     <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
     <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>
   </div>

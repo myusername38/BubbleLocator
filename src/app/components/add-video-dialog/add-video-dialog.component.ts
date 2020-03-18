@@ -36,11 +36,11 @@ export class AddVideoDialogComponent implements OnInit {
       this.addVideoForm = new FormGroup({
         url: new FormControl('', [Validators.required]),
         fps: new FormControl('', [Validators.required]),
-        average: new FormControl('', [Validators.required]),
+        floor: new FormControl(0, [Validators.required]),
+        ceiling: new FormControl(0, [Validators.required]),
         quality: new FormControl(this.quality)
       });
     }
-
   }
 
   close() {
