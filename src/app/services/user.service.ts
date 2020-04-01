@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { RoleData } from '../interfaces/role-data';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,26 @@ export class UserService {
 
   url = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private db: AngularFirestore) { }
 
   testToken() {
     return this.http.get(`${ this.url }/token-refresh`);
   }
+  /*
+  async testThing() {
+    this.db.doc('users/roles/owners/xNzAXZQxgYc60XLlRprvEAEm4L03').ref.get().then((data) => {
+      console.log(data.data());
+    });
+
+    this.db.doc('users/roles/owners/test').set({
+      test: 'this is a test to see if I can write to a document',
+      map: {
+        value: 'this is a map',
+      }
+    });
+
+  }
+  */
 
   getUid(email: string) {
     return this.http.post<{ uid: string }>(`${ this.url }/get-uid`, { email }).toPromise();

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { BubbleLocatorRoutingModule } from './bubble-locator-routing.module';
 import { BubbleLocatorComponent } from '../components/bubble-locator/bubble-locator.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -33,6 +34,7 @@ import { GestureConfig } from '@angular/material/core';
     MatIconModule,
     MatSliderModule,
     MatRadioModule,
+    MatPaginatorModule,
     MatSliderModule,
     FormsModule,
     ReactiveFormsModule,

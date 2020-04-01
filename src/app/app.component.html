@@ -1,5 +1,5 @@
 <mat-toolbar class="tool-bar">
-    <img (click)="home()" class="logo" src="../assets/pictures/BME_logo.png"/>
+    <img (click)="home()" class="logo" [ngClass]="{ 'logo-login': showLogin() }" src="../assets/pictures/BME_logo.png"/>
     <div class="buttons" fxLayout="row" fxLayoutAlign="center center" >
       <button mat-button class="login-button" (click)="login()" *ngIf="showLogin()">
         LOGIN

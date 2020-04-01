@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { VideoMetadata } from '../interfaces/video-metadata';
 import { TutorialVideoMetadata } from '../interfaces/tutorial-video-metadata';
 import { ReviewVideoData } from '../interfaces/review-video-data';
+import { Bubble } from '../interfaces/bubble';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class VideoService {
     return this.http.get<VideoMetadata[]>(`${ this.url }/get-video-data`).toPromise();
   }
 
-  addVideo(url: string) {
-    return this.http.post(`${ this.url }/add-video`, { url }).toPromise();
+  addVideo(video: { url: string, fps: string }) {
+    return this.http.post(`${ this.url }/add-video`, video).toPromise();
   }
 
   getReviewVideo() {
@@ -32,5 +33,9 @@ export class VideoService {
 
   addTutorialVideo(video: { url: string, fps: string, average: number, washout: boolean, noBubbles: boolean }) {
     return this.http.post(`${ this.url }/add-tutorial-video`, video ).toPromise();
+  }
+
+  addVideoRating(rating: { title: string, rating: Bubble[] }) {
+    return this.http.post(`${ this.url }/submit-video-rating`, rating).toPromise();
   }
 }

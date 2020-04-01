@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -55,6 +57,8 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
     FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'BubbleLocatorAPI'),
     AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     MatButtonModule,
     MatDialogModule,
     MatIconModule,

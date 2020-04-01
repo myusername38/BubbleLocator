@@ -5,6 +5,16 @@ $button-font-size: 22px;
 .logo {
   width: 384px;
   height: 70px;
+  @media screen and (max-width: 540px){
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+.logo-login {
+  width: 384px;
+  height: 70px;
   @media screen and (max-width: $screen-medium){
     visibility: hidden;
     width: 0px;
