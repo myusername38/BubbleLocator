@@ -16,21 +16,6 @@ export class UserService {
   testToken() {
     return this.http.get(`${ this.url }/token-refresh`);
   }
-  /*
-  async testThing() {
-    this.db.doc('users/roles/owners/xNzAXZQxgYc60XLlRprvEAEm4L03').ref.get().then((data) => {
-      console.log(data.data());
-    });
-
-    this.db.doc('users/roles/owners/test').set({
-      test: 'this is a test to see if I can write to a document',
-      map: {
-        value: 'this is a map',
-      }
-    });
-
-  }
-  */
 
   getUid(email: string) {
     return this.http.post<{ uid: string }>(`${ this.url }/get-uid`, { email }).toPromise();

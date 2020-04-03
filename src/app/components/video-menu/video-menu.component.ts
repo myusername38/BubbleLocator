@@ -1,19 +1,17 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { AddVideoDialogComponent } from '../add-video-dialog/add-video-dialog.component';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
-import { VideoService } from '../../services/video.service';
 import { VideoMetadata } from '../../interfaces/video-metadata';
 import { AuthService } from '../../services/auth.service';
-import { TutorialVideoMetadata } from '../../interfaces/tutorial-video-metadata';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
+import { ExpandVideoDialogComponent } from '../expand-video-dialog/expand-video-dialog.component';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { merge, Observable, of as observableOf, BehaviorSubject, of, throwError } from 'rxjs';
-import { switchMap, map, catchError} from 'rxjs/operators';
+import { merge, Observable, BehaviorSubject } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-video-menu',
@@ -126,7 +124,14 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
           let docData = data.map(doc => doc.data());
           docData = docData.map(doc => {
             doc.date = new Date(doc.date).toLocaleDateString();
-            doc.status = 'No Ratings';
+            if (doc.raters.length !== 0) {
+              doc.status = `${ doc.raters.length } Rating`;
+              if (doc.raters.length !== 1) {
+                doc.status += 's';
+              }
+            } else {
+              doc.status = 'No Ratings';
+            }
             return doc;
           });
           this.videoTableData = docData as VideoMetadata[];
@@ -219,5 +224,20 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
       default:
         break;
     }
+  }
+
+  expandVideoData(video: VideoMetadata) {
+    const dialogRef = this.dialog.open(ExpandVideoDialogComponent, {
+      width: '800px',
+      data: {
+        video,
+        type: this.videoDisplayedSubject.value,
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Confirm') {
+        this.deleteVideo(video);
+      }
+    });
   }
 }

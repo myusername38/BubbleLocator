@@ -1,6 +1,5 @@
-import { Component, OnInit, Renderer2, ViewChild, Inject, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatIconRegistry } from '@angular/material/icon';
+import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { ReviewQualityDialogComponent } from '../review-quality-dialog/review-quality-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
@@ -11,6 +10,8 @@ import { ReviewVideoData } from '../../interfaces/review-video-data';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { VideoMetadata } from 'src/app/interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 export interface DialogData {
   frame: number;
@@ -34,11 +35,8 @@ export class BubbleLocatorComponent implements OnInit {
   firstPass = true;
   bubbleRadius = 12;
   frameOptions = 'Good';
-  options = ['Good', 'Wash-Out', 'No Bubbles'];
   frame = 0;
   count = 0;
-  videoBadQaulity = false;
-  frameCount = 10;
   paused = false;
   loading = false;
   locatingBubbles = false;
@@ -71,6 +69,8 @@ export class BubbleLocatorComponent implements OnInit {
 
   constructor(private renderer: Renderer2,
               public dialog: MatDialog,
+              private router: Router,
+              private route: ActivatedRoute,
               private videoService: VideoService,
               private snackbarService: SnackbarService,
               private db: AngularFirestore ) {
@@ -120,7 +120,11 @@ export class BubbleLocatorComponent implements OnInit {
           this.video.currentTime = 0;
           break;
         default:
-          window.location.reload();
+          const bubble = this.bubbleToAdd(result);
+          if (bubble) {
+            this.bubbles.push({ frame: 0, bubbles: [bubble] });
+            this.submit();
+          }
       }
     });
   }
@@ -134,44 +138,42 @@ export class BubbleLocatorComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      let bubbleToAdd: Bubble = null;
-      switch (result) {
-        case 'Wash-out':
-          bubbleToAdd = {
-            x: -1,
-            y: -1,
-            frame: this.getCurrentFrame()
-          };
-          break;
-        case 'No Bubbles':
-          bubbleToAdd = {
-            x: -2,
-            y: -2,
-            frame: this.getCurrentFrame()
-          };
-          break;
-        case 'Bad Quality':
-            bubbleToAdd = {
-              x: -3,
-              y: -3,
-              frame: 0
-            };
-      }
-      if (bubbleToAdd) {
-        const dialogRef2 = this.dialog.open(DialogConfirmationComponent, {
-          width: '500px',
-          data: {
-            options: [
-              'Confirm', 'Cancel'
-            ],
-            message: `Confirm ${ result } and submit`
-          }
-        });
-        dialogRef2.afterClosed().subscribe(result2 => {
-          // send it off
-        });
+      const bubble = this.bubbleToAdd(result);
+      if (bubble && result !== 'Back' && result !== 'Good') {
+        this.confirmSubmit(result, bubble);
       }
     });
+  }
+
+  bubbleToAdd(result): Bubble {
+    let bubbleToAdd: Bubble = null;
+    switch (result) {
+      case 'Wash-out':
+        bubbleToAdd = {
+          x: -1,
+          y: -1,
+          frame: 0,
+          time: 0,
+        };
+        break;
+      case 'No Bubbles':
+        bubbleToAdd = {
+          x: -2,
+          y: -2,
+          frame: 0,
+          time: 0,
+        };
+        break;
+      case 'Bad Quality':
+        bubbleToAdd = {
+          x: -3,
+          y: -3,
+          frame: 0,
+          time: 0,
+        };
+        break;
+    }
+    return bubbleToAdd;
   }
 
   async getVideoUrl() {
@@ -180,7 +182,7 @@ export class BubbleLocatorComponent implements OnInit {
       this.reviewVideo = await this.videoService.getReviewVideo();
       this.setVideoPlayer();
     } catch (err) {
-      if (err.error.message === 'No more videos to review') {
+      if (err.error && err.error.message === 'No more videos to review') {
         this.snackbarService.showError(err.error.message);
       } else {
         console.log(err);
@@ -199,11 +201,10 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   locateBubbles() {
+    this.locatingBubbles = true;
     this.edited = false;
     this.deletingBubbles = false;
     this.video.pause();
-    this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
-    this.locatingBubbles = true;
     this.frame = this.getCurrentFrame();
     const b = this.bubbles.find(f => f.frame === this.getCurrentFrame());
     if (!b) {
@@ -214,22 +215,7 @@ export class BubbleLocatorComponent implements OnInit {
       this.currentFrameBubbles = this.bubbles.find(f => f.frame === this.getCurrentFrame()).bubbles;
     } else {
       this.currentFrameBubbles = b.bubbles;
-      if (this.currentFrameBubbles && this.currentFrameBubbles[0]) {
-        switch (this.currentFrameBubbles[0].x) {
-          case -1 :
-            this.frameOptions = 'Wash-Out';
-            this.currentFrameBubbles = [];
-            break;
-          case -2 :
-            this.frameOptions = 'No Bubbles';
-            this.currentFrameBubbles = [];
-            break;
-          default:
-            this.frameOptions = 'Good';
-            break;
-        }
-      }
-      if (this.scaled && this.frameOptions === 'Good') {
+      if (this.scaled) {
         this.currentFrameBubbles = this.currentFrameBubbles.map(bubble => {
           if (bubble.x >= 0) {
             return bubble;
@@ -239,6 +225,7 @@ export class BubbleLocatorComponent implements OnInit {
               x: bubble.x / 2,
               y: bubble.y / 2,
               frame: b.frame,
+              time: bubble.time,
             }
           );
         });
@@ -246,30 +233,54 @@ export class BubbleLocatorComponent implements OnInit {
     }
   }
 
-  frameCompleted() {
-    switch (this.frameOptions) {
-      case 'Wash-Out':
-        this.whiteWashed();
-        break;
-      case 'No Bubbles':
-        this.noBubbles();
-        break;
-      default:
-        console.log('done');
-        this.doneLocatingBubbles();
-        break;
+  confirmSubmit(option: string = 'Good', bubble: Bubble = null) {
+    if (this.bubbles.length >= 8 || option !== 'Good') {
+      let message = 'Submit video rating';
+      let description = '';
+      if (option !== 'Good') {
+        message = `Confirm '${ option }' rating`;
+        description = 'This rating will overwrite all bubble locations';
+      }
+      const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+        width: '500px',
+        data: {
+          frame: this.getCurrentFrame(),
+          options: [
+            'Submit', 'Cancel'
+          ],
+          message,
+          description,
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'Submit') {
+          if (bubble) {
+            this.bubbles = [{ frame: 0, bubbles: [bubble] }];
+          }
+          this.submit();
+        } else {
+         this.snackbarService.showInfo('Video submittion canceled');
+        }
+      });
     }
   }
 
-  submit() {
-    if (this.bubbles.length >= 8 || this.videoBadQaulity) {
+  async submit() {
+    try {
+      this.loading = true;
       const bubbleArray: Bubble[] = [];
       this.bubbles.forEach(frame => {
         frame.bubbles.forEach(bubble => {
           bubbleArray.push(bubble);
         });
       });
-      this.videoService.addVideoRating({ title: this.reviewVideo.title, rating: bubbleArray} );
+      await this.videoService.addVideoRating({ title: this.reviewVideo.title, rating: bubbleArray} );
+      this.snackbarService.showInfo('Video rating submitted');
+      this.router.navigate(['/home']);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
     }
   }
 
@@ -290,55 +301,6 @@ export class BubbleLocatorComponent implements OnInit {
     this.frameOptions = 'Good';
   }
 
-  noBubbles() {
-    const bubble: Bubble = {
-      x: -2,
-      y: -2,
-      frame: this.getCurrentFrame()
-    };
-    this.currentFrameBubbles = [];
-    this.currentFrameBubbles.push(bubble);
-    this.doneLocatingBubbles();
-  }
-
-  badQuality() {
-    const bubble: Bubble = {
-      x: -3,
-      y: -3,
-      frame: 0
-    };
-
-    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
-      width: '500px',
-      data: {
-        frame: this.getCurrentFrame(),
-        options: [
-          'Confirm', 'Cancel'
-        ],
-        message: `Confirm bad Quality`
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'Confirm') {
-        this.bubbles = [{ frame: 0, bubbles: [bubble] }];
-        this.videoBadQaulity = true;
-        this.generateFrameButtons();
-        this.submit();
-      }
-    });
-  }
-
-  whiteWashed() {
-    const bubble: Bubble = {
-      x: -1,
-      y: -1,
-      frame: this.getCurrentFrame()
-    };
-    this.currentFrameBubbles = [];
-    this.currentFrameBubbles.push(bubble);
-    this.doneLocatingBubbles();
-  }
-
   setFrame(time) {
     if (this.edited) {
       const dialogRef = this.dialog.open(DialogConfirmationComponent, {
@@ -353,7 +315,7 @@ export class BubbleLocatorComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Yes') {
-          this.frameCompleted();
+          this.doneLocatingBubbles();
           this.video.currentTime = time;
           this.locateBubbles();
         } else {
@@ -383,7 +345,8 @@ export class BubbleLocatorComponent implements OnInit {
         options: [
           'Delete', 'Cancel'
         ],
-        message: `Delete Frame ${ this.getFrame(time) }?`
+        message: `Delete frame ${ this.getFrame(time) }?`,
+        description: `This will delete all bubbles on frame ${ this.getFrame(time) }`
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -452,7 +415,8 @@ export class BubbleLocatorComponent implements OnInit {
         const bubble: Bubble = {
           x,
           y,
-          frame: this.getCurrentFrame()
+          frame: this.getCurrentFrame(),
+          time: this.video.currentTime,
         };
         this.currentFrameBubbles.push(bubble);
       }

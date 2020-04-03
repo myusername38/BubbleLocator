@@ -1,12 +1,26 @@
-button {
-  width: 80px;
-  text-align: center;
-}
-
-h1 {
-  text-emphasis: center;
-}
+@import '../../../vars.scss';
 
 .title {
   text-align: center;
+}
+
+.more-info {
+  p {
+    font-size: 20px;
+    color: #6F8695
+  }
+}
+
+h1 {
+  font-size: 36px !important;
+}
+
+button {
+  width: 120px;
+  text-align: center;
+}
+
+p {
+  color: white;
+  font-size: 24px;
 }

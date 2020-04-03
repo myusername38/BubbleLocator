@@ -1,8 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
-
 @Component({
   selector: 'app-review-quality-dialog',
   templateUrl: './review-quality-dialog.component.html',
@@ -28,7 +26,5 @@ export class ReviewQualityDialogComponent implements OnInit {
   goBack() {
     this.dialogRef.close('Back');
   }
-
-
 }
 

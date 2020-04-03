@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { RoleData } from '../../interfaces/role-data';
 import { AuthService } from '../../services/auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-owner-menu',
@@ -26,13 +27,22 @@ export class OwnerMenuComponent implements OnInit {
 
   constructor(private snackbarService: SnackbarService,
               private userService: UserService,
+              private db: AngularFirestore,
               private authService: AuthService,
               private router: Router,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userData.paginator = this.paginator;
-    this.loadOwners();
+    this.loading = true;
+    this.db.collection('user-roles/roles/owners').ref.onSnapshot((data) => {
+      const docs: RoleData[] = [];
+      data.forEach(doc => {
+        docs.push(doc.data() as RoleData);
+      });
+      this.userData.data = docs;
+      this.loading = false;
+    });
   }
 
   addOwner() {
@@ -44,15 +54,6 @@ export class OwnerMenuComponent implements OnInit {
         status: 'incomplete'
       },
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.status && result.status === 'complete') {
-        setTimeout(() => this.loadOwners(), 200);
-      }
-    });
-  }
-
-  expandUser() {
-
   }
 
   async loadOwners() {
@@ -71,7 +72,6 @@ export class OwnerMenuComponent implements OnInit {
       this.loading = true;
       await this.userService.grantAdmin(user.uid);
       this.snackbarService.showInfo(`${ user.email } is now an Assistant`);
-      setTimeout(() => this.loadOwners(), 200);
     } catch (err) {
       console.log(err);
     } finally {
@@ -84,7 +84,6 @@ export class OwnerMenuComponent implements OnInit {
       this.loading = true;
       await this.userService.grantAssistant(user.uid);
       this.snackbarService.showInfo(`${ user.email } is now an Assistant`);
-      setTimeout(() => this.loadOwners(), 200);
     } catch (err) {
       console.log(err);
     } finally {
@@ -98,7 +97,6 @@ export class OwnerMenuComponent implements OnInit {
       this.loading = true;
       await this.userService.removePermissions(user.uid);
       this.snackbarService.showInfo(`${ user.email } is no longer an admin`);
-      setTimeout(() => this.loadOwners(), 200);
     } catch (err) {
       console.log(err);
     } finally {
@@ -111,7 +109,6 @@ export class OwnerMenuComponent implements OnInit {
       this.loading = true;
       await this.authService.deleteUser(user.uid);
       this.snackbarService.showInfo(`${ user.email } has been removed`);
-      setTimeout(() => this.loadOwners(), 200);
     } catch (err) {
       console.log(err);
     } finally {

@@ -13,6 +13,7 @@ import { BubbleLocatorComponent } from '../components/bubble-locator/bubble-loca
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
 import { ReviewQualityDialogComponent } from '../components/review-quality-dialog/review-quality-dialog.component';
+import { ReviewRatingComponent } from '../components/review-rating/review-rating.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared-modules/shared-module';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -22,7 +23,8 @@ import { GestureConfig } from '@angular/material/core';
 @NgModule({
   declarations: [
     BubbleLocatorComponent,
-    ReviewQualityDialogComponent
+    ReviewQualityDialogComponent,
+    ReviewRatingComponent,
   ],
   imports: [
     CommonModule,

@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { AddPermissionDialogComponent } from '../add-permission-dialog/add-permission-dialog.component';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { RoleData } from '../../interfaces/role-data';
@@ -27,6 +28,7 @@ export class AssistantMenuComponent implements OnInit {
   constructor( private snackbarService: SnackbarService,
                private userService: UserService,
                private authService: AuthService,
+               private db: AngularFirestore,
                private router: Router,
                public dialog: MatDialog ) {
                 this.authService.userRole.subscribe(role => {
@@ -36,7 +38,15 @@ export class AssistantMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData.paginator = this.paginator;
-    this.loadAssistants();
+    this.loading = true;
+    this.db.collection('user-roles/roles/assistants').ref.onSnapshot((data) => {
+      const docs: RoleData[] = [];
+      data.forEach(doc => {
+        docs.push(doc.data() as RoleData);
+      });
+      this.userData.data = docs;
+      this.loading = false;
+    });
   }
 
   addAdmin() {
@@ -48,26 +58,10 @@ export class AssistantMenuComponent implements OnInit {
         status: 'incomplete'
       },
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.status && result.status === 'complete') {
-        setTimeout(() => this.loadAssistants(), 200);
-      }
-    });
   }
 
   expandUser() {
 
-  }
-
-  async loadAssistants() {
-    try {
-      this.loading = true;
-      this.userData.data = await this.userService.getAssistants();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.loading = false;
-    }
   }
 
   async makeAdmin(user: RoleData) {
@@ -75,7 +69,6 @@ export class AssistantMenuComponent implements OnInit {
       this.loading = true;
       await this.userService.grantAdmin(user.uid);
       this.snackbarService.showInfo(`${ user.email } is now an Assistant`);
-      setTimeout(() => this.loadAssistants(), 200);
     } catch (err) {
       console.log(err);
     } finally {
@@ -88,7 +81,6 @@ export class AssistantMenuComponent implements OnInit {
       this.loading = true;
       await this.userService.grantAssistant(user.uid);
       this.snackbarService.showInfo(`${ user.email } is now an Owner`);
-      setTimeout(() => this.loadAssistants(), 200);
     } catch (err) {
       console.log(err);
     } finally {
@@ -101,7 +93,6 @@ export class AssistantMenuComponent implements OnInit {
       this.loading = true;
       await this.userService.removePermissions(user.uid);
       this.snackbarService.showInfo(`${ user.email } is no longer an admin`);
-      setTimeout(() => this.loadAssistants(), 200);
     } catch (err) {
       console.log(err);
     } finally {
@@ -114,7 +105,6 @@ export class AssistantMenuComponent implements OnInit {
       this.loading = true;
       await this.authService.deleteUser(user.uid);
       this.snackbarService.showInfo(`${ user.email } has been removed`);
-      setTimeout(() => this.loadAssistants(), 200);
     } catch (err) {
       console.log(err);
     } finally {

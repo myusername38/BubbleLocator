@@ -1,0 +1,32 @@
+@import '../../../vars.scss';
+
+.title {
+  text-align: center;
+}
+
+.more-info {
+  p {
+    font-size: 20px;
+    color: #6F8695;
+    width: fit-content;
+  }
+}
+p {
+  display: block;
+  width: fit-content;
+}
+
+h1 {
+  font-size: 30px !important;
+}
+
+.exit-icon {
+  margin-right: -25px;
+  margin-top: -25px;
+}
+
+.table-container {
+  width: 100%;
+  max-width: 600px;
+  overflow: auto;
+}

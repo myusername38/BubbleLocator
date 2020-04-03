@@ -21,6 +21,7 @@ export class AuthService {
   userRole = new BehaviorSubject(null);
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject(null);
   userSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+  _completedTutorial = false;
   sendEmail = false;
 
   get user() {
@@ -34,20 +35,15 @@ export class AuthService {
     return this.userRole;
   }
 
+  get completedTutorial() {
+    return this._completedTutorial;
+  }
+
   constructor(public firebaseAuth: AngularFireAuth, private http: HttpClient, private userService: UserService) {
     this.firebaseAuth.user.subscribe(async user => {
       this._user = user;
       this.userSubject.next(user);
       if (user) {
-        /*
-        if (this.sendEmail) {
-          this.sendEmail = false;
-          this.firebaseAuth.auth.currentUser.sendEmailVerification()
-          .then(() => {
-            this.firebaseAuth.auth.signOut();
-          });
-        }
-        */
         this.userService.testToken();
         this._token = await user.getIdToken();
         this.tokenSubject.next(this._token);
@@ -87,6 +83,10 @@ export class AuthService {
   }
 
   getRole(idTokenResult) {
+    if (idTokenResult.claims.completedTutorial) {
+      this._completedTutorial = idTokenResult.claims. completedTutorial;
+    }
+
     if (idTokenResult.claims.assistant && idTokenResult.claims.assistant === true) {
       return 'assistant';
     } else if (idTokenResult.claims.admin && idTokenResult.claims.admin === true) {

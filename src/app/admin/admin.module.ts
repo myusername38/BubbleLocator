@@ -22,6 +22,7 @@ import { DeleteUserDialogComponent } from '../components/delete-user-dialog/dele
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
 import { VideoMenuComponent } from '../components/video-menu/video-menu.component';
 import { AddVideoDialogComponent } from '../components/add-video-dialog/add-video-dialog.component';
+import { ExpandVideoDialogComponent } from '../components/expand-video-dialog/expand-video-dialog.component';
 import { SharedModule } from '../shared-modules/shared-module';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SharedModule } from '../shared-modules/shared-module';
     AssistantMenuComponent,
     OwnerMenuComponent,
     VideoMenuComponent,
+    ExpandVideoDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +60,7 @@ import { SharedModule } from '../shared-modules/shared-module';
     DeleteUserDialogComponent,
     DialogConfirmationComponent,
     AddVideoDialogComponent,
+    ExpandVideoDialogComponent,
   ],
 })
 export class AdminModule { }

@@ -1,6 +1,9 @@
 <div class="confirmation" fxLayout="column" fxLayoutAlign="center center">
-  <div class="title">
-      <h1>{{ conformationData.message }}</h1>
+  <div class="title" [class.mb-sm]="!conformationData.description">
+      <h1 class="mb-sm">{{ conformationData.message }}</h1>
+  </div>
+  <div class="more-info" *ngIf="conformationData.description">
+      <p class="mt-0">{{ conformationData.description }}</p>
   </div>
   <div class="button-row" fxLayout="row" fxLayoutAlign="center center">
     <button mat-button class="mr-xs p-xs" (click)="click(conformationData.options[0])" [ngStyle]="{ 'background-color': '#57b8ff' }">

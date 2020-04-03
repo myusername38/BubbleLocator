@@ -48,8 +48,7 @@ export class AddVideoDialogComponent implements OnInit {
   }
 
   async onSubmit() {
-    let data = this.addVideoForm.getRawValue();
-    console.log(data);
+    const data = this.addVideoForm.getRawValue();
     try {
       this.loading = true;
       if (this.tutorial) {

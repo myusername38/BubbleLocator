@@ -14,7 +14,7 @@
       <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading"></mat-spinner>
       <div class="placeholder ml-sm" *ngIf="!loading"></div>
     </div>
-    <div class="w-100 mb-xs button-container" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign.lt-sm="center center">
+    <div class="w-100 mb-xs button-container" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.lt-md="center center">
       <div class="radio-buttons" *ngIf="role === 'owner' || role === 'admin'">
         <mat-radio-group [(ngModel)]="videosDisplayed" aria-label="Select an option">
           <mat-radio-button *ngFor="let option of videoTypes" class="mr-xs" value="{{ option.type }}" (click)="videoChange(option.type)">{{ option.title }}</mat-radio-button>
@@ -53,7 +53,7 @@
               <mat-icon class="icon">more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
+              <button mat-menu-item (click)="expandVideoData(element)">Expand</button>
               <button mat-menu-item>Hide</button>
               <button mat-menu-item>Reset Video</button>
               <button mat-menu-item>Delete Video</button>
