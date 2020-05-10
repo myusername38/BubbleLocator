@@ -68,7 +68,7 @@ export class AssistantMenuComponent implements OnInit {
     try {
       this.loading = true;
       await this.userService.grantAdmin(user.uid);
-      this.snackbarService.showInfo(`${ user.email } is now an Assistant`);
+      this.snackbarService.showInfo(`${ user.email } is now an Admin`);
     } catch (err) {
       console.log(err);
     } finally {
@@ -79,7 +79,7 @@ export class AssistantMenuComponent implements OnInit {
   async makeOwner(user: RoleData) {
     try {
       this.loading = true;
-      await this.userService.grantAssistant(user.uid);
+      await this.userService.grantOwner(user.uid);
       this.snackbarService.showInfo(`${ user.email } is now an Owner`);
     } catch (err) {
       console.log(err);
@@ -133,6 +133,9 @@ export class AssistantMenuComponent implements OnInit {
     switch (page) {
       case 'assistants':
         this.router.navigate(['admin/assistants']);
+        break;
+      case 'users':
+        this.router.navigate(['admin/users']);
         break;
       case 'admins':
         this.router.navigate(['admin/admins']);

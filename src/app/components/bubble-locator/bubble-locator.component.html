@@ -1,5 +1,5 @@
 <div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="start center">
-  <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }">
+  <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }" [class.playing-video]="!paused">
     <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
     <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.first-pass]="firstPass" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="!firstPass" src="{{ reviewVideo.url }}"></mat-video>
   </div>

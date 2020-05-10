@@ -6,8 +6,9 @@ import { AddVideoDialogComponent } from '../add-video-dialog/add-video-dialog.co
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { VideoMetadata } from '../../interfaces/video-metadata';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
+import { VideoService } from '../../services/video.service';
 import { ExpandVideoDialogComponent } from '../expand-video-dialog/expand-video-dialog.component';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { merge, Observable, BehaviorSubject } from 'rxjs';
@@ -20,7 +21,7 @@ import { switchMap, map } from 'rxjs/operators';
 })
 export class VideoMenuComponent implements OnInit, AfterViewInit {
 
-  videosPerPage = 4;
+  videosPerPage = 10;
   videoTableData: VideoMetadata[] = [];
   videos: Observable<VideoMetadata[]> = null;
   incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
@@ -52,7 +53,9 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
 
   constructor(private authService: AuthService,
               private router: Router,
+              private route: ActivatedRoute,
               private db: AngularFirestore,
+              private videoService: VideoService,
               private snackbarService: SnackbarService,
               public dialog: MatDialog) {
                 this.authService.userRole.subscribe(role => {
@@ -62,6 +65,24 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
                 this.tutorialVideoCollection = this.db.collection('tutorial-videos');
                 this.completeVideoCollection = this.db.collection('complete-videos');
                 this.metadataCollection = this.db.collection('metadata');
+                this.route.queryParams.subscribe(params => {
+                  if (params.status && params.title) {
+                    let allowStatus = false;
+                    this.videoTypes.forEach(type => {
+                      if (type.type === params.status) {
+                        allowStatus = true;
+                        this.videoChange(type.type);
+                        this.videosDisplayed = type.type;
+                      }
+                    });
+                    if (allowStatus) {
+                      this.displayVideo(params.title);
+                    } else {
+                      this.resetParams();
+                      this.snackbarService.showError('Invalid Params');
+                    }
+                  }
+                });
               }
 
   async ngOnInit() {
@@ -94,8 +115,8 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     merge(this.sort.sortChange, this.paginator.page, this.videoDisplayedSubject)
       .pipe(
         switchMap(() => {
-          const ascQuery = this.getQuery(this.videoDisplayedSubject.value).orderBy('added', 'asc').limit(this.videosPerPage);
-          const descQuery = this.getQuery(this.videoDisplayedSubject.value).orderBy('added', 'desc').limit(this.videosPerPage);
+          const ascQuery = this.getQuery(this.videoDisplayedSubject.value).ref.orderBy('added', 'asc').limit(this.videosPerPage);
+          const descQuery = this.getQuery(this.videoDisplayedSubject.value).ref.orderBy('added', 'desc').limit(this.videosPerPage);
           this.loading = true;
           let query = ascQuery;
           if (this.sort.direction === 'desc') {
@@ -120,11 +141,11 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
           return data;
         }),
       ).subscribe(data => {
-        if (data) {
+        if (data && this.videoDisplayedSubject.value !== 'tutorial') {
           let docData = data.map(doc => doc.data());
           docData = docData.map(doc => {
             doc.date = new Date(doc.date).toLocaleDateString();
-            if (doc.raters.length !== 0) {
+            if (doc.raters && doc.raters.length !== 0) {
               doc.status = `${ doc.raters.length } Rating`;
               if (doc.raters.length !== 1) {
                 doc.status += 's';
@@ -134,6 +155,9 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
             }
             return doc;
           });
+          this.videoTableData = docData as VideoMetadata[];
+        } else {
+          let docData = data.map(doc => doc.data());
           this.videoTableData = docData as VideoMetadata[];
         }
       });
@@ -156,16 +180,15 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
   getQuery(value) {
     switch (value) {
       case 'incomplete':
-        return this.incompleteVideoCollection.ref;
+        return this.incompleteVideoCollection;
       case 'complete':
-        return this.completeVideoCollection.ref;
+        return this.completeVideoCollection;
       default:
-        return this.tutorialVideoCollection.ref;
+        return this.tutorialVideoCollection;
     }
   }
 
   videoChange(value) {
-    console.log(value);
     this.videoDisplayedSubject.next(value);
   }
 
@@ -203,14 +226,37 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteVideo(video: VideoMetadata) {
+  async resetVideo(title: string) {
+    try {
+      this.loading = true;
+      await this.videoService.resetVideo({ title });
+      this.videoChange(this.videoDisplayedSubject.value);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = true;
+    }
+  }
 
+  async deleteVideo(video: VideoMetadata) {
+    try {
+      this.loading = true;
+      await this.videoService.deleteVideo({ title: video.title });
+      this.videoChange(this.videoDisplayedSubject.value);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = true;
+    }
   }
 
   navigate(page: string) {
     switch (page) {
       case 'assistants':
         this.router.navigate(['admin/assistants']);
+        break;
+      case 'users':
+        this.router.navigate(['admin/users']);
         break;
       case 'admins':
         this.router.navigate(['admin/admins']);
@@ -226,7 +272,20 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     }
   }
 
+  async displayVideo(title: string) {
+    try {
+      this.loading = true;
+      const video = await this.getQuery(this.videoDisplayedSubject.value).doc(title).ref.get();
+      this.expandVideoData(video.data() as VideoMetadata);
+    } catch (err) {
+        console.log(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+
   expandVideoData(video: VideoMetadata) {
+    this.addParams(video.title);
     const dialogRef = this.dialog.open(ExpandVideoDialogComponent, {
       width: '800px',
       data: {
@@ -235,9 +294,18 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'Confirm') {
-        this.deleteVideo(video);
+      if (result.action && result.action  === 'closed') {
+        this.resetParams();
       }
     });
+  }
+
+  addParams(title) {
+    const safeTitle = title.replace('%', '%25');
+    window.history.replaceState({}, '', `/admin/videos/?status=${ this.videoDisplayedSubject.value }&title=${ safeTitle }`);
+  }
+
+  resetParams() {
+    window.history.replaceState({}, '', `/admin/videos`);
   }
 }

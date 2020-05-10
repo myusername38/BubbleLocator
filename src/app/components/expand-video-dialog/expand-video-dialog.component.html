@@ -3,14 +3,15 @@
 </div>
 <div class="expand-video" fxLayout="column" fxLayoutAlign="center center">
   <div class="title">
-      <h1 class="mb-sm mt-xs">{{ videoData.title }}</h1>
+      <h1 class="mb-sm mt-xs" fxHide.lt-sm>{{ videoData.title }}</h1>
+      <p class="field mb-xs mt-xs" fxHide.gt-sm>{{ videoData.title }}</p>
   </div>
   <div class="video-info">
     <p class="field capitalize mb-xs mt-xs">Status: {{ videoType }}</p>
     <p class="field mb-xs mt-xs">Added: {{ getDate(videoData.added) }}</p>
     <p class="field mb-xs mt-xs">Added By: {{ videoData.user }}</p>
     <p class="field mb-xs mt-xs">FPS: {{ videoData.fps }}</p>
-    <p class="field mb-xs mt-xs">Url: {{ videoData.url }}</p>
+    <p class="field mb-xs mt-xs" fxHide.lt-sm>Url: {{ videoData.url }}</p>
     <p class="field mb-xs mt-xs">Reviews:</p>
   </div>
   <div class="table-container">
@@ -35,8 +36,7 @@
           </button>
           <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item (click)="viewVideoRating(element)">View</button>
-            <button mat-menu-item>Reset Video</button>
-            <button mat-menu-item>Delete Video</button>
+            <button mat-menu-item (click)="deleteVideoRating(element)">Delete Rating</button>
           </mat-menu>
         </td>
       </ng-container>

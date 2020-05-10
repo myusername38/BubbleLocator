@@ -5,7 +5,7 @@
   <div class="more-info" *ngIf="conformationData.description">
       <p class="mt-0">{{ conformationData.description }}</p>
   </div>
-  <div class="button-row" fxLayout="row" fxLayoutAlign="center center">
+  <div class="button-row" fxLayout="row" fxLayoutAlign="center center" *ngIf="conformationData.options">
     <button mat-button class="mr-xs p-xs" (click)="click(conformationData.options[0])" [ngStyle]="{ 'background-color': '#57b8ff' }">
       <p class="m-0 mlr-auto">{{ conformationData.options[0] }}</p>
     </button>

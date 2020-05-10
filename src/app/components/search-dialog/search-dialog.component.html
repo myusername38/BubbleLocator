@@ -1,0 +1,39 @@
+<div class="w-100 mb-xs" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<h1 class="mt-0 mb-xs mlr-auto">Search User</h1>
+<div class="radio-buttons mb-xs">
+  <mat-radio-group [(ngModel)]="searchType" aria-label="Select an option">
+    <mat-radio-button *ngFor="let option of searchTypes" class="mr-xs" value="{{ option }}">{{ option }}</mat-radio-button>
+  </mat-radio-group>
+</div>
+<form class="login-form w-100" fxLayout="column" fxLayoutAlign="center center" [formGroup]="searchEmailForm" (ngSubmit)="onSubmit()" *ngIf="searchType === 'Email'">
+  <mat-form-field class="w-100 mb-xs" appearance="fill">
+    <mat-label>Email:</mat-label>
+    <input type="text" formControlName="email" class="form-control white" matInput/>
+    <mat-error *ngIf="email.invalid">Please enter a valid email address</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="mb-xs w-100" [disabled]="searchEmailForm.invalid">
+    <div class="login-button" type="submit" fxLayout="row" fxLayoutAlign="center center">
+      <div class="placeholder mr-sm"></div>
+      <h1>Search</h1>
+      <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
+      <div class="placeholder ml-sm" *ngIf="!loading"></div>
+    </div>
+  </button>
+</form>
+<form class="login-form w-100" fxLayout="column" fxLayoutAlign="center center" [formGroup]="searchUidForm" (ngSubmit)="onSubmit()" *ngIf="searchType === 'Uid'">
+  <mat-form-field class="w-100 mb-xs" appearance="fill">
+    <mat-label>Uid:</mat-label>
+    <input type="text" [errorStateMatcher]="matcher" formControlName="uid" class="form-control white" matInput/>
+    <mat-error>Invalid Uid</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="mb-xs w-100" [disabled]="searchUidForm.invalid">
+    <div class="login-button" type="submit" fxLayout="row" fxLayoutAlign="center center">
+      <div class="placeholder mr-sm"></div>
+      <h1>Search</h1>
+      <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
+      <div class="placeholder ml-sm" *ngIf="!loading"></div>
+    </div>
+  </button>
+</form>

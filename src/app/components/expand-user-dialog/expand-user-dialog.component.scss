@@ -21,6 +21,11 @@ p {
   word-wrap: break-word;
 }
 
+.video-info {
+  @media screen and (min-width: $screen-small) {
+    padding-left: $spacing-sm;
+  }
+}
 
 .exit-icon {
   margin-right: -25px;

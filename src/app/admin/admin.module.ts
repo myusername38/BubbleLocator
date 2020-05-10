@@ -23,6 +23,9 @@ import { DialogConfirmationComponent } from '../components/dialog-confirmation/d
 import { VideoMenuComponent } from '../components/video-menu/video-menu.component';
 import { AddVideoDialogComponent } from '../components/add-video-dialog/add-video-dialog.component';
 import { ExpandVideoDialogComponent } from '../components/expand-video-dialog/expand-video-dialog.component';
+import { UserMenuComponent } from '../components/user-menu/user-menu.component';
+import { ExpandUserDialogComponent } from '../components/expand-user-dialog/expand-user-dialog.component';
+import { SearchDialogComponent } from '../components/search-dialog/search-dialog.component';
 import { SharedModule } from '../shared-modules/shared-module';
 
 @NgModule({
@@ -35,6 +38,9 @@ import { SharedModule } from '../shared-modules/shared-module';
     OwnerMenuComponent,
     VideoMenuComponent,
     ExpandVideoDialogComponent,
+    UserMenuComponent,
+    ExpandUserDialogComponent,
+    SearchDialogComponent,
   ],
   imports: [
     CommonModule,

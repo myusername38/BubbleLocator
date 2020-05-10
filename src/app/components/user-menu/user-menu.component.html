@@ -1,0 +1,60 @@
+<div class="main" fxLayout="row">
+  <div class="side-menu" fxHide.lt-sm>
+    <div class="menu-buttons p-sm">
+      <button mat-button class="w-100" (click)="navigate('videos')">Videos</button>
+      <button mat-button class="w-100" *ngIf="role === 'admin' || role === 'owner'" (click)="navigate('users')">Users</button>
+      <button mat-button class="w-100" *ngIf="role === 'admin' || role === 'owner'" (click)="navigate('assistants')">Assistants</button>
+      <button mat-button class="w-100" *ngIf="role === 'owner'" (click)="navigate('admins')">Admins</button>
+      <button mat-button class="w-100" *ngIf="role === 'owner'" (click)="navigate('owners')">Owners</button>
+    </div>
+  </div>
+  <div class="content p-sm w-100" fxLayout="column" fxLayoutAlign="start center">
+    <div class="title mt-sm" fxLayout="row" fxLayoutAlign="center start">
+      <div class="placeholder mr-sm"></div>
+      <h2 class="subtitle-text mlr-auto mt-0 mb-0 questerial">Users</h2>
+      <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading"></mat-spinner>
+      <div class="placeholder ml-sm" *ngIf="!loading"></div>
+    </div>
+    <div class="w-100 mb-xs button-container" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.lt-md="center center">
+      <div class="buttons">
+        <button mat-raised-button (click)="searchUser()">Search User</button>
+      </div>
+    </div>
+    <div class="table-container">
+      <table mat-table [dataSource]="videoTableData" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="uid">
+          <th fxFlex="45" mat-header-cell *matHeaderCellDef fxLayoutAlign="start center">Uid</th>
+          <td fxFlex="45" mat-cell *matCellDef="let element" fxLayoutAlign="start center">{{ element.uid }}</td>
+        </ng-container>
+        <ng-container matColumnDef="role">
+          <th fxFlex="20" mat-header-cell *matHeaderCellDef fxLayoutAlign="start center">Role</th>
+          <td fxFlex="20" mat-cell *matCellDef="let element" fxLayoutAlign="start center" class="capitalize">{{ element.role }}</td>
+        </ng-container>
+        <ng-container matColumnDef="score">
+          <th fxFlex="15" mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
+          <td fxFlex="15" mat-cell *matCellDef="let element" fxLayoutAlign="start center">{{ element.userScore }}</td>
+        </ng-container>
+        <ng-container matColumnDef="rejected">
+          <th fxFlex="13" mat-header-cell *matHeaderCellDef mat-sort-header>Rejected</th>
+          <td fxFlex="13" mat-cell *matCellDef="let element" fxLayoutAlign="start center">{{ element.outliers }}</td>
+        </ng-container>
+        <ng-container matColumnDef="expand" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef fxFlex="7" fxLayoutAlign="start center"></th>
+          <td mat-cell *matCellDef="let element" fxFlex="7" fxLayoutAlign="start center">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="View Program">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="expandUserDialog(element)">Expand User</button>
+              <button mat-menu-item (click)="banUser(element.uid)" *ngIf="element.role === 'rater'">Ban User</button>
+              <button mat-menu-item (click)="deleteUser(element.uid)" *ngIf="element.role === 'rater'">Delete User</button>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator class="w-100 paginator" [pageSizeOptions]="[10, 25, 50]" [pageSize]="usersPerPage" [length]="numDocs" (page)="usersPerPage = $event.pageSize"></mat-paginator>
+  </div>
+</div>

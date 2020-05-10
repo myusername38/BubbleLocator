@@ -3,12 +3,8 @@
 .main {
   background-color: #DCDCDC;
   width: 100vw;
-  height: calc(100vh);
-  overflow: hidden;
-}
-
-.content {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .placeholder {
@@ -21,12 +17,6 @@
   @media screen and (min-width: $screen-small) {
     margin-top: -10px;
   }
-}
-
-.side-menu {
-  width: 200px;
-  height: 100%;
-  background-color: #1D1E2C;
 }
 
 .subtitle-text {

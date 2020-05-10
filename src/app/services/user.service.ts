@@ -17,8 +17,9 @@ export class UserService {
     return this.http.get(`${ this.url }/token-refresh`);
   }
 
-  getUid(email: string) {
-    return this.http.post<{ uid: string }>(`${ this.url }/get-uid`, { email }).toPromise();
+  getUidFromEmail(email: string) {
+    const params = new HttpParams().set('email', email);
+    return this.http.get<{ uid: string }>(`${ this.url }/get-uid-from-email`, { params }).toPromise();
   }
 
   getAssistants() {
@@ -43,6 +44,19 @@ export class UserService {
 
   grantOwner(uid: string) {
     return this.http.post(`${ this.url }/grant-owner`, { uid }).toPromise();
+  }
+
+  deleteUser(uid: string) {
+    const params = new HttpParams().set('uid', uid);
+    return this.http.delete(`${ this.url }/delete-user`, { params }).toPromise();
+  }
+
+  banUser(uid: string) {
+    return this.http.put(`${ this.url }/ban-user`, { uid }).toPromise();
+  }
+
+  getUser(uid: string) {
+    return this.db.doc(`/users/${ uid }`).ref.get();
   }
 
   removePermissions(uid: string) {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,24 +23,7 @@ export class HomeComponent implements OnInit {
   results = [
     {
       name: 'Videos Reviewed',
-      series: [
-        {
-          value: 200,
-          name: '2016-09-18T14:13:41.141Z'
-        },
-        {
-          value: 250,
-          name: '2016-10-15T11:56:32.198Z'
-        },
-        {
-          value: 100,
-          name: '2016-11-18T14:13:41.141Z'
-        },
-        {
-          value: 300,
-          name: '2016-12-15T11:56:32.198Z'
-        },
-      ]
+      series: []
     },
   ];
 
@@ -48,6 +32,7 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(private authService: AuthService,
+              private db: AngularFirestore,
               private router: Router) {
     this.authService.userRole.subscribe(role => {
       if (role !== 'user') {
@@ -61,7 +46,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.db.collection('ratingsPerDay').ref.limit(10).orderBy('date', 'desc').onSnapshot((data) => {
+      console.log('here');
+      const series = [];
+      data.forEach(doc => {
+        const d = doc.data();
+        series.push({ value: d.ratings, name: new Date(d.date) });
+      });
+      this.results[0].series = series;
+      this.results = [...this.results];
+    });
   }
 
   locateBubbles() {

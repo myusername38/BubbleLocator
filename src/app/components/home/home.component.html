@@ -1,5 +1,5 @@
 <div class="main" fxLayout="row">
-  <div class="side-menu">
+  <div class="side-menu1">
     <div class="menu-buttons p-sm">
       <button mat-button class="w-100" (click)="locateBubbles()">Locate Bubbles</button>
       <button mat-button class="w-100">Help</button>
@@ -21,6 +21,10 @@
       [yAxisLabel]="yAxisLabel"
       [timeline]="timeline"
       [xAxisTickFormatting]="dateTickFormatting">
+      <ng-template #tooltipTemplate let-model="model">
+        <p class="text-center w-100">{{ dateTickFormatting(model.name) }}</p>
+        <p class="text-center w-100"> Videos Reviewed: {{ model.value }}</p>
+      </ng-template>
     </ngx-charts-line-chart>
   </div>
 </div>

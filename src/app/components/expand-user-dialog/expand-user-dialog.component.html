@@ -1,0 +1,46 @@
+<div class="w-100" fxLayoutAlign="end center">
+    <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+  </div>
+  <div class="expand-video" fxLayout="column" fxLayoutAlign="center center">
+    <div class="title">
+      <h1 class="mb-sm mt-xs">User Data</h1>
+    </div>
+    <div class="video-info" fxLayout="column" fxFill fxLayoutAlign="center start">
+        <p class="field mb-xs mt-xs capitalize">Role: {{ user.role }}</p>
+      <p class="field mb-xs mt-xs">Score: {{ user.userScore }}</p>
+      <p class="field mb-xs mt-xs">Accepted: {{ user.accepted }}</p>
+      <p class="field mb-xs mt-xs">Outliers: {{ user.outliers }}</p>
+      <p class="field mb-xs mt-xs">Accepted Percentage: {{ getAcceptedPercentage() }}</p>
+    </div>
+    <div class="table-container">
+      <table mat-table [dataSource]="user.rejectedRatings" class="mat-elevation-z8 w-100">
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef fxFlex="50" fxLayoutAlign="start center">Video</th>
+          <td mat-cell *matCellDef="let element" fxFlex="50" fxLayoutAlign="start center" class="ellipsis">{{ element.video }}</td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef fxFlex="20" fxLayoutAlign="start center">Date</th>
+          <td mat-cell *matCellDef="let element" fxFlex="20" fxLayoutAlign="start center" class="ellipsis">{{ getDate(element.added) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="rating">
+          <th mat-header-cell *matHeaderCellDef fxFlex="20" fxLayoutAlign="start center">Rating</th>
+          <td mat-cell *matCellDef="let element" fxFlex="20" fxLayoutAlign="start center" class="ellipsis">{{ getRating(element.rating) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="expand" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center"></th>
+          <td mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="start center">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="View Program">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="viewVideoRating(element.video)">View</button>
+              <button mat-menu-item>Reset Video</button>
+              <button mat-menu-item>Delete Video</button>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>

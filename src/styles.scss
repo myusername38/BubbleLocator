@@ -74,11 +74,34 @@
   text-align: center;
 }
 
-.ellipsis{
+.full-height {
+  height: calc(100vh - 85px);
+}
+
+.side-menu {
+  width: $side-menu-width;
+  height: 100%;
+  background-color: #1D1E2C;
+  position: fixed;
+}
+
+.content {
+  overflow: auto;
+  width: 100%;
+  @media screen and (min-width: $screen-small) {
+    margin-left: $side-menu-width;
+  }
+}
+
+.ellipsis {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+}
+
+.scrollable {
+  overflow-y:auto;
 }
 
 .capitalize {

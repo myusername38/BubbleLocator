@@ -1,7 +1,8 @@
-<div class="main" fxLayout="row">
-  <div class="side-menu" fxHide.lt-sm>
+<div class="main full-height" fxLayout="row">
+  <div class="side-menu full-height" fxHide.lt-sm>
     <div class="menu-buttons p-sm">
       <button mat-button class="w-100" (click)="navigate('videos')">Videos</button>
+      <button mat-button class="w-100" *ngIf="role === 'admin' || role === 'owner'" (click)="navigate('users')">Users</button>
       <button mat-button class="w-100" *ngIf="role === 'admin' || role === 'owner'" (click)="navigate('assistants')">Assistants</button>
       <button mat-button class="w-100" *ngIf="role === 'owner'" (click)="navigate('admins')">Admins</button>
       <button mat-button class="w-100" *ngIf="role === 'owner'" (click)="navigate('owners')">Owners</button>
@@ -54,9 +55,8 @@
             </button>
             <mat-menu #menu="matMenu" xPosition="before">
               <button mat-menu-item (click)="expandVideoData(element)">Expand</button>
-              <button mat-menu-item>Hide</button>
-              <button mat-menu-item>Reset Video</button>
-              <button mat-menu-item>Delete Video</button>
+              <button mat-menu-item (click)="resetVideo(element?.title)" *ngIf="videoDisplayedSubject.value !== 'tutorial'">Reset Video</button>
+              <button mat-menu-item (click)="deleteVideo(element)">Delete Video</button>
             </mat-menu>
           </td>
         </ng-container>
@@ -64,6 +64,6 @@
         <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
       </table>
     </div>
-    <mat-paginator class="w-100 paginator" [length]="numDocs" [pageSize]="videosPerPage"></mat-paginator>
+    <mat-paginator class="w-100 paginator" [pageSizeOptions]="[10, 25, 50]" [pageSize]="videosPerPage" [length]="numDocs" (page)="videosPerPage = $event.pageSize"></mat-paginator>
   </div>
 </div>

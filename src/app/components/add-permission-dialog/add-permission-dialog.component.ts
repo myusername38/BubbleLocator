@@ -37,12 +37,13 @@ export class AddPermissionDialogComponent implements OnInit {
     const email = this.addUserForm.getRawValue().email;
     try {
       this.loading = true;
-      const uid = (await this.userService.getUid(email)).uid;
+      const uid = (await this.userService.getUidFromEmail(email)).uid;
       const apiCall = this.getApiCall(uid);
       await apiCall;
       this.snackbarService.showInfo(`${ email } is now an ${ this.permissionData.role }`);
       this.dialogRef.close({ status: 'complete' });
     } catch (err) {
+      console.log(err);
       if (err.error.err.code && err.error.err.code === 'auth/user-not-found') {
         this.snackbarService.showError(`${ email } does not exist`);
       } else if (err.err.message === 'Not authorized to get Uid') {

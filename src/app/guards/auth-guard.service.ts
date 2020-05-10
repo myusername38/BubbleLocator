@@ -1,6 +1,6 @@
 import { AuthService } from '../services/auth.service';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { SnackbarService } from '../services/snackbar.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router, private snackbar: SnackbarService) {
     this.authService.userRole.subscribe(role => {
       this.role = role;
-      console.log(this.routeToLoad);
       if (this.routeToLoad) {
         const route = this.routeToLoad;
         this.routeToLoad = '';
@@ -29,10 +28,22 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    /* This is one weird work around to get the state to load and redirect unauthorized people */
+    const result = this.checkRoute(route, state);
+    if (!result && this.routeToLoad === '') { // if not reloading to get the token
+      if (state.url !== '/home') { // to be nice i'm just taking
+        this.router.navigate(['/home']);
+      } else {
+        this.router.navigate(['']);
+      }
+    }
+    return result;
+  }
+
+  checkRoute(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.role) {
       this.routeToLoad = state.url;
       this.params = route.queryParams;
-      // if (state.url.startsWith('/bubbleLocator/review-rating')) {
       const endOfUrl = this.routeToLoad.indexOf('?');
       if (endOfUrl !== -1) {
         this.routeToLoad = this.routeToLoad.substr(0, endOfUrl);
@@ -45,9 +56,29 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['verify-email']);
       return false;
     }
-    if (state.url.startsWith('/bubbleLocator/review-rating')) {
+
+    if (state.url.startsWith('/bubbleLocator')) {
+      // @ts-ignore
+      const firefox = typeof InstallTrigger !== 'undefined';
+      // @ts-ignore
+      const chrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+      if (!(chrome || firefox)) {
+        this.snackbar.showError('Only Chrome browsers supported');
+        return false;
+      }
+      if (firefox) {
+        this.snackbar.showInfo('Please use Chrome for best experience');
+      }
+    }
+    /* Routes with params */
+    if (state.url.startsWith('/admin/users')) {
+      return this.adminPermission();
+    } else if (state.url.startsWith('/bubbleLocator/review-rating')) {
+      return this.assistantPermission();
+    } else if (state.url.startsWith('/admin/videos')) {
       return this.assistantPermission();
     }
+    /*Routes without params */
     switch (state.url ) { // for role based locations
       case '/home': {
         return true;
@@ -62,6 +93,9 @@ export class AuthGuard implements CanActivate {
         return this.assistantPermission();
       }
       case '/admin/assistants': {
+        return this.adminPermission();
+      }
+      case '/admin/users': {
         return this.adminPermission();
       }
       case '/admin/admins': {

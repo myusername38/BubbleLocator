@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { ReviewQualityDialogComponent } from '../review-quality-dialog/review-quality-dialog.component';
+import { ResolutionDialogComponent } from '../resolution-dialog/resolution-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
@@ -10,8 +11,7 @@ import { ReviewVideoData } from '../../interfaces/review-video-data';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { VideoMetadata } from 'src/app/interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Router, ActivatedRoute } from '@angular/router';
 
 export interface DialogData {
   frame: number;
@@ -60,9 +60,12 @@ export class BubbleLocatorComponent implements OnInit {
   playbackSpeed = 100;
   scaled = false;
   canPlay = false;
+  invalidDialog = null;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    /* Note just reusing this component to make things easier */
+    this.checkWindow();
     this.widthOffset = Math.ceil((window.innerWidth - this.videoWidth) / 2);
     this.bubbles = [...this.bubbles];
   }
@@ -78,7 +81,20 @@ export class BubbleLocatorComponent implements OnInit {
               }
 
   ngOnInit() {
+    this.checkWindow();
     this.getVideoUrl();
+  }
+
+  checkWindow() {
+    if ((window.innerWidth < 1280 || window.innerHeight < 720) && !this.invalidDialog) {
+      this.invalidDialog =  this.dialog.open(ResolutionDialogComponent, {
+        disableClose: true,
+        width: '600px',
+      });
+    } else if (window.innerWidth >= 1280 && window.innerHeight >= 720 && this.invalidDialog) {
+      this.invalidDialog.close();
+      this.invalidDialog = null;
+    }
   }
 
   setVideoPlayer() {
@@ -148,7 +164,7 @@ export class BubbleLocatorComponent implements OnInit {
   bubbleToAdd(result): Bubble {
     let bubbleToAdd: Bubble = null;
     switch (result) {
-      case 'Wash-out':
+      case 'Wash-Out':
         bubbleToAdd = {
           x: -1,
           y: -1,

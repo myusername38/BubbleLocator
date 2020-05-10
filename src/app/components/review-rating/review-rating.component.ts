@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { ResolutionDialogComponent } from '../resolution-dialog/resolution-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
@@ -24,7 +24,7 @@ export interface FrameLocations {
   templateUrl: './review-rating.component.html',
   styleUrls: ['./review-rating.component.scss']
 })
-export class ReviewRatingComponent {
+export class ReviewRatingComponent implements OnInit {
 
   @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
   incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
@@ -56,12 +56,17 @@ export class ReviewRatingComponent {
   scaled = false;
   canPlay = false;
   rating = '';
-  email = '';
+  uid = '';
   date: Date = null;
   showFrames = false;
+  type = '';
+  collection = '';
+  title = '';
+  invalidDialog = null;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    this.checkWindow();
     this.widthOffset = Math.ceil((window.innerWidth - this.videoWidth) / 2);
     this.bubbles = [...this.bubbles];
   }
@@ -75,15 +80,34 @@ export class ReviewRatingComponent {
               private db: AngularFirestore ) {
                 this.incompleteVideoCollection = this.db.collection('incomplete-videos');
                 this.route.queryParams.subscribe(params => {
-                  if (params.collection && params.user && params.title) {
-                    const videoQueryData = { collection: params.collection, title: params.title, user: params.user };
-                    this.email = params.user;
+                  if (params.collection && params.user && params.title && params.type) {
+                    const videoQueryData = { collection: params.collection, title: params.title, user: params.user, type: params.type };
+                    this.uid = params.user;
+                    this.type = params.type;
+                    this.collection = params.collection;
+                    this.title = params.title;
                     this.getVideoUrl(videoQueryData);
                   } else {
                     // go back to admin page
                   }
                 });
               }
+
+  ngOnInit() {
+    this.checkWindow();
+  }
+
+  checkWindow() {
+    if ((window.innerWidth < 1280 || window.innerHeight < 720) && !this.invalidDialog) {
+      this.invalidDialog =  this.dialog.open(ResolutionDialogComponent, {
+        disableClose: true,
+        width: '600px',
+      });
+    } else if (window.innerWidth >= 1280 && window.innerHeight >= 720 && this.invalidDialog) {
+      this.invalidDialog.close();
+      this.invalidDialog = null;
+    }
+  }
 
   setVideoPlayer() {
     this.video = this.matVideo.getVideoTag();
@@ -103,7 +127,7 @@ export class ReviewRatingComponent {
     });
   }
 
-  async getVideoUrl(videoQueryData: { collection: string, title: string, user: string } = null) {
+  async getVideoUrl(videoQueryData: { collection: string, title: string, user: string, type: string } = null) {
     try {
       this.loading = true;
       if (videoQueryData) {
@@ -112,7 +136,7 @@ export class ReviewRatingComponent {
           collection = 'complete-videos';
         }
         const data = (await this.db.doc(`/${ collection }/${ videoQueryData.title }`).ref.get()).data();
-        this.reviewVideo = { title: data.title, url: data.url, fps: data.fps,  };
+        this.reviewVideo = { title: data.title, url: data.url, fps: data.fps };
         this.viewRating(data.ratings[videoQueryData.user].rating);
         this.rating = this.getRating(data.ratings[videoQueryData.user].rating);
         this.date = new Date(data.ratings[videoQueryData.user].added);
@@ -220,7 +244,14 @@ export class ReviewRatingComponent {
   }
 
   returnToVideos() {
-    this.router.navigate(['/admin/videos']);
+    const queryParams = { status: this.collection, title: this.title };
+    this.router.navigate(['/admin/videos'], { queryParams });
+  }
+
+  returnToUsers() {
+    this.router.navigate(['/admin/users']);
+    const queryParams = { uid: this.uid };
+    this.router.navigate(['/admin/users'], { queryParams });
   }
 
   setPlaybackSpeed(event: MatSliderChange) {

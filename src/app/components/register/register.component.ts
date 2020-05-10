@@ -8,7 +8,6 @@ import { AuthService } from '../../services/auth.service';
 
 export class PasswordErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
     return (form.hasError('passwordMismatch'));
   }
 }
@@ -61,8 +60,8 @@ export class RegisterComponent implements OnInit {
         return null;
       }
       if (password.value !== confirmPassword.value) {
-        this.password.setErrors({ notMatched: true });
-        return { passwordMismatch: true };
+        this.password.setErrors({ invalidUid: true });
+        return { invalidUid: true };
       }
       return null;
     };

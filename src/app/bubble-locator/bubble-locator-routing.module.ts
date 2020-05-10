@@ -7,6 +7,7 @@ import { AuthGuard } from '../guards/auth-guard.service';
 const routes: Routes = [
   { path: '', component: BubbleLocatorComponent, canActivate: [AuthGuard] },
   { path: 'review-rating', component: ReviewRatingComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

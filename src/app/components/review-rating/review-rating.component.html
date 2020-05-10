@@ -27,7 +27,6 @@
 <div class="video-info" [ngStyle]="{ 'width.px': videoWidth }" fxLayout="column" fxLayoutAlign="start end">
   <div class="ml-sm" fxLayout="column" fxLayoutAlign="start start">
     <p class="field capitalize mb-xs mt-xs">User Rating: {{ rating }}</p>
-    <p class="field mb-xs mt-xs ellipsis">User: {{ email }}</p>
     <p class="field mb-xs mt-xs">Date: {{ date | date:'medium' }}</p>
   </div>
 </div>
@@ -35,7 +34,8 @@
   <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()">Exit Frame</button>
 </div>
 <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center">
-  <button class="bottom-buttons fade-in-fast" (click)="returnToVideos()" mat-button>Back to videos</button>
+  <button *ngIf="type==='video'" class="bottom-buttons fade-in-fast" (click)="returnToVideos()" mat-button>Back to videos</button>
+  <button *ngIf="type==='user'" class="bottom-buttons fade-in-fast" (click)="returnToUsers()" mat-button>Back to users</button>
   <button class="bottom-buttons fade-in-fast" mat-button>Delete Rating</button>
 </div>
 

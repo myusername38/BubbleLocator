@@ -97,3 +97,9 @@ p {
 .outter-playback-box {
   margin-bottom: -68px;
 }
+
+.playing-video {
+  mat-video-spinner {
+    visibility: hidden !important;
+  }
+}

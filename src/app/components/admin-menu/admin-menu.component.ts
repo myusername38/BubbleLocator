@@ -73,7 +73,7 @@ export class AdminMenuComponent implements OnInit {
   async makeOwner(user: RoleData) {
     try {
       this.loading = true;
-      await this.userService.grantAssistant(user.uid);
+      await this.userService.grantOwner(user.uid);
       this.snackbarService.showInfo(`${ user.email } is now an Owner`);
     } catch (err) {
       console.log(err);
@@ -127,6 +127,9 @@ export class AdminMenuComponent implements OnInit {
     switch (page) {
       case 'assistants':
         this.router.navigate(['admin/assistants']);
+        break;
+      case 'users':
+        this.router.navigate(['admin/users']);
         break;
       case 'admins':
         this.router.navigate(['admin/admins']);

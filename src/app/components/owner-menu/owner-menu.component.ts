@@ -96,7 +96,7 @@ export class OwnerMenuComponent implements OnInit {
     try {
       this.loading = true;
       await this.userService.removePermissions(user.uid);
-      this.snackbarService.showInfo(`${ user.email } is no longer an admin`);
+      this.snackbarService.showInfo(`${ user.email } is no longer an owner`);
     } catch (err) {
       console.log(err);
     } finally {
@@ -137,6 +137,9 @@ export class OwnerMenuComponent implements OnInit {
     switch (page) {
       case 'assistants':
         this.router.navigate(['admin/assistants']);
+        break;
+      case 'users':
+        this.router.navigate(['admin/users']);
         break;
       case 'admins':
         this.router.navigate(['admin/admins']);
