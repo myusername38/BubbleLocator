@@ -43,6 +43,9 @@ export class UserMenuComponent implements OnInit {
   usersDisplayed = this.userTypes[0].type;
   usersDisplayedSubject: BehaviorSubject<string> = new BehaviorSubject(this.usersDisplayed);
   displayColumns: string[] = ['uid', 'role', 'score', 'rejected', 'expand'];
+  query = null;
+  direction = '';
+  active = '';
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -80,8 +83,8 @@ export class UserMenuComponent implements OnInit {
     merge(this.sort.sortChange, this.paginator.page, this.usersDisplayedSubject)
       .pipe(
         switchMap(() => {
-          let query = this.db.collection('users').ref.limit(this.usersPerPage);
-          return query.get().catch((error) => {
+          this.query = this.createQuery(this.sort.active, this.sort.direction);
+          return this.query.get().catch((error) => {
             if (error.message === 'Missing or insufficient permissions.') {
               this.snackbarService.showError(error.message);
             }
@@ -91,17 +94,39 @@ export class UserMenuComponent implements OnInit {
         map(data => {
           this.loading = false;
           if (data) {
+            // @ts-ignore:
             this.lastDoc.push(data.docs[data.docs.length - 1]);
+            // @ts-ignore:
             return data.docs;
           }
           return data;
         }),
       ).subscribe(data => {
         if (data) {
-          let docData = data.map(doc => doc.data());
-          this.videoTableData = docData;
+          this.videoTableData = data.map(doc => doc.data());
+
         }
       });
+  }
+
+  createQuery(active, direction) {
+    if (this.query && active === this.active && direction === this.direction && this.lastDoc[this.paginator.pageIndex - 1]) {
+        return this.query.startAfter(this.lastDoc[this.paginator.pageIndex - 1]);
+    } else {
+      const baseQuery = this.db.collection('users').ref;
+      let orderBy = '';
+      if (active === 'score') {
+        orderBy = 'userScore';
+      } else if (active === 'rejected') {
+        orderBy = 'ratingsRejected';
+      }
+      this.active = active;
+      this.direction = direction;
+      if (orderBy && orderBy !== '' && direction && direction !== '') {
+        return baseQuery.orderBy(orderBy, direction).limit(this.usersPerPage);
+      }
+      return baseQuery.limit(this.usersPerPage);
+    }
   }
 
   searchUser() {

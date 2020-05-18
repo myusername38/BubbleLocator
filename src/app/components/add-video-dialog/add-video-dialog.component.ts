@@ -36,7 +36,7 @@ export class AddVideoDialogComponent implements OnInit {
       this.addVideoForm = new FormGroup({
         url: new FormControl('', [Validators.required]),
         fps: new FormControl('', [Validators.required]),
-        floor: new FormControl(0, [Validators.required]),
+        rangeFloor: new FormControl(0, [Validators.required]),
         ceiling: new FormControl(0, [Validators.required]),
         quality: new FormControl(this.quality)
       });
@@ -58,6 +58,9 @@ export class AddVideoDialogComponent implements OnInit {
         } else if (this.quality === 'washOut') {
           data.noBubbles = false;
           data.washOut = true;
+        } else {
+          data.noBubbles = false;
+          data.washOut = false;
         }
         await this.videoService.addTutorialVideo(data);
       } else {

@@ -61,6 +61,7 @@ export class BubbleLocatorComponent implements OnInit {
   scaled = false;
   canPlay = false;
   invalidDialog = null;
+  oneTimeThrough = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -134,6 +135,7 @@ export class BubbleLocatorComponent implements OnInit {
           break;
         case 'Back':
           this.video.currentTime = 0;
+          this.oneTimeThrough = true;
           break;
         default:
           const bubble = this.bubbleToAdd(result);
@@ -143,6 +145,42 @@ export class BubbleLocatorComponent implements OnInit {
           }
       }
     });
+  }
+
+  noBubblesOnFrame() {
+    if (this.currentFrameBubbles[0]) {
+      const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+        width: '500px',
+        data: {
+          frame: this.getCurrentFrame(),
+          options: [
+            'Confirm', 'Cancel'
+          ],
+          message: 'Confirm no bubbles on frame'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'Confirm') {
+          const bubble: Bubble = {
+            x: 0,
+            y: 0,
+            frame: this.getCurrentFrame(),
+            time: this.video.currentTime,
+          };
+          this.currentFrameBubbles = [bubble];
+          this.doneLocatingBubbles();
+        }
+      });
+    } else {
+      const bubble: Bubble = {
+        x: 0,
+        y: 0,
+        frame: this.getCurrentFrame(),
+        time: this.video.currentTime,
+      };
+      this.currentFrameBubbles = [bubble];
+      this.doneLocatingBubbles();
+    }
   }
 
   reassessVideoQuality() {
@@ -200,6 +238,7 @@ export class BubbleLocatorComponent implements OnInit {
     } catch (err) {
       if (err.error && err.error.message === 'No more videos to review') {
         this.snackbarService.showError(err.error.message);
+        this.router.navigate(['/home']);
       } else {
         console.log(err);
       }

@@ -26,6 +26,7 @@ import { ExpandVideoDialogComponent } from '../components/expand-video-dialog/ex
 import { UserMenuComponent } from '../components/user-menu/user-menu.component';
 import { ExpandUserDialogComponent } from '../components/expand-user-dialog/expand-user-dialog.component';
 import { SearchDialogComponent } from '../components/search-dialog/search-dialog.component';
+import { SearchVideoDialogComponent } from '../components/search-video-dialog/search-video-dialog.component';
 import { SharedModule } from '../shared-modules/shared-module';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { SharedModule } from '../shared-modules/shared-module';
     UserMenuComponent,
     ExpandUserDialogComponent,
     SearchDialogComponent,
+    SearchVideoDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +69,7 @@ import { SharedModule } from '../shared-modules/shared-module';
     DialogConfirmationComponent,
     AddVideoDialogComponent,
     ExpandVideoDialogComponent,
+    SearchVideoDialogComponent,
   ],
 })
 export class AdminModule { }

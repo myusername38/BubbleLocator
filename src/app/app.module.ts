@@ -44,7 +44,7 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
     LoginComponent,
     RecoverPasswordComponent,
     LandingComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,

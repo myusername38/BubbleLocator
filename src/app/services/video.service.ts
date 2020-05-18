@@ -6,6 +6,7 @@ import { TutorialVideoMetadata } from '../interfaces/tutorial-video-metadata';
 import { ReviewVideoData } from '../interfaces/review-video-data';
 import { Bubble } from '../interfaces/bubble';
 import { unescapeIdentifier } from '@angular/compiler';
+import { fromCollectionRef } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -40,11 +41,16 @@ export class VideoService {
     return this.http.delete(`${ this.url }/delete-video-rating`, { params }).toPromise();
   }
 
+  searchVideo(video: { title: string} ) {
+    const params = new HttpParams().set('title', video.title);
+    return this.http.get<{ video: VideoMetadata }>(`${ this.url }/get-video`, { params }).toPromise();
+  }
+
   resetVideo(video: { title: string }) {
     return this.http.post(`${ this.url }/reset-video`, video).toPromise();
   }
 
-  addTutorialVideo(video: { url: string, fps: string, average: number, washout: boolean, noBubbles: boolean }) {
+  addTutorialVideo(video: { url: string, floor: number, ceiling: number, fps: string, washout: boolean, noBubbles: boolean }) {
     return this.http.post(`${ this.url }/add-tutorial-video`, video ).toPromise();
   }
 

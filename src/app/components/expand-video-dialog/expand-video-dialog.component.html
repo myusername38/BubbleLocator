@@ -12,9 +12,11 @@
     <p class="field mb-xs mt-xs">Added By: {{ videoData.user }}</p>
     <p class="field mb-xs mt-xs">FPS: {{ videoData.fps }}</p>
     <p class="field mb-xs mt-xs" fxHide.lt-sm>Url: {{ videoData.url }}</p>
-    <p class="field mb-xs mt-xs">Reviews:</p>
+    <p class="field mb-xs mt-xs" *ngIf="videoType === 'tutorial'">Ceiling: {{ videoData.ceiling }}</p>
+    <p class="field mb-xs mt-xs" *ngIf="videoType === 'tutorial'">Floor: {{ videoData.floor }}</p>
+    <p class="field mb-xs mt-xs" *ngIf="videoType !== 'tutorial'">Reviews:</p>
   </div>
-  <div class="table-container">
+  <div class="table-container" *ngIf="videoType !== 'tutorial'">
     <table mat-table [dataSource]="videoData?.raters" class="mat-elevation-z8 w-100">
       <ng-container matColumnDef="user">
         <th mat-header-cell *matHeaderCellDef fxFlex="50" fxLayoutAlign="start center">User</th>

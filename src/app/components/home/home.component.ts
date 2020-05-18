@@ -18,11 +18,11 @@ export class HomeComponent implements OnInit {
   gradient = false;
   xAxisLabel = 'Number';
   showYAxisLabel = true;
-  yAxisLabel = 'Videos Reviewed';
+  yAxisLabel = 'Reviews Per Day';
   timeline = true;
   results = [
     {
-      name: 'Videos Reviewed',
+      name: 'Video Reviews',
       series: []
     },
   ];
@@ -46,12 +46,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.db.collection('ratingsPerDay').ref.limit(10).orderBy('date', 'desc').onSnapshot((data) => {
-      console.log('here');
+    this.db.collection('ratingsPerDay').ref.limit(10).orderBy('date', 'asc').onSnapshot((data) => {
       const series = [];
       data.forEach(doc => {
         const d = doc.data();
-        series.push({ value: d.ratings, name: new Date(d.date) });
+        series.push({ value: d.ratings, name: new Date(d.date).toISOString() });
       });
       this.results[0].series = series;
       this.results = [...this.results];

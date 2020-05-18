@@ -13,6 +13,7 @@ import { ExpandVideoDialogComponent } from '../expand-video-dialog/expand-video-
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { merge, Observable, BehaviorSubject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
+import { SearchVideoDialogComponent } from '../search-video-dialog/search-video-dialog.component';
 
 @Component({
   selector: 'app-video-menu',
@@ -199,7 +200,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
       data: {
         role: this.role,
         status: this.videosDisplayed,
-        // tutorial: this.videosDisplayed === 'tutorial',
+        tutorial: this.videosDisplayed === 'tutorial',
       },
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -307,5 +308,16 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
 
   resetParams() {
     window.history.replaceState({}, '', `/admin/videos`);
+  }
+
+  searchVideo() {
+    const dialogRef = this.dialog.open(SearchVideoDialogComponent, {
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.video) {
+        this.expandVideoData(result.video);
+      }
+    });
   }
 }

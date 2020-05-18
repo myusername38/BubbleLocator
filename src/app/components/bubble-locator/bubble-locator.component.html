@@ -27,14 +27,18 @@
       <p class="m-0 ml-xs fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
     </div>
   </div>
+  <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="firstPass && oneTimeThrough">
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="openReviewDialog()">Rate Quality</button>
+  </div>
   <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="!locatingBubbles && canPlay && !firstPass">
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="locateBubbles()">Locate Bubbles</button>
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="reassessVideoQuality()">Reassess Quality</button>
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="confirmSubmit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="locateBubbles()">Locate Bubbles</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="reassessVideoQuality()">Reassess Quality</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="confirmSubmit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
   </div>
   <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="canPlay && !firstPass">
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Done Locating Bubles</button>
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
-    <button class="bottom-buttons fade-in-fast" mat-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Done Locating Bubles</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="noBubblesOnFrame()" *ngIf="locatingBubbles && !deletingBubbles">No Bubbles</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>
   </div>
 </div>
