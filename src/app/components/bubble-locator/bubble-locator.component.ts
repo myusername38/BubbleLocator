@@ -162,8 +162,8 @@ export class BubbleLocatorComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result === 'Confirm') {
           const bubble: Bubble = {
-            x: 0,
-            y: 0,
+            x: -2,
+            y: -2,
             frame: this.getCurrentFrame(),
             time: this.video.currentTime,
           };
@@ -173,8 +173,8 @@ export class BubbleLocatorComponent implements OnInit {
       });
     } else {
       const bubble: Bubble = {
-        x: 0,
-        y: 0,
+        x: -2,
+        y: -2,
         frame: this.getCurrentFrame(),
         time: this.video.currentTime,
       };
@@ -206,24 +206,24 @@ export class BubbleLocatorComponent implements OnInit {
         bubbleToAdd = {
           x: -1,
           y: -1,
-          frame: 0,
-          time: 0,
+          frame: -1,
+          time: -1,
         };
         break;
       case 'No Bubbles':
         bubbleToAdd = {
           x: -2,
           y: -2,
-          frame: 0,
-          time: 0,
+          frame: -1,
+          time: -1,
         };
         break;
       case 'Bad Quality':
         bubbleToAdd = {
           x: -3,
           y: -3,
-          frame: 0,
-          time: 0,
+          frame: -1,
+          time: -1,
         };
         break;
     }
@@ -496,5 +496,9 @@ export class BubbleLocatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       return(result);
     });
+  }
+
+  getFilteredCurrentFrameBubbles() {
+    return this.currentFrameBubbles.filter(b => b.x !== -2 && b.y !== -2);
   }
 }

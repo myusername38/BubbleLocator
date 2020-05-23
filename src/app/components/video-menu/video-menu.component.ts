@@ -39,7 +39,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
   videoTypes = [
     { type: 'incomplete', title: 'Incomplete' },
     { type: 'complete', title: 'Complete' },
-    { type: 'tutorial', title: 'Tutorial' }
+    { type: 'tutorial', title: 'Tutorial' },
   ];
   pageDirection = '';
   videosDisplayed = this.videoTypes[0].type;

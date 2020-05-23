@@ -50,7 +50,7 @@ export class VideoService {
     return this.http.post(`${ this.url }/reset-video`, video).toPromise();
   }
 
-  addTutorialVideo(video: { url: string, floor: number, ceiling: number, fps: string, washout: boolean, noBubbles: boolean }) {
+  addTutorialVideo(video: { url: string, stdev: number, average: number, fps: string, washout: boolean, noBubbles: boolean }) {
     return this.http.post(`${ this.url }/add-tutorial-video`, video ).toPromise();
   }
 

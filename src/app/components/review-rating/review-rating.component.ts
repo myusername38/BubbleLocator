@@ -301,4 +301,20 @@ export class ReviewRatingComponent implements OnInit {
     const average = bubbles.length / frames.length;
     return `Average: ${ average }`;
   }
+
+  async deleteVideoRating() {
+    try {
+      this.loading = true;
+      await this.videoService.deleteVideoRating({ title: this.title, uid: this.uid, location: this.collection });
+      this.returnToVideos();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  getFilteredCurrentFrameBubbles() {
+    return this.currentFrameBubbles.filter(b => b.x !== -2 && b.y !== -2);
+  }
 }

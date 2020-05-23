@@ -11,6 +11,7 @@
       <p class="field mb-xs mt-xs">Accepted: {{ user.accepted }}</p>
       <p class="field mb-xs mt-xs">Outliers: {{ user.outliers }}</p>
       <p class="field mb-xs mt-xs">Accepted Percentage: {{ getAcceptedPercentage() }}</p>
+      <p class="field mb-xs mt-xs">Rejected Ratings:</p>
     </div>
     <div class="table-container">
       <table mat-table [dataSource]="user.rejectedRatings" class="mat-elevation-z8 w-100">
@@ -34,8 +35,6 @@
             </button>
             <mat-menu #menu="matMenu" xPosition="before">
               <button mat-menu-item (click)="viewVideoRating(element.video)">View</button>
-              <button mat-menu-item>Reset Video</button>
-              <button mat-menu-item>Delete Video</button>
             </mat-menu>
           </td>
         </ng-container>

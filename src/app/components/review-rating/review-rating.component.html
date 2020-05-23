@@ -1,6 +1,6 @@
 <div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="start center">
   <div fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }">
-    <mat-icon class="locator fade-in-fast" *ngFor="let bubble of currentFrameBubbles" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
+    <mat-icon class="locator fade-in-fast" *ngFor="let bubble of getFilteredCurrentFrameBubbles()" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
     <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="true" src="{{ reviewVideo.url }}"></mat-video>
   </div>
 <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }" *ngIf="showFrames">
@@ -31,11 +31,11 @@
   </div>
 </div>
 <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="locatingBubbles">
-  <button class="bottom-buttons fade-in-fast" mat-button (click)="doneLocatingBubbles()">Exit Frame</button>
+  <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="doneLocatingBubbles()">Exit Frame</button>
 </div>
 <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center">
-  <button *ngIf="type==='video'" class="bottom-buttons fade-in-fast" (click)="returnToVideos()" mat-button>Back to videos</button>
-  <button *ngIf="type==='user'" class="bottom-buttons fade-in-fast" (click)="returnToUsers()" mat-button>Back to users</button>
-  <button class="bottom-buttons fade-in-fast" mat-button>Delete Rating</button>
+  <button *ngIf="type==='video'" class="bottom-buttons fade-in-fast" (click)="returnToVideos()" mat-raised-button>Back to videos</button>
+  <button *ngIf="type==='user'" class="bottom-buttons fade-in-fast" (click)="returnToUsers()" mat-raised-button>Back to users</button>
+  <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="deleteVideoRating()">Delete Rating</button>
 </div>
 

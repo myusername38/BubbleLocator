@@ -41,22 +41,29 @@ export class ExpandUserDialogComponent {
     if (userRating.length === 1) {
       const bubble = userRating[0];
       let rating = '';
-      if (bubble.x === -1 && bubble.y) {
-        rating = 'Wash-out';
-      } else if (bubble.x === -2 && bubble.y === -2) {
-        rating = 'No Bubbles';
-      } else if (bubble.x === -3 && bubble.y === -3) {
-        rating = 'Bad Quality';
+      if (bubble.frame === -1) {
+        if (bubble.x === -1 && bubble.y === -1) {
+          rating = 'Wash-out';
+        } else if (bubble.x === -2 && bubble.y === -2) {
+          rating = 'No Bubbles';
+        } else if (bubble.x === -3 && bubble.y === -3) {
+          rating = 'Bad Quality';
+        }
+        return rating;
       }
-      return rating;
+      return '';
     }
     const frames = [];
+    let emptyFrames = 0;
     userRating.forEach(bubble => {
       if (!frames.includes(bubble.frame)) {
         frames.push(bubble.frame);
+        if (bubble.x === -2 && bubble.y === -2) {
+          emptyFrames += 1;
+        }
       }
     });
-    const average = userRating.length / frames.length;
+    const average = (userRating.length - emptyFrames) / frames.length;
     return average;
   }
 

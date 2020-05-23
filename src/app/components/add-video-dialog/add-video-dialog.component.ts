@@ -36,8 +36,8 @@ export class AddVideoDialogComponent implements OnInit {
       this.addVideoForm = new FormGroup({
         url: new FormControl('', [Validators.required]),
         fps: new FormControl('', [Validators.required]),
-        rangeFloor: new FormControl(0, [Validators.required]),
-        ceiling: new FormControl(0, [Validators.required]),
+        average: new FormControl('', [Validators.required]),
+        stdev: new FormControl('', [Validators.required]),
         quality: new FormControl(this.quality)
       });
     }
@@ -70,7 +70,11 @@ export class AddVideoDialogComponent implements OnInit {
       this.dialogRef.close({ status: 'complete' });
     } catch (err) {
       console.log(err);
-      this.snackbarService.showError('Error when adding video');
+      if (err && err.error && err.error.message) {
+        this.snackbarService.showError(err.error.message);
+      } else {
+        this.snackbarService.showError('Error when adding video');
+      }
     } finally {
       this.loading = false;
     }
