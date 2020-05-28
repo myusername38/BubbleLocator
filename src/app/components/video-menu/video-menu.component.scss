@@ -12,6 +12,11 @@
   width: 25px;
 }
 
+.placeholder {
+  width: 20px;
+  height: 20px;
+}
+
 .button-container {
   margin-top: 8px;
   @media screen and (min-width: $screen-medium) {
@@ -27,6 +32,10 @@
   width: 100%;
   max-width: 900px;
   overflow: auto;
+}
+
+.display-videos {
+  margin-bottom: -16px;
 }
 
 .menu-buttons {
@@ -92,10 +101,9 @@ td.mat-column-star {
   margin-top: 22px;
 }
 
-//::ng-deep .mat-sort-header-container:not(.mat-sort-header-sorted) .mat-sort-header-arrow {
-  //opacity: 0.54 !important;
-//  transform: translateY(0px) !important;
-//}
+:host ::ng-deep .mat-form-field-flex {
+  background-color: white;
+}
 
 .date {
   padding-top: 16px;

@@ -34,6 +34,9 @@ import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { GestureConfig } from '@angular/material/core';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { ReviewsPerDayComponent } from './components/home/charts/reviews-per-day/reviews-per-day.component';
+import { VideosPieChartComponent } from './components/home/charts/videos-pie-chart/videos-pie-chart.component';
+import { TopUserScoreChartComponent } from './components/home/charts/top-user-score-chart/top-user-score-chart.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,9 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
     RecoverPasswordComponent,
     LandingComponent,
     VerifyEmailComponent,
+    ReviewsPerDayComponent,
+    VideosPieChartComponent,
+    TopUserScoreChartComponent,
   ],
   imports: [
     BrowserModule,

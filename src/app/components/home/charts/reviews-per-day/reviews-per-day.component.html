@@ -1,0 +1,23 @@
+<div class="line-chart h-100 p-sm">
+  <p class="mlr-auto title mt-xs mb-xs">Reviews Per Day</p>
+  <div class="w-100 h-100">
+    <ngx-charts-line-chart
+      class="chart"
+      [view]=""
+      [scheme]="colorScheme"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="false"
+      [results]="results"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="timeline"
+      [xAxisTickFormatting]="dateTickFormatting">
+      <ng-template #tooltipTemplate let-model="model">
+        <p class="mlr-auto text-center">{{ dateTickFormatting(model.name) }}</p>
+        <p class="text-center">Video Reviews: {{ model.value }}</p>
+      </ng-template>
+    </ngx-charts-line-chart>
+  </div>
+</div>

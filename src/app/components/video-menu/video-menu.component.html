@@ -15,13 +15,16 @@
       <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading"></mat-spinner>
       <div class="placeholder ml-sm" *ngIf="!loading"></div>
     </div>
-    <div class="w-100 mb-xs button-container" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.lt-md="center center">
-      <div class="radio-buttons" *ngIf="role === 'owner' || role === 'admin'">
-        <mat-radio-group [(ngModel)]="videosDisplayed" aria-label="Select an option">
-          <mat-radio-button *ngFor="let option of videoTypes" class="mr-xs" value="{{ option.type }}" (click)="videoChange(option.type)">{{ option.title }}</mat-radio-button>
-        </mat-radio-group>
+    <div class="w-100 button-container" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.lt-md="center center">
+      <div *ngIf="role === 'owner' || role === 'admin'">
+        <mat-form-field class="display-videos" appearance="fill">
+          <mat-label>Displayed Videos</mat-label>
+          <mat-select [(ngModel)]="videosDisplayed">
+            <mat-option *ngFor="let option of videoTypes" value="{{ option.type }}" (click)="videoChange(option.type)">{{ option.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="buttons">
+      <div class="buttons h-100 pb-sm" fxLayoutAlign="center center">
         <button mat-raised-button class="mr-xs" (click)="searchVideo()">Search Video</button>
         <button mat-raised-button (click)="addVideo()">Add Video</button>
       </div>

@@ -13,7 +13,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
+import { MatBadgeModule } from '@angular/material/badge';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AssistantMenuComponent } from '../components/assistant-menu/assistant-menu.component';
 import { AddPermissionDialogComponent } from '../components/add-permission-dialog/add-permission-dialog.component';
@@ -57,7 +59,9 @@ import { SharedModule } from '../shared-modules/shared-module';
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
+    MatSelectModule,
     MatMenuModule,
+    MatBadgeModule,
     MatSortModule,
     MatRadioModule,
     MatProgressSpinnerModule,

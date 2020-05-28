@@ -25,13 +25,12 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
   videosPerPage = 10;
   videoTableData: VideoMetadata[] = [];
   videos: Observable<VideoMetadata[]> = null;
-  incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
-  tutorialVideoCollection: AngularFirestoreCollection<VideoMetadata>;
-  completeVideoCollection: AngularFirestoreCollection<VideoMetadata>;
   metadataCollection: AngularFirestoreCollection<VideoMetadata>;
   tutorialVideos = 0;
   completeVideos = 0;
   incompleteVideos = 0;
+  unusableVideos = 0;
+  flaggedVideos = 0;
   lastDoc = [];
   numDocs = 0;
   loading = true;
@@ -40,6 +39,8 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     { type: 'incomplete', title: 'Incomplete' },
     { type: 'complete', title: 'Complete' },
     { type: 'tutorial', title: 'Tutorial' },
+    { type: 'unusable', title: 'Unusable' },
+    { type: 'flagged', title: `Flagged: ${ this.flaggedVideos }` },
   ];
   pageDirection = '';
   videosDisplayed = this.videoTypes[0].type;
@@ -62,9 +63,6 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
                 this.authService.userRole.subscribe(role => {
                   this.role = role;
                 });
-                this.incompleteVideoCollection = this.db.collection('incomplete-videos');
-                this.tutorialVideoCollection = this.db.collection('tutorial-videos');
-                this.completeVideoCollection = this.db.collection('complete-videos');
                 this.metadataCollection = this.db.collection('metadata');
                 this.route.queryParams.subscribe(params => {
                   if (params.status && params.title) {
@@ -99,6 +97,21 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
       this.tutorialVideos = doc.data().length;
       this.setNumDocs(this.videoDisplayedSubject.value);
     });
+    this.metadataCollection.doc('flagged-videos').ref.onSnapshot((doc) => {
+      this.flaggedVideos = doc.data().length;
+      this.videoTypes = [
+        { type: 'incomplete', title: 'Incomplete' },
+        { type: 'complete', title: 'Complete' },
+        { type: 'tutorial', title: 'Tutorial' },
+        { type: 'unusable', title: 'Unusable' },
+        { type: 'flagged', title: `Flagged: ${ this.flaggedVideos }` },
+      ];
+      this.setNumDocs(this.videoDisplayedSubject.value);
+    });
+    this.metadataCollection.doc('unusable-videos').ref.onSnapshot((doc) => {
+      this.unusableVideos = doc.data().length;
+      this.setNumDocs(this.videoDisplayedSubject.value);
+    });
   }
 
   ngAfterViewInit() {
@@ -116,13 +129,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     merge(this.sort.sortChange, this.paginator.page, this.videoDisplayedSubject)
       .pipe(
         switchMap(() => {
-          const ascQuery = this.getQuery(this.videoDisplayedSubject.value).ref.orderBy('added', 'asc').limit(this.videosPerPage);
-          const descQuery = this.getQuery(this.videoDisplayedSubject.value).ref.orderBy('added', 'desc').limit(this.videosPerPage);
-          this.loading = true;
-          let query = ascQuery;
-          if (this.sort.direction === 'desc') {
-            query = descQuery;
-          }
+          let query = this.getQuery(this.videoDisplayedSubject.value, this.sort.direction);
           if (this.paginator.pageIndex !== 0 && this.lastDoc[this.paginator.pageIndex - 1]) {
             query = query.startAfter(this.lastDoc[this.paginator.pageIndex - 1]);
           }
@@ -136,7 +143,9 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
         map(data => {
           this.loading = false;
           if (data) {
+            // @ts-ignore
             this.lastDoc.push(data.docs[data.docs.length - 1]);
+            // @ts-ignore
             return data.docs;
           }
           return data;
@@ -172,21 +181,40 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
       case 'complete':
         this.numDocs = this.completeVideos;
         break;
+      case 'unusable':
+        this.numDocs = this.unusableVideos;
+        break;
+      case 'flagged':
+        this.numDocs = this.flaggedVideos;
+        break;
       default:
         this.numDocs = this.tutorialVideos;
         break;
     }
   }
 
-  getQuery(value) {
+  getQuery(value, direction = null) {
+    let query = null;
     switch (value) {
       case 'incomplete':
-        return this.incompleteVideoCollection;
+        query = this.db.collection('incomplete-videos');
+        break;
       case 'complete':
-        return this.completeVideoCollection;
+        query = this.db.collection('complete-videos');
+        break;
+      case 'unusable':
+        query = this.db.collection('unusable-videos');
+        break;
+      case 'flagged':
+        query = this.db.collection('flagged-videos');
+        break;
       default:
-        return this.tutorialVideoCollection;
+        query = this.db.collection('tutorial-videos');
     }
+    if (!direction) {
+      return query;
+    }
+    return query.ref.orderBy('added', direction).limit(this.videosPerPage);
   }
 
   videoChange(value) {

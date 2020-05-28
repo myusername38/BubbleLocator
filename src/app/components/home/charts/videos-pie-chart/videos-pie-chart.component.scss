@@ -1,0 +1,25 @@
+@import '../../../../../vars.scss';
+@import '../../dashboard-colors.scss';
+
+$fontSize: 20px;
+
+.container {
+  width: 100%;
+  background-color: $background-color;
+  border-radius: $border-radius
+}
+
+.pie-chart {
+  width: 200px;
+}
+
+.square {
+  height: $fontSize;
+  width: $fontSize;
+  border-radius: 4px;
+  border: 2px solid $border-color;
+}
+
+.name {
+  color: $text-color;
+}

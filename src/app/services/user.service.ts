@@ -22,6 +22,10 @@ export class UserService {
     return this.http.get<{ uid: string }>(`${ this.url }/get-uid-from-email`, { params }).toPromise();
   }
 
+  getUserScoreGraphData() {
+    return this.http.get<{ top: number, user: number }>(`${ this.url}/get-user-score-graph-data`).toPromise();
+  }
+
   getAssistants() {
     return this.http.get<RoleData[]>(`${ this.url }/get-assistants`).toPromise();
   }

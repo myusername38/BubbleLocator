@@ -1,0 +1,24 @@
+<div class="bar-chart p-sm" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div class="placeholder mr-sm"></div>
+    <p class="mlr-auto title mt-xs mb-xs">Top Rater Score</p>
+    <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
+    <div class="placeholder ml-sm" *ngIf="!loading"></div>
+  </div>
+  <div class="chart w-100" fxLayout="column" fxLayoutAlign="center center">
+    <ngx-charts-bar-horizontal
+      [scheme]="colorScheme"
+      [results]="usersData"
+      [xAxis]="true"
+      >
+    </ngx-charts-bar-horizontal>
+  </div>
+  <div class="legend p-xs w-100" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-around center">
+    <div *ngFor="let user of usersData" fxLayout="row" fxLayoutAlign="start center">
+      <div class="square mr-sm" [ngStyle]="{ 'background-color': user.color }"></div>
+      <div class="text">
+        <p class="name mt-xs mb-xs">{{ user.name }}: {{ user.value }}</p>
+      </div>
+    </div>
+  </div>
+</div>
