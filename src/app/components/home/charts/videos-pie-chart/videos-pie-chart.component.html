@@ -1,23 +1,26 @@
-<div class="container" fxLayout.lt-sm="column" fxLayoutAlign="center center">
-  <div fxFlex="100" fxFlex.gt-xs="50" fxLayoutAlign="center center">
-    <div class="pie-chart">
-      <ngx-charts-pie-chart
-      [scheme]="colorScheme"
-      [results]="chartData"
-      [gradient]="gradient"
-      [legend]="false"
-      [legendPosition]="legendPosition"
-      [labels]="showLabels"
-      [view]="view"
-      >
-      </ngx-charts-pie-chart>
+<div class="container p-xs" fxLayout="column" fxLayoutAlign="center center">
+  <p class="mlr-auto title mt-xs mb-0">Videos Completed</p>
+  <div class="w-100" fxLayout.lt-sm="column" fxLayoutAlign="center center">
+    <div fxFlex="100" fxFlex.gt-xs="50" fxLayoutAlign="center center">
+      <div class="pie-chart">
+        <ngx-charts-pie-chart
+        [scheme]="colorScheme"
+        [results]="chartData"
+        [gradient]="gradient"
+        [legend]="false"
+        [legendPosition]="legendPosition"
+        [labels]="showLabels"
+        [view]="view"
+        >
+        </ngx-charts-pie-chart>
+      </div>
     </div>
-  </div>
-  <div class="chart-lengend h-100" fxFlex="100" fxFlex.gt-xs="50" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="center start">
-    <div *ngFor="let slice of chartData" fxLayout="row" fxLayoutAlign="start center">
-      <div class="square mr-sm" [ngStyle]="{ 'background-color': slice.color }"></div>
-      <div class="text">
-        <p class="name">{{ slice.name }}: {{ getPercentage(slice.value) }}%</p>
+    <div class="chart-lengend h-100" fxFlex="100" fxFlex.gt-xs="50" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="center start">
+      <div *ngFor="let slice of chartData" fxLayout="row" fxLayoutAlign="start center">
+        <div class="square mr-sm" [ngStyle]="{ 'background-color': slice.color }"></div>
+        <div class="text">
+          <p class="name">{{ slice.name }}: {{ getPercentage(slice.value) }}%</p>
+        </div>
       </div>
     </div>
   </div>

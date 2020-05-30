@@ -1,0 +1,13 @@
+@import '../../../../../vars.scss';
+@import '../../dashboard-colors.scss';
+
+.tile-outter {
+  background-color: $background-color;
+  border-radius: $border-radius;
+}
+
+.info-text {
+  font-family: $roboto;
+  color: $text-color;
+  font-size: $font-md;
+}

@@ -26,6 +26,10 @@ export class HomeComponent implements OnInit {
       series: []
     },
   ];
+  tileData = [{ item: 'Unique Raters', docRef: '/metadata/users' },
+  { item: 'All time ratings', docRef: '/metadata/all-time-ratings' },
+  { item: 'Videos Completed', docRef: '/metadata/complete-videos' }];
+  announcement = {};
 
   colorScheme = {
     domain: ['#406E8E', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -54,6 +58,11 @@ export class HomeComponent implements OnInit {
       });
       this.results[0].series = series;
       this.results = [...this.results];
+    });
+    this.db.collection('announcements').ref.limit(1).orderBy('date', 'asc').onSnapshot(data => {
+      data.forEach(doc => {
+        this.announcement = doc.data();
+      });
     });
   }
 

@@ -3,8 +3,6 @@ $gridline-color: black;
 $graphtick-color: green;
 .main {
   background-color: #DCDCDC;
-  width: calc(100vw);
-  height: calc(100vh - 85px);
   overflow-x: hidden;
 }
 
@@ -13,8 +11,39 @@ $graphtick-color: green;
   width: 25px;
 }
 
+.left-chart {
+  height: 381px;
+  @media screen and (min-width: $screen-extra-small) {
+    height: 332px;
+  }
+  @media screen and (min-width: $screen-small) {
+    height: 432px;
+  }
+  padding: 8px;
+  @media screen and (min-width: $screen-medium) {
+    padding-left: 0px;
+    height: 532px;
+  }
+}
+
+.right-chart {
+  padding: 8px;
+  @media screen and (min-width: $screen-medium) {
+    padding-right: 0px;
+  }
+}
+
 .graph-chart {
-  height: 500px;
+  height: 350px;
+  @media screen and (min-width: $screen-extra-small) {
+    height: 300px;
+  }
+  @media screen and (min-width: $screen-small) {
+    height: 400px;
+  }
+  @media screen and (min-width: $screen-medium) {
+    height: 500px;
+  }
 }
 
 .side-menu1 {
@@ -88,5 +117,29 @@ $graphtick-color: green;
   }
   .gridline-path-vertical { // displaying the vertical lines or not
     display: none !important;
+  }
+}
+
+.tile {
+  padding: 8px;
+  padding-bottom: 4px;
+  padding-top: 0px;
+  @media screen and (max-width: $screen-medium) {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 8px;
+  }
+}
+
+.tile:nth-child(1) {
+  @media screen and (min-width: $screen-medium) {
+    padding-left: 0px !important;
+  }
+
+}
+
+.tile:nth-child(3) {
+  @media screen and (min-width: $screen-medium) {
+    padding-right: 0px !important;
   }
 }

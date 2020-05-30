@@ -37,6 +37,7 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { ReviewsPerDayComponent } from './components/home/charts/reviews-per-day/reviews-per-day.component';
 import { VideosPieChartComponent } from './components/home/charts/videos-pie-chart/videos-pie-chart.component';
 import { TopUserScoreChartComponent } from './components/home/charts/top-user-score-chart/top-user-score-chart.component';
+import { InfoTileComponent } from './components/home/charts/info-tile/info-tile.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { TopUserScoreChartComponent } from './components/home/charts/top-user-sc
     ReviewsPerDayComponent,
     VideosPieChartComponent,
     TopUserScoreChartComponent,
+    InfoTileComponent,
   ],
   imports: [
     BrowserModule,

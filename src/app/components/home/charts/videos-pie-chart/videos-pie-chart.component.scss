@@ -9,6 +9,12 @@ $fontSize: 20px;
   border-radius: $border-radius
 }
 
+.title {
+  font-family: $roboto;
+  color: $text-color;
+  font-size: $font-lg;
+}
+
 .pie-chart {
   width: 200px;
 }
