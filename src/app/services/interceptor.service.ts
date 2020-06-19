@@ -7,8 +7,8 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -49,7 +49,16 @@ export class InterceptorService implements HttpInterceptor {
     if (request.url.endsWith('/logout') || request.url.endsWith('/token-refresh'), request.url.endsWith('/signup')) {
       return next.handle(request);
     } else if (this.token) {
-      return next.handle(this.updateHeader(request));
+      return next.handle(this.updateHeader(request)).pipe(catchError(error => {
+        if (!this.refreshTokenInProgress && error.status === 401) {
+          this.refreshTokenInProgress = true; // retrying the request if the token is bad. This gives the refresh token time to get a new
+          return next.handle(this.updateHeader(request)).pipe(catchError(err => { // jwt for the front end.
+            this.refreshTokenInProgress = false;
+            return throwError(err);
+          }));
+        }
+        return throwError(error);
+      }));
     } else {
       return this.updateToken().pipe( // getting the refresh token then re sending the request
         switchMap(() => {
@@ -57,6 +66,7 @@ export class InterceptorService implements HttpInterceptor {
             return next.handle(this.updateHeader(request));
           } else {
             this.router.navigate(['/login']);
+            return null;
           }
         })
       );

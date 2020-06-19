@@ -1,6 +1,15 @@
-<div class="landing-outter" fxLayout="column">
-  <img class="logo mlr-auto" src="../../../assets/pictures/BME_logo.png"/>
-  <button mat-button class="learn-more mlr-auto mt-auto mb-lg">
-    <p class="mt-xs mb-xs">Learn More</p>
-  </button>
+<mat-toolbar class="tool-bar">
+  <img (click)="home()" class="logo logo-login" src="../assets/pictures/BME_logo.png"/>
+  <div class="buttons" fxLayout="row" fxLayoutAlign="center center" >
+    <button mat-button class="login-button" (click)="login()">
+      LOGIN
+    </button>
+    <button mat-button class="register-button" (click)="register()">
+      REGISTER
+    </button>
+  </div>
+</mat-toolbar>
+<div class="landing-contents">
+  <router-outlet></router-outlet>
 </div>
+

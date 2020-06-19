@@ -1,8 +1,8 @@
 import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
-import { ReviewQualityDialogComponent } from '../review-quality-dialog/review-quality-dialog.component';
-import { ResolutionDialogComponent } from '../resolution-dialog/resolution-dialog.component';
+import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
+import { ReviewQualityDialogComponent } from '../../dialogs/review-quality-dialog/review-quality-dialog.component';
+import { ResolutionDialogComponent } from '../../dialogs/resolution-dialog/resolution-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';

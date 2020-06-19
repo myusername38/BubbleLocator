@@ -87,11 +87,7 @@
 }
 
 .content {
-  overflow: auto;
-  width: 100%;
-  @media screen and (min-width: $screen-small) {
-    margin-left: $side-menu-width;
-  }
+
 }
 
 .ellipsis {

@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { AddPermissionDialogComponent } from '../add-permission-dialog/add-permission-dialog.component';
-import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { AddPermissionDialogComponent } from '../../dialogs/add-permission-dialog/add-permission-dialog.component';
+import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -127,27 +127,5 @@ export class AssistantMenuComponent implements OnInit {
         this.deleteUser(user);
       }
     });
-  }
-
-  navigate(page: string) {
-    switch (page) {
-      case 'assistants':
-        this.router.navigate(['admin/assistants']);
-        break;
-      case 'users':
-        this.router.navigate(['admin/users']);
-        break;
-      case 'admins':
-        this.router.navigate(['admin/admins']);
-        break;
-      case 'owners':
-        this.router.navigate(['admin/owners']);
-        break;
-      case 'videos':
-        this.router.navigate(['admin/videos']);
-        break;
-      default:
-        break;
-    }
   }
 }

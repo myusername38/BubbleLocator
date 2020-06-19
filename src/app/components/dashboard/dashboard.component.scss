@@ -1,0 +1,159 @@
+@import '../../../vars.scss';
+$gridline-color: black;
+$graphtick-color: green;
+.main {
+  background-color: #DCDCDC;
+  overflow-x: hidden;
+}
+
+.placeholder {
+  height: 25px;
+  width: 25px;
+}
+
+.left-chart {
+  height: 381px;
+  @media screen and (min-width: $screen-extra-small) {
+    height: 332px;
+  }
+  @media screen and (min-width: $screen-small) {
+    height: 432px;
+  }
+  padding: 8px;
+  @media screen and (min-width: $screen-medium) {
+    padding-left: 0px;
+    height: 532px;
+  }
+}
+
+.right-chart {
+  padding: 8px;
+  @media screen and (min-width: $screen-medium) {
+    padding-right: 0px;
+  }
+}
+
+.graph-chart {
+  height: 350px;
+  @media screen and (min-width: $screen-extra-small) {
+    height: 300px;
+  }
+  @media screen and (min-width: $screen-small) {
+    height: 400px;
+  }
+  @media screen and (min-width: $screen-medium) {
+    height: 500px;
+  }
+}
+
+.side-menu1 {
+  width: 200px;
+  height: 100%;
+  background-color: #1D1E2C;
+}
+
+.subtitle-text {
+  font-family: $roboto;
+}
+
+.menu-buttons {
+  color: white;
+  font-family: $roboto;
+  font-weight: 200;
+  button {
+    text-align: start;
+    font-size: 18px;
+  }
+}
+
+.chart {
+  width: 100%;
+  max-width: 800px !important;
+  height: 100%;
+  max-height: 800px;
+}
+
+
+.button-container {
+  max-width: 900px;
+}
+
+::ng-deep .ngx-charts {
+  text{
+    fill: #000000 !important;
+  }
+}
+
+:host ::ng-deep .x.axis {
+  g {
+    .ng-star-inserted {
+      visibility: hidden;
+    }
+    .tick.ng-star-inserted {
+      visibility: visible;
+    }
+  }
+}
+
+:host ::ng-deep .ngx-charts {
+  .tick{
+    text{ // the tick lables
+      fill: $graphtick-color !important;
+      font-size: .6rem !important;
+      @media screen and (min-width: $screen-medium) {
+        font-size: .75rem !important;
+      }
+    }
+  }
+  text { // the headers
+    fill: $primary-color;
+    font-size: $font-md;
+    @media screen and (min-width: $screen-medium) {
+      font-size: $font-lg;
+    }
+  }
+  .gridline-path { // the color of the gridlines
+    stroke: $gridline-color !important;
+  }
+  .gridline-path-vertical { // displaying the vertical lines or not
+    display: none !important;
+  }
+}
+
+.tile {
+  padding: 8px;
+  padding-bottom: 4px;
+  padding-top: 0px;
+  @media screen and (max-width: $screen-medium) {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 8px;
+  }
+}
+
+.tile:nth-child(1) {
+  @media screen and (min-width: $screen-medium) {
+    padding-left: 0px !important;
+  }
+
+}
+
+.tile:last-child {
+  @media screen and (min-width: $screen-medium) {
+    padding-right: 0px !important;
+  }
+}
+
+.logo {
+  width: 384px;
+  height: 70px;
+  @media screen and (max-width: $screen-medium){
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+.tool-bar {
+  height: 85px;
+}

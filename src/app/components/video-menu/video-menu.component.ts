@@ -2,18 +2,18 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { AddVideoDialogComponent } from '../add-video-dialog/add-video-dialog.component';
-import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { AddVideoDialogComponent } from '../../dialogs/add-video-dialog/add-video-dialog.component';
+import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { VideoMetadata } from '../../interfaces/video-metadata';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { VideoService } from '../../services/video.service';
-import { ExpandVideoDialogComponent } from '../expand-video-dialog/expand-video-dialog.component';
+import { ExpandVideoDialogComponent } from '../../dialogs/expand-video-dialog/expand-video-dialog.component';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { merge, Observable, BehaviorSubject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { SearchVideoDialogComponent } from '../search-video-dialog/search-video-dialog.component';
+import { SearchVideoDialogComponent } from '../../dialogs/search-video-dialog/search-video-dialog.component';
 
 @Component({
   selector: 'app-video-menu',
@@ -276,28 +276,6 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
       console.log(err);
     } finally {
       this.loading = true;
-    }
-  }
-
-  navigate(page: string) {
-    switch (page) {
-      case 'assistants':
-        this.router.navigate(['admin/assistants']);
-        break;
-      case 'users':
-        this.router.navigate(['admin/users']);
-        break;
-      case 'admins':
-        this.router.navigate(['admin/admins']);
-        break;
-      case 'owners':
-        this.router.navigate(['admin/owners']);
-        break;
-      case 'videos':
-        this.router.navigate(['admin/videos']);
-        break;
-      default:
-        break;
     }
   }
 

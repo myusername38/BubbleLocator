@@ -23,7 +23,7 @@ export class UserService {
   }
 
   getUserScoreGraphData() {
-    return this.http.get<{ top: number, user: number }>(`${ this.url}/get-user-score-graph-data`).toPromise();
+    return this.http.get<{ top: number, user: number, accepted: number }>(`${ this.url}/get-user-score-graph-data`).toPromise();
   }
 
   getAssistants() {

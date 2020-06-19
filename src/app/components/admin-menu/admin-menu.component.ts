@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { AddPermissionDialogComponent } from '../add-permission-dialog/add-permission-dialog.component';
-import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { AddPermissionDialogComponent } from '../../dialogs/add-permission-dialog/add-permission-dialog.component';
+import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { UserService } from '../../services/user.service';
 import { RoleData } from '../../interfaces/role-data';
 import { AuthService } from '../../services/auth.service';
@@ -24,12 +24,12 @@ export class AdminMenuComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor( private snackbarService: SnackbarService,
-               private userService: UserService,
-               private db: AngularFirestore,
-               private authService: AuthService,
-               private router: Router,
-               public dialog: MatDialog ) { }
+  constructor(private snackbarService: SnackbarService,
+              private userService: UserService,
+              private db: AngularFirestore,
+              private authService: AuthService,
+              private router: Router,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userData.paginator = this.paginator;

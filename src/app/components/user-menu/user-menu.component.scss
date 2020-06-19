@@ -1,7 +1,7 @@
 @import '../../../vars.scss';
 
-$table-max: 800px;
-$table-min: 600px;
+$table-max: $admin-table-width;
+$table-min: 900px;
 
 .main {
   background-color: #DCDCDC;
@@ -63,9 +63,9 @@ $table-min: 600px;
   }
 }
 
-
 table {
-  width: 800px;
+  width: 100%;
+  max-width: $admin-table-width;
 }
 
 td.mat-column-star {
@@ -81,9 +81,12 @@ td.mat-column-star {
   max-width: $table-max;
 }
 
+
 :host ::ng-deep .mat-row, .mat-header-row {
   background: white;
-  min-width: $table-min;
+  width: 100%;
+  max-width: $admin-table-width;
+  min-width: $admin-table-min-width;
 }
 
 :host ::ng-deep .mat-table-sticky:last-child {

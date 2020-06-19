@@ -1,13 +1,4 @@
-<div class="main full-height" fxLayout="row">
-  <div class="side-menu full-height" fxHide.lt-sm>
-    <div class="menu-buttons p-sm">
-      <button mat-button class="w-100" (click)="navigate('videos')">Videos</button>
-      <button mat-button class="w-100" *ngIf="role === 'admin' || role === 'owner'" (click)="navigate('users')">Users</button>
-      <button mat-button class="w-100" *ngIf="role === 'admin' || role === 'owner'" (click)="navigate('assistants')">Assistants</button>
-      <button mat-button class="w-100" *ngIf="role === 'owner'" (click)="navigate('admins')">Admins</button>
-      <button mat-button class="w-100" *ngIf="role === 'owner'" (click)="navigate('owners')">Owners</button>
-    </div>
-  </div>
+<div fxLayout="row">
   <div class="content p-sm w-100" fxLayout="column" fxLayoutAlign="start center">
     <div class="title mt-sm" fxLayout="row" fxLayoutAlign="center start">
       <div class="placeholder mr-sm"></div>
@@ -24,7 +15,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="buttons h-100 pb-sm" fxLayoutAlign="center center">
+      <div class="buttons h-100" fxLayoutAlign="center center">
         <button mat-raised-button class="mr-xs" (click)="searchVideo()">Search Video</button>
         <button mat-raised-button (click)="addVideo()">Add Video</button>
       </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
@@ -12,18 +12,20 @@ export class TopUserScoreChartComponent implements OnInit {
   colorScheme = {
     domain: ['#00A7E1', '#D00000']
   };
-  usersData = [
-    {
-      name: 'Top Rater',
-      value: 1,
-      color: this.colorScheme.domain[0]
-    }
-  ];
+
+@Input()
+    usersData = [
+      {
+        name: 'Top Rater',
+        value: 1,
+        color: this.colorScheme.domain[0]
+      }
+    ];
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.getUsersData();
+
   }
 
   async getUsersData() {

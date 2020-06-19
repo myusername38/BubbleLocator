@@ -1,25 +1,6 @@
-
-
-<div fxFlex="100" class="main p-sm">
-  <div class="news-box">
-
-  </div>
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="center center">
-    <div fxFlex="100" fxFlex.gt-sm="33.33" class="w-100 tile" *ngFor="let tile of tileData">
-      <app-info-tile [info]="tile"></app-info-tile>
-    </div>
-  </div>
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="center start">
-    <div fxFlex.gt-sm="50" class="left-chart w-100">
-      <div class="graph-chart">
-        <app-reviews-per-day></app-reviews-per-day>
-      </div>
-    </div>
-    <div fxFlex.gt-sm="50" class="right-chart w-100">
-      <div class="mb-sm">
-          <app-videos-pie-chart></app-videos-pie-chart>
-      </div>
-      <app-top-user-score-chart></app-top-user-score-chart>
-    </div>
-  </div>
+<div class="landing-outter" fxLayout="column">
+  <img class="logo mlr-auto" src="../../../assets/pictures/BME_logo.png"/>
+  <button mat-button class="learn-more mlr-auto mt-auto mb-lg">
+    <p class="mt-xs mb-xs">Learn More</p>
+  </button>
 </div>

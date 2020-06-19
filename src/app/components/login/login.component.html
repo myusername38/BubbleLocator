@@ -1,28 +1,26 @@
-<div class="main p-sm fade-in-fast" fxLayoutAlign="center start">
-  <div class="login-box w-100 p-sm" fxLayout="column" fxLayoutAlign="center center">
-    <div class="underline w-100 mb-sm">
-      <h1 class="mt-sm mb-xs mlr-auto weight-300">User Login</h1>
-    </div>
-    <form class="login-form w-100" fxLayout="column" fxLayoutAlign="center center" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <mat-form-field class="w-100 mb-xs" appearance="fill">
-        <mat-label>Email:</mat-label>
-        <input type="email" formControlName="email" class="form-control" matInput/>
-        <mat-error *ngIf="email.invalid">Please enter a valid email address</mat-error>
-      </mat-form-field>
-      <mat-form-field class="w-100" appearance="fill">
-        <mat-label>Password:</mat-label>
-        <input type="password" formControlName="password" class="form-control" matInput/>
-      </mat-form-field>
-      <button mat-raised-button color="primary" class="mb-xs mt-xs submit-button" [disabled]="loginForm.pristine || loginForm.invalid">
-        <div class="login-button" type="submit" fxLayout="row" fxLayoutAlign="center center">
-          <div class="placeholder mr-sm"></div>
-          <h1 class="weight-300 mt-sm mb-sm">Login</h1>
-          <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
-          <div class="placeholder ml-sm" *ngIf="!loading"></div>
-        </div>
-      </button>
-    </form>
-    <button mat-button (click)="resetPassword()" class="mlr-auto mt-sm white subtitle weight-300">Forgot Password?</button>
-    <button mat-button (click)="register()" class="mlr-auto mt-sm white subtitle weight-300">Create Account</button>
+<div class="login-box w-100 p-sm fade-in-fast mlr-auto" fxLayout="column" fxLayoutAlign="center center">
+  <div class="underline w-100 mb-sm">
+    <h1 class="mt-sm mb-xs mlr-auto weight-300">User Login</h1>
   </div>
+  <form class="login-form w-100" fxLayout="column" fxLayoutAlign="center center" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="w-100 mb-xs" appearance="fill">
+      <mat-label>Email:</mat-label>
+      <input type="email" formControlName="email" class="form-control" matInput/>
+      <mat-error *ngIf="email.invalid">Please enter a valid email address</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Password:</mat-label>
+      <input type="password" formControlName="password" class="form-control" matInput/>
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="mb-xs mt-xs submit-button" [disabled]="loginForm.pristine || loginForm.invalid">
+      <div class="login-button" type="submit" fxLayout="row" fxLayoutAlign="center center">
+        <div class="placeholder mr-sm"></div>
+        <h1 class="weight-300 mt-sm mb-sm">Login</h1>
+        <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
+        <div class="placeholder ml-sm" *ngIf="!loading"></div>
+      </div>
+    </button>
+  </form>
+  <button mat-button (click)="resetPassword()" class="mlr-auto mt-sm white subtitle weight-300">Forgot Password?</button>
+  <button mat-button (click)="register()" class="mlr-auto mt-sm white subtitle weight-300">Create Account</button>
 </div>

@@ -1,0 +1,41 @@
+<div class="w-100" fxLayout="column">
+  <mat-toolbar class="tool-bar">
+    <div class="w-100" fxLayout="row">
+      <img class="logo logo-login" src="../assets/pictures/BME_logo.png"/>
+      <div class="buttons mr-sm ml-auto" fxLayout="row" fxLayoutAlign="center center" >
+        <button mat-button class="top-buttons">
+          Rate Video
+        </button>
+        <button (click)="logout()" mat-button class="top-buttons">
+          Help
+        </button>
+        <button mat-button class="top-buttons">
+          Admin
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div fxFlex="100" class="main p-sm">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="center center">
+      <div fxFlex="100" fxFlex.gt-sm="25" class="w-100 tile" *ngFor="let tile of tileData">
+        <app-info-tile [info]="tile"></app-info-tile>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="25" class="w-100 tile">
+        <app-info-tile [item]="'Ratings Accepted'" [value]="accepted"></app-info-tile>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="center start">
+      <div fxFlex.gt-sm="50" class="left-chart w-100">
+        <div class="graph-chart">
+          <app-reviews-per-day></app-reviews-per-day>
+        </div>
+      </div>
+      <div fxFlex.gt-sm="50" class="right-chart w-100">
+        <div class="mb-sm">
+          <app-videos-pie-chart></app-videos-pie-chart>
+        </div>
+        <app-top-user-score-chart [usersData]="usersData"></app-top-user-score-chart>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,59 @@
 @import '../../../vars.scss';
 
-.landing-outter {
+$button-font-size: 22px;
+
+.logo {
+  width: 384px;
+  height: 70px;
+  @media screen and (max-width: 540px){
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+.logo-login {
+  width: 384px;
+  height: 70px;
+  @media screen and (max-width: $screen-medium){
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+.tool-bar {
+  height: 85px;
+}
+
+.buttons {
+  font-family: $roboto;
+  margin-right: 10px;
+  margin-left: auto;
+
+}
+
+.login-button {
+  font-size: $button-font-size;
+}
+
+.register-button {
+  font-size: $button-font-size;
+}
+
+.icon {
+  font-size: 40px;
+  margin-left: -7px;
+}
+
+.tool-bar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000;
+}
+
+.landing-contents {
   height: calc(100vh - 85px);
   width: 100vw;
   background-image: url('../../../assets/pictures/surface-of-ocean.jpg');
@@ -12,35 +65,4 @@
   border: 0px;
   overflow-x: hidden;
   overflow-y: hidden;
-}
-
-:host ::ng-deep .mat-toolbar {
-  position: sticky;
-  position: -webkit-sticky; /* For macOS/iOS Safari */
-  top: 0; /* Sets the sticky toolbar to be on top */
-  z-index: 1000;
-}
-
-.logo {
-  margin-top: 32px;
-  width: 307px;
-  height: 56px;
-  @media screen and (min-width: $screen-small){
-    width: 576px;
-    height: 105px;
-    margin-top: 64px;
-  }
-  @media screen and (min-width: $screen-medium){
-    visibility: hidden;
-    width: 0px;
-    height: 0px;
-  }
-}
-
-
-.learn-more {
-  color: white;
-  font-family: $roboto;
-  font-size: 32px;
-  font-weight: 300;
 }

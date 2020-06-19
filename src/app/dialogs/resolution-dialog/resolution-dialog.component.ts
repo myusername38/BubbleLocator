@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogData } from '../bubble-locator/bubble-locator.component';
+import { DialogData } from '../../components/bubble-locator/bubble-locator.component';
 import { Router} from '@angular/router';
-
 
 @Component({
   selector: 'app-resolution-dialog',

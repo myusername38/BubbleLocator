@@ -25,7 +25,7 @@
 
 .table-container {
   width: 100%;
-  max-width: 900px;
+  max-width: $admin-table-width;
   overflow: auto;
 }
 
@@ -44,7 +44,8 @@
 }
 
 table {
-  width: 800px
+  width: 100%;
+  max-width: $admin-table-width;
 }
 
 td.mat-column-star {
@@ -52,10 +53,11 @@ td.mat-column-star {
   padding-right: 8px;
 }
 
-
 :host ::ng-deep .mat-row, .mat-header-row {
   background: white;
-  min-width: 900px;
+  width: 100%;
+  max-width: $admin-table-width;
+  min-width: $admin-table-min-width;
 }
 
 :host ::ng-deep .mat-table-sticky:last-child {

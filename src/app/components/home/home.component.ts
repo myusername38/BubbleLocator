@@ -10,76 +10,20 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  loading = false;
-  admin = false;
-  view: any[] = [700, 400];
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  xAxisLabel = 'Number';
-  showYAxisLabel = true;
-  yAxisLabel = 'Reviews Per Day';
-  timeline = true;
-  results = [
-    {
-      name: 'Video Reviews',
-      series: []
-    },
-  ];
-  tileData = [{ item: 'Unique Raters', docRef: '/metadata/users' },
-  { item: 'All time ratings', docRef: '/metadata/all-time-ratings' },
-  { item: 'Videos Completed', docRef: '/metadata/complete-videos' }];
-  announcement = {};
 
-  colorScheme = {
-    domain: ['#406E8E', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
+  constructor(private router: Router) {};
 
-  constructor(private authService: AuthService,
-              private db: AngularFirestore,
-              private router: Router) {
-    this.authService.userRole.subscribe(role => {
-      if (role !== 'user') {
-        this.admin = true;
-      }
-    });
+  ngOnInit() {}
+
+  login() {
+    this.router.navigate(['/login']);
   }
 
-  public dateTickFormatting(val: any): string {
-    return new Date(val).toLocaleDateString();
+  register() {
+    this.router.navigate(['register']);
   }
 
-  ngOnInit() {
-    this.db.collection('ratingsPerDay').ref.limit(10).orderBy('date', 'asc').onSnapshot((data) => {
-      const series = [];
-      data.forEach(doc => {
-        const d = doc.data();
-        series.push({ value: d.ratings, name: new Date(d.date).toISOString() });
-      });
-      this.results[0].series = series;
-      this.results = [...this.results];
-    });
-    this.db.collection('announcements').ref.limit(1).orderBy('date', 'asc').onSnapshot(data => {
-      data.forEach(doc => {
-        this.announcement = doc.data();
-      });
-    });
-  }
-
-  locateBubbles() {
-    this.router.navigate(['/bubbleLocator']);
-  }
-
-  learnMore() {
-    const height = window.innerHeight - 85;
-    window.scrollBy(0, height);
-  }
-
-  adminNav() {
-    this.router.navigate(['/admin/videos']);
-  }
-
-  navigate() {
-
+  home() {
+    this.router.navigate(['']);
   }
 }

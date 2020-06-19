@@ -11,15 +11,22 @@ export class InfoTileComponent implements OnInit {
   @Input()
   info: { item: string, docRef: string };
 
-  item = '';
+  @Input()
   value = '';
+
+  @Input()
+  item = '';
 
   constructor(private db: AngularFirestore) { }
 
   ngOnInit(): void {
-    this.item = this.info.item;
-    this.db.doc(this.info.docRef).ref.onSnapshot(doc => {
-      this.value = doc.data().length;
-    });
+    console.log(this.item);
+    console.log(this.value);
+    if (this.info && this.info.docRef) {
+      this.item = this.info.item;
+      this.db.doc(this.info.docRef).ref.onSnapshot(doc => {
+        this.value = doc.data().length;
+      });
+    }
   }
 }

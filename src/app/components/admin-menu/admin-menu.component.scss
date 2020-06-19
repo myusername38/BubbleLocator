@@ -2,9 +2,7 @@
 
 .main {
   background-color: #DCDCDC;
-  width: 100vw;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  width: 100%;
 }
 
 .placeholder {
@@ -25,7 +23,7 @@
 
 .table-container {
   width: 100%;
-  max-width: 900px;
+  max-width: $admin-table-width;
   overflow: auto;
 }
 
@@ -40,11 +38,12 @@
 }
 
 .button-container {
-  max-width: 900px;
+  max-width: $admin-table-width;
 }
 
 table {
-  width: 800px
+  width: 100%;
+  max-width: $admin-table-width;
 }
 
 td.mat-column-star {
@@ -55,7 +54,9 @@ td.mat-column-star {
 
 :host ::ng-deep .mat-row, .mat-header-row {
   background: white;
-  min-width: 900px;
+  width: 100%;
+  max-width: $admin-table-width;
+  min-width: $admin-table-min-width;
 }
 
 :host ::ng-deep .mat-table-sticky:last-child {
