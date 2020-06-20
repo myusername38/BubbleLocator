@@ -19,13 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private snackbarService: SnackbarService,
-    private authService: AuthService) {
-      this.authService.userRole.subscribe(role => {
-        if (role && role !== 'unathorized') {
-          this.router.navigate(['/home']);
-        }
-      });
-    }
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({

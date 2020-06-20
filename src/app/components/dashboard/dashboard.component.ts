@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
 
   loading = false;
   admin = false;
+  completedTutorial = false;
   view: any[] = [700, 400];
   showXAxis = true;
   showYAxis = true;
@@ -57,6 +58,7 @@ export class DashboardComponent implements OnInit {
     this.authService.userRole.subscribe(role => {
       if (role !== 'user') {
         this.admin = true;
+        this.completedTutorial = this.authService.completedTutorial;
       }
     });
   }

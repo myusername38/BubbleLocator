@@ -4,7 +4,7 @@
     <button class="menu-icon" mat-icon-button (click)="drawer.toggle()"><mat-icon class="icon">menu</mat-icon></button>
   </div>
 </mat-toolbar>
-<mat-drawer-container class="sidenav" autosize [hasBackdrop]="false">
+<mat-drawer-container class="sidenav" autosize [hasBackdrop]="true">
   <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
     <div class="menu-buttons p-sm">
       <button mat-button class="button w-100 p-sm" (click)="navigate('videos')">Videos</button>

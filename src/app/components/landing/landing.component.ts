@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -8,14 +9,24 @@ import { Router } from '@angular/router';
 })
 export class LandingComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  role = 'unathorized';
+
+  constructor(private router: Router,
+              private authService: AuthService) {
+    this.authService.userRole.subscribe(role => {
+      this.role = role;
+    });
+   }
 
   ngOnInit() {
-    //console.log('here');
   }
 
   login() {
-    this.router.navigate(['/login']);
+    if (this.role === 'unathorized') {
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 
   register() {

@@ -56,16 +56,6 @@ $graphtick-color: green;
   font-family: $roboto;
 }
 
-.menu-buttons {
-  color: white;
-  font-family: $roboto;
-  font-weight: 200;
-  button {
-    text-align: start;
-    font-size: 18px;
-  }
-}
-
 .chart {
   width: 100%;
   max-width: 800px !important;
@@ -156,4 +146,17 @@ $graphtick-color: green;
 
 .tool-bar {
   height: 85px;
+}
+
+.buttons {
+  font-family: $roboto;
+  font-weight: 200;
+  button {
+    text-align: start;
+    font-size: 18px;
+  }
+  .raised-button {
+    background-color: #00A7E1;
+    color: white;
+  }
 }
