@@ -1,0 +1,44 @@
+<div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="start center">
+  <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }" [class.playing-video]="!paused">
+    <mat-icon class="locator fade-in-fast" *ngFor="let bubble of getFilteredCurrentFrameBubbles()" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
+    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.first-pass]="firstPass" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="!firstPass" src="{{ tutorialVideo.url }}"></mat-video>
+  </div>
+  <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }" *ngIf="!firstPass">
+    <h1 class="mt-xs mb-xs">Selector Color</h1>
+    <button mat-fab class="m-xs" (click)="this.selectedColor=color" *ngFor="let color of colors" [ngStyle]="{ 'background-color': color }"></button>
+  </div>
+  <div class="frame-buttons" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset + videoWidth + 16 }" *ngIf="!firstPass">
+    <h1 class="mt-xs mb-xs">Key Frames</h1>
+    <div class="button-box w-100" *ngFor="let frame of frameLocations" fxLayout="row" fxLayoutAlign="start start">
+      <div class="number-container">
+        <p class="frame-slot-text mb-0">{{ frame.frameSlot + 1 }}.</p>
+      </div>
+      <div fxFill>
+        <button class="frame-button" mat-raised-button (click)="setFrame(frame.time)" *ngIf="frame.time !== -1" [ngStyle]="{ 'background-color': '#57b8ff' }">Frame: {{ getFrame(frame.time) }}</button>
+        <button mat-icon-button (click)="deleteSelectedFrame(frame.time)" *ngIf="frame.time !== -1">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="outter-playback-box" [ngStyle]="{ 'width.px': videoWidth }" *ngIf="!locatingBubbles && canPlay" fxFlex="row" fxLayoutAlign="start start">
+    <div class="playbackBox mr-md">
+      <mat-slider class="fade-in-fast" min="10" max="100" step="5" value="{{ playbackSpeed }}" (input)="setPlaybackSpeed($event)"></mat-slider>
+      <p class="m-0 ml-xs fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
+    </div>
+  </div>
+  <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="firstPass && oneTimeThrough">
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="openReviewDialog()">Rate Quality</button>
+  </div>
+  <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="!locatingBubbles && canPlay && !firstPass">
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="locateBubbles()">Locate Bubbles</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="reassessVideoQuality()">Reassess Quality</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="confirmSubmit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
+  </div>
+  <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="canPlay && !firstPass">
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Done Locating Bubles</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="noBubblesOnFrame()" *ngIf="locatingBubbles && !deletingBubbles">No Bubbles</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="deleteBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Delete Bubble</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="doneDeletingBubbles()" *ngIf="deletingBubbles">Done Deleting Bubble</button>
+  </div>
+</div>

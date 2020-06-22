@@ -1,0 +1,105 @@
+@import '../../../vars.scss';
+
+.disable-clicks {
+  pointer-events: none;
+}
+
+:host ::ng-deep .first-pass {
+  mat-time-control {
+    margin-left: -16px !important;
+  }
+}
+
+#video-parent {
+  // width: 600px;
+}
+
+.color-picker {
+  position: absolute;
+  z-index: 99;
+}
+
+.locator {
+  position: absolute;
+  z-index: 99;
+}
+
+.frame-buttons {
+  position: absolute;
+  z-index: 99;
+}
+.video {
+  z-index: 1;
+}
+:host ::ng-deep .quality {
+  visibility: hidden;
+}
+:host ::ng-deep .volume-control {
+  visibility: hidden;
+  margin-right: -20px
+}
+:host ::ng-deep mat-time-control {
+  margin-left: -40px;
+}
+
+:host ::ng-deep mat-frame-by-frame-control {
+  margin-left: -30px;
+  .mat-icon-button.mat-button-base:nth-child(1) {
+    visibility: hidden;
+  }
+  .mat-icon-button.mat-button-base:nth-child(4) {
+    visibility: hidden;
+  }
+}
+
+.frame-button {
+  width: 110px;
+}
+
+.mat-icon {
+  font-size: 28px;
+}
+
+.button-box {
+  height: 40px;
+  margin-bottom: 2px;
+}
+
+.frame-slot-text {
+  margin-top: 12px;
+}
+
+.bottom-buttons {
+  background-color: #57b8ff;
+  margin-top: 8px;
+}
+
+mat-slider {
+  width: 200px;
+}
+
+p {
+  display: block;
+}
+
+.bold {
+  font-weight: bold
+}
+
+.number-container {
+  min-width: 30px;
+}
+
+.locate-bottom-buttons {
+  margin-top: -68px;
+}
+
+.outter-playback-box {
+  margin-bottom: -68px;
+}
+
+.playing-video {
+  mat-video-spinner {
+    visibility: hidden !important;
+  }
+}

@@ -1,0 +1,11 @@
+<mat-toolbar class="tool-bar">
+  <img class="logo logo-login" src="../assets/pictures/BME_logo.png"/>
+  <div class="buttons" fxLayout="row" fxLayoutAlign="center center" >
+    <button (click)="exitLocator()" mat-button class="exit-locator">
+      Exit Locator
+    </button>
+  </div>
+</mat-toolbar>
+<div class="landing-contents">
+  <router-outlet></router-outlet>
+</div>

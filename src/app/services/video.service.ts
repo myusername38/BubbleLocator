@@ -5,6 +5,7 @@ import { VideoMetadata } from '../interfaces/video-metadata';
 import { TutorialVideoMetadata } from '../interfaces/tutorial-video-metadata';
 import { ReviewVideoData } from '../interfaces/review-video-data';
 import { Bubble } from '../interfaces/bubble';
+import { TutorialVideoData } from '../interfaces/tutorial-video-data';
 import { unescapeIdentifier } from '@angular/compiler';
 import { fromCollectionRef } from '@angular/fire/firestore';
 
@@ -23,6 +24,10 @@ export class VideoService {
 
   addVideo(video: { url: string, fps: string }) {
     return this.http.post(`${ this.url }/add-video`, video).toPromise();
+  }
+
+  getTutorialVideo() {
+    return this.http.get<TutorialVideoData>(`${ this.url }/get-tutorial-video`).toPromise();
   }
 
   getReviewVideo() {

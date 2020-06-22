@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BubbleLocatorRoutingModule } from './bubble-locator-routing.module';
@@ -19,6 +20,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared-modules/shared-module';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { GestureConfig } from '@angular/material/core';
+import { LocatorComponent } from './locator.component';
+import { TutorialLocatorComponent } from '../components/tutorial-locator/tutorial-locator.component';
+
 
 
 @NgModule({
@@ -27,6 +31,8 @@ import { GestureConfig } from '@angular/material/core';
     ReviewQualityDialogComponent,
     ReviewRatingComponent,
     ResolutionDialogComponent,
+    LocatorComponent,
+    TutorialLocatorComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +45,7 @@ import { GestureConfig } from '@angular/material/core';
     MatSliderModule,
     MatRadioModule,
     MatPaginatorModule,
+    MatToolbarModule,
     MatSliderModule,
     FormsModule,
     ReactiveFormsModule,
