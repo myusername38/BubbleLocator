@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate {
       const chrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
       if (!(chrome || firefox)) {
         this.snackbar.showError('Only Chrome browsers supported');
-        return false;
+        //return false;
       }
       if (firefox) {
         this.snackbar.showInfo('Please use Chrome for best experience');
@@ -88,6 +88,9 @@ export class AuthGuard implements CanActivate {
           this.snackbar.showError('You must complete the tutorial');
         }
         return this.authService.completedTutorial;
+      }
+      case '/bubbleLocator/tutorial': {
+        return this.authService.currentUserEmailVerified();
       }
       case '/admin/videos': {
         return this.assistantPermission();

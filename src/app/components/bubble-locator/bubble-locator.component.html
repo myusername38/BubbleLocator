@@ -1,7 +1,7 @@
 <div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="start center">
   <div (click)="onMouseClick($event)" fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }" [class.playing-video]="!paused">
     <mat-icon class="locator fade-in-fast" *ngFor="let bubble of getFilteredCurrentFrameBubbles()" [ngStyle]="{ 'left.px': getX(bubble), 'top.px': getY(bubble), 'color': selectedColor }">clear</mat-icon>
-    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.first-pass]="firstPass" [class.disable-clicks]="locatingBubbles"  #video [showFrameByFrame]="!firstPass" src="{{ reviewVideo.url }}"></mat-video>
+    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false" [overlay]="!locatingBubbles" [class.first-pass]="firstPass" [class.disable-clicks]="locatingBubbles" #video [showFrameByFrame]="!firstPass" src="https://www.dropbox.com"></mat-video>
   </div>
   <div class="color-picker" fxLayout="column" fxLayoutAlign="start center" [ngStyle]="{ 'left.px': widthOffset - 250 }" *ngIf="!firstPass">
     <h1 class="mt-xs mb-xs">Selector Color</h1>

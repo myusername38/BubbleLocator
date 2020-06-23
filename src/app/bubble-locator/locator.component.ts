@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-locator',
@@ -9,7 +10,7 @@ import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/di
 })
 export class LocatorComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public router: Router) { }
 
   ngOnInit(): void {
   }
@@ -26,7 +27,9 @@ export class LocatorComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-     console.log(result);
+     if (result === 'Confirm') {
+       this.router.navigate(['home']);
+     }
     });
   }
 }

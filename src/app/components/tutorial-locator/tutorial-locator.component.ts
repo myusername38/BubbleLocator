@@ -6,12 +6,13 @@ import { ResolutionDialogComponent } from '../../dialogs/resolution-dialog/resol
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
-import { MatVideoComponent } from 'mat-video/app/video/video.component';
 import { TutorialVideoData } from '../../interfaces/tutorial-video-data';
+import { ReviewVideoData } from '../../interfaces/review-video-data';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { VideoMetadata } from 'src/app/interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatVideoComponent } from 'mat-video/lib/video.component';
 
 export interface DialogData {
   frame: number;
@@ -28,10 +29,10 @@ export interface FrameLocations {
 })
 export class TutorialLocatorComponent implements OnInit {
 
-  @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
+  @ViewChild('video', { static: false }) matVideo: MatVideoComponent;
   incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
   video: HTMLVideoElement;
-  tutorialVideo: TutorialVideoData = { title: '', url: '', fps: 0, noBubbles: false, washOut: false, badQuality: false };
+  reviewVideo: ReviewVideoData = { title: '', url: '', fps: 0 };
   firstPass = true;
   bubbleRadius = 12;
   frameOptions = 'Good';
@@ -100,6 +101,7 @@ export class TutorialLocatorComponent implements OnInit {
 
   setVideoPlayer() {
     this.video = this.matVideo.getVideoTag();
+    this.video.src = this.reviewVideo.url;
     this.renderer.listen(this.video, 'ended', (e) => console.log('video ended'));
     this.video.addEventListener('ended', (e) => {
       if (this.firstPass) {
@@ -122,7 +124,7 @@ export class TutorialLocatorComponent implements OnInit {
     });
   }
 
-  openReviewDialog() { // need to have a weay to submit a tutorial rating
+  openReviewDialog() {
     const dialogRef = this.dialog.open(ReviewQualityDialogComponent, {
       disableClose: true,
       width: '500px',
@@ -130,11 +132,7 @@ export class TutorialLocatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       switch (result) {
         case 'Good':
-          if (!(this.tutorialVideo.washOut || this.tutorialVideo.noBubbles || this.tutorialVideo.badQuality)) {
-            this.firstPass = false;
-          } else {
-            this.snackbarService.showError('Please rewatch the video and try again');
-          }
+          this.firstPass = false;
           this.video.currentTime = 0;
           break;
         case 'Back':
@@ -142,15 +140,10 @@ export class TutorialLocatorComponent implements OnInit {
           this.oneTimeThrough = true;
           break;
         default:
-          if (result === 'Wash-Out' && this.tutorialVideo.washOut) {
-            // tutorial passed
-          } else if (result === 'No Bubbles' && this.tutorialVideo.noBubbles) {
-            // tutorial passed
-          } else if (result === 'Bad Quality' && this.tutorialVideo.badQuality) {
-            // tutorial passed
-          } else {
-            this.snackbarService.showError('Please rewatch the video and try again');
-            this.video.currentTime = 0;
+          const bubble = this.bubbleToAdd(result);
+          if (bubble) {
+            this.bubbles.push({ frame: 0, bubbles: [bubble] });
+            this.submit();
           }
       }
     });
@@ -242,7 +235,7 @@ export class TutorialLocatorComponent implements OnInit {
   async getVideoUrl() {
     try {
       this.loading = true;
-      this.tutorialVideo = await this.videoService.getTutorialVideo();
+      this.reviewVideo = await this.videoService.getReviewVideo();
       this.setVideoPlayer();
     } catch (err) {
       if (err.error && err.error.message === 'No more videos to review') {
@@ -257,11 +250,11 @@ export class TutorialLocatorComponent implements OnInit {
   }
 
   getCurrentFrame() {
-    return Math.floor(this.video.currentTime * this.tutorialVideo.fps); /* fix this with the actual framerate */
+    return Math.floor(this.video.currentTime * this.reviewVideo.fps); /* fix this with the actual framerate */
   }
 
   getFrame(time) {
-    return Math.floor(time * this.tutorialVideo.fps);  /* fix this eventually */
+    return Math.floor(time * this.reviewVideo.fps);  /* fix this eventually */
   }
 
   locateBubbles() {
@@ -338,7 +331,7 @@ export class TutorialLocatorComponent implements OnInit {
           bubbleArray.push(bubble);
         });
       });
-      await this.videoService.addVideoRating({ title: this.tutorialVideo.title, rating: bubbleArray} );
+      await this.videoService.addVideoRating({ title: this.reviewVideo.title, rating: bubbleArray} );
       this.snackbarService.showInfo('Video rating submitted');
       this.router.navigate(['/home']);
     } catch (err) {

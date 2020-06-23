@@ -81,32 +81,32 @@ export class UserMenuComponent implements OnInit {
     });
 
     merge(this.sort.sortChange, this.paginator.page, this.usersDisplayedSubject)
-      .pipe(
-        switchMap(() => {
-          this.query = this.createQuery(this.sort.active, this.sort.direction);
-          return this.query.get().catch((error) => {
-            if (error.message === 'Missing or insufficient permissions.') {
-              this.snackbarService.showError(error.message);
-            }
-            return null;
-          });
-        }),
-        map(data => {
-          this.loading = false;
-          if (data) {
-            // @ts-ignore:
-            this.lastDoc.push(data.docs[data.docs.length - 1]);
-            // @ts-ignore:
-            return data.docs;
+    .pipe(
+      switchMap(() => {
+        this.query = this.createQuery(this.sort.active, this.sort.direction);
+        return this.query.get().catch((error) => {
+          if (error.message === 'Missing or insufficient permissions.') {
+            this.snackbarService.showError(error.message);
           }
-          return data;
-        }),
-      ).subscribe(data => {
+          return null;
+        });
+      }),
+      map(data => {
+        this.loading = false;
         if (data) {
-          this.videoTableData = data.map(doc => doc.data());
-
+          // @ts-ignore:
+          this.lastDoc.push(data.docs[data.docs.length - 1]);
+          // @ts-ignore:
+          return data.docs;
         }
-      });
+        return data;
+      }),
+    ).subscribe(data => {
+      if (data) {
+        this.videoTableData = data.map(doc => doc.data());
+
+      }
+    });
   }
 
   createQuery(active, direction) {

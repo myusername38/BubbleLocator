@@ -6,12 +6,12 @@ import { ResolutionDialogComponent } from '../../dialogs/resolution-dialog/resol
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
-import { MatVideoComponent } from 'mat-video/app/video/video.component';
 import { ReviewVideoData } from '../../interfaces/review-video-data';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { VideoMetadata } from 'src/app/interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatVideoComponent } from 'mat-video/lib/video.component';
 
 export interface DialogData {
   frame: number;
@@ -28,7 +28,7 @@ export interface FrameLocations {
 })
 export class BubbleLocatorComponent implements OnInit {
 
-  @ViewChild('video', { static: true }) matVideo: MatVideoComponent;
+  @ViewChild('video', { static: false }) matVideo: MatVideoComponent;
   incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
   video: HTMLVideoElement;
   reviewVideo: ReviewVideoData = { title: '', url: '', fps: 0 };
@@ -100,6 +100,7 @@ export class BubbleLocatorComponent implements OnInit {
 
   setVideoPlayer() {
     this.video = this.matVideo.getVideoTag();
+    this.video.src = this.reviewVideo.url;
     this.renderer.listen(this.video, 'ended', (e) => console.log('video ended'));
     this.video.addEventListener('ended', (e) => {
       if (this.firstPass) {

@@ -4,12 +4,12 @@ import { ResolutionDialogComponent } from '../../dialogs/resolution-dialog/resol
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
-import { MatVideoComponent } from 'mat-video/app/video/video.component';
 import { ReviewVideoData } from '../../interfaces/review-video-data';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { VideoMetadata } from 'src/app/interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatVideoComponent } from 'mat-video/lib/video.component';
 
 export interface DialogData {
   frame: number;

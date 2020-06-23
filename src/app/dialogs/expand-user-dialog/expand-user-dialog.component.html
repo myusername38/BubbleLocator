@@ -6,11 +6,11 @@
       <h1 class="mb-sm mt-xs">User Data</h1>
     </div>
     <div class="video-info" fxLayout="column" fxFill fxLayoutAlign="center start">
-        <p class="field mb-xs mt-xs capitalize">Role: {{ user.role }}</p>
+      <p class="field mb-xs mt-xs">Uid: {{ user.uid }}</p>
+      <p class="field mb-xs mt-xs capitalize">Role: {{ user.role }}</p>
       <p class="field mb-xs mt-xs">Score: {{ user.userScore }}</p>
       <p class="field mb-xs mt-xs">Accepted: {{ user.accepted }}</p>
       <p class="field mb-xs mt-xs">Outliers: {{ user.outliers }}</p>
-      <p class="field mb-xs mt-xs">Accepted Percentage: {{ getAcceptedPercentage() }}</p>
       <p class="field mb-xs mt-xs">Rejected Ratings:</p>
     </div>
     <div class="table-container">
