@@ -1,0 +1,24 @@
+@import '../../../vars.scss';
+
+.exit-icon {
+  margin-right: -25px;
+  margin-top: -25px;
+}
+
+.raised-button {
+  background-color: #00A7E1;
+  color: white;
+  font-size: 24px;
+}
+
+.info {
+  h1 {
+    font-size: 32px;
+  }
+  p {
+    line-height: 1.6;
+    font-size: 20px;
+    text-align: center;
+  }
+}
+

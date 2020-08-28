@@ -1,0 +1,48 @@
+@import '../../../vars.scss';
+
+.menu-icon {
+  margin-top: 4px;
+}
+
+.placeholder {
+  height: 40px;
+  width: 40px;
+}
+
+.title {
+  text-align: center;
+  size: 30px;
+  @media screen and (max-width: $screen-small) {
+    size: 24px;
+  }
+}
+
+.more-info {
+  p {
+    font-size: 20px;
+    color: #6F8695;
+    width: fit-content;
+  }
+}
+p {
+  display: block;
+  width: fit-content;
+  word-wrap: break-word;
+}
+
+.video-info {
+  @media screen and (min-width: $screen-small) {
+    padding-left: $spacing-sm;
+  }
+}
+
+.exit-icon {
+  margin-right: -25px;
+  margin-top: -25px;
+}
+
+.table-container {
+  width: 100%;
+  max-width: 600px;
+  overflow: auto;
+}

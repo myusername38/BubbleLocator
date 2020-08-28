@@ -1,0 +1,40 @@
+<div class="w-100" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<h1 class="mt-0 mb-xs mlr-auto">Write an Announcement</h1>
+<div class="w-100">
+  <form class="login-form w-100" fxLayout="column" fxLayoutAlign="center center" [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Title:</mat-label>
+      <input type="text" formControlName="title" class="form-control white" matInput/>
+    </mat-form-field>
+    <div class="w-100">
+      <h1 class="expiration-label">Announcement Expiration:</h1>
+    </div>
+    <div class="w-100 mb-sm expiration" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="start center">
+      <mat-radio-group formControlName="expire">
+        <mat-radio-button class="mr-sm" *ngFor="let date of expireDates" value="{{ date.date }}" (click)="expireDateChange(date.date)" [checked]="date.date === expireDate">{{ date.title }}</mat-radio-button>
+      </mat-radio-group>
+      <div class="fade-in-fast custom-expiration" fxLayout="row">
+        <mat-form-field class="enter">
+          <mat-label>Custom Expiration</mat-label>
+          <input matInput formControlName="customExpire" type="number" value="1">
+        </mat-form-field>
+        <h2 class="hours-label">Hours</h2>
+      </div>
+    </div>
+    <mat-form-field class="w-100 mb-xs announcement">
+      <mat-label class="ml-xs mt-xs">Announcement:</mat-label>
+      <textarea matInput matTextareaAutosize cdkAutosizeMinRows="20" formControlName="announcement">
+      </textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="mb-xs mt-xs w-100 submit-button" [disabled]="announcementForm.invalid">
+      <div class="login-button" type="submit" fxLayout="row" fxLayoutAlign="center center">
+        <div class="placeholder mr-sm"></div>
+        <h1 class="mtb-sm">{{ buttonMessage }}</h1>
+        <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
+        <div class="placeholder ml-sm" *ngIf="!loading"></div>
+      </div>
+    </button>
+  </form>
+</div>

@@ -1,0 +1,21 @@
+@import '../../../vars.scss';
+
+.exit-icon {
+  margin-right: -25px;
+  margin-top: -25px;
+}
+
+.seperator {
+  border-bottom: 2px solid black;
+}
+
+.welcome-info {
+  h1 {
+    font-size: 32px;
+  }
+  p {
+    line-height: 1.6;
+    font-size: 20px;
+    text-align: center;
+  }
+}

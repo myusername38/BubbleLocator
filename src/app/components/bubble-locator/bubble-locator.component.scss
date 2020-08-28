@@ -1,11 +1,17 @@
 @import '../../../vars.scss';
 
 .disable-clicks {
-  pointer-events:none;
+  pointer-events: none;
+}
+
+:host ::ng-deep .first-pass {
+  mat-time-control {
+    margin-left: -16px !important;
+  }
 }
 
 #video-parent {
-  width: 600px;
+  // width: 600px;
 }
 
 .color-picker {
@@ -33,7 +39,7 @@
   margin-right: -20px
 }
 :host ::ng-deep mat-time-control {
-  margin-left: -40px;
+  margin-left: -35px;
 }
 
 :host ::ng-deep mat-frame-by-frame-control {
@@ -46,6 +52,55 @@
   }
 }
 
+.frame-button {
+  width: 110px;
+}
+
 .mat-icon {
   font-size: 28px;
+}
+
+.button-box {
+  height: 40px;
+  margin-bottom: 2px;
+}
+
+.frame-slot-text {
+  margin-top: 12px;
+}
+
+.bottom-buttons {
+  background-color: #57b8ff;
+  margin-top: 8px;
+}
+
+mat-slider {
+  width: 200px;
+}
+
+p {
+  display: block;
+}
+
+.bold {
+  font-weight: bold
+}
+
+.number-container {
+  min-width: 30px;
+}
+
+.locate-bottom-buttons {
+  margin-top: -68px;
+}
+
+.outter-playback-box {
+  min-width: 580px;
+  margin-bottom: -68px;
+}
+
+.playing-video {
+  mat-video-spinner {
+    visibility: hidden !important;
+  }
 }

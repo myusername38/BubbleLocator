@@ -1,0 +1,31 @@
+<div class="w-100" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<div class="w-100 outter" fxLayout="column" fxLayoutAlign="start center">
+  <div class="title" fxLayout="row" fxLayoutAlign="center center">
+    <div class="placeholder mr-sm" fxHide.lt-sm></div>
+    <h1 class="mb-xs mt-xs">User Data</h1>
+    <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading" fxHide.lt-sm></mat-spinner>
+    <div class="placeholder mr-sm" *ngIf="!loading" fxHide.lt-sm></div>
+  </div>
+  <div class="video-info w-100" fxLayout="column" fxLayoutAlign="center start" *ngIf="user">
+    <p class="field mb-xs mt-xs capitalize">Role: {{ user.role }}</p>
+    <p class="field mb-xs mt-xs">Score: {{ user.userScore }}</p>
+    <p class="field mb-xs mt-xs capitalize">Videos Rated: {{ user.videosReviewed }}</p>
+    <p class="field mb-xs mt-xs">Accepted: {{ user.accepted }}</p>
+    <p class="field mb-xs mt-xs">Outliers: {{ user.outliers }}</p>
+  </div>
+  <div class="video-info w-100" fxLayout="column" fxLayoutAlign="center start" *ngIf="!user">
+    <p class="field mb-xs mt-xs capitalize">Role:</p>
+    <p class="field mb-xs mt-xs capitalize">Score:</p>
+    <p class="field mb-xs mt-xs capitalize">Videos Rated:</p>
+    <p class="field mb-xs mt-xs capitalize">Accepted</p>
+    <p class="field mb-xs mt-xs capitalize">Outliers </p>
+  </div>
+  <div class="w-100 p-xs" fxLayoutAlign="end center">
+    <button mat-raised-button class="logout-button" (click)="logoutAccount()">Logout</button>
+    <button mat-button (click)="deleteAccount()" class="ml-sm">Delete Account</button>
+  </div>
+</div>
+
+

@@ -1,0 +1,48 @@
+
+<mat-toolbar class="tool-bar">
+  <img (click)="home()" class="logo logo-login mr-lg" src="../assets/pictures/BME_logo.png" fxHide.lt-md/>
+  <a href="https://www.diversalertnetwork.org/" rel="noopener noreferrer" target="_blank" fxHide.lt-xs>
+    <img class="dan-logo" src="../../../assets/pictures/DAN-logo.png"/>
+  </a>
+  <div class="buttons" fxLayout="row" fxLayoutAlign="center center">
+    <button class="login-button" mat-icon-button (click)="toggleMobileMenu()" fxHide.gt-sm><mat-icon class="icon">menu</mat-icon></button>
+    <button mat-button class="login-button" (click)="login()" fxHide.lt-md>
+      LOGIN
+    </button>
+    <button mat-button class="register-button" (click)="register()" fxHide.lt-md>
+      REGISTER
+    </button>
+  </div>
+</mat-toolbar>
+<div class="mobile-nav-menu w-100 fade-in-fast" fxLayout="column" fxLayoutAlign="center center" *ngIf="mobileMenu">
+  <div class="buttons w-100" fxLayout="column" fxLayoutAlign="space-between center">
+    <button mat-button class="register-button" (click)="login()">
+      LOGIN
+    </button>
+    <button mat-button class="register-button" (click)="register()">
+      REGISTER
+    </button>
+    <button mat-button class="register-button" (click)="home()">
+      HOME
+    </button>
+    <button mat-button class="register-button" (click)="toggleMobileMenu()">
+      CLOSE
+    </button>
+  </div>
+</div>
+<div class="place-holder"></div>
+<div class="cookie-policy w-100" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" *ngIf="!acceptedCookiePolicy">
+  <p>DecoBubbles uses first-party cookies to ensure we give you the best experience on our website.</p>
+  <div class="privacy-buttons">
+    <button mat-button (click)="accept()">
+      Okay
+    </button>
+    <button class="ml-sm" mat-button (click)="privacyPolicy()">
+      Privacy Policy
+    </button>
+  </div>
+</div>
+<div class="landing-contents">
+  <router-outlet></router-outlet>
+</div>
+

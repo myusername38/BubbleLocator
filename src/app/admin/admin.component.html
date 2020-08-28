@@ -1,0 +1,22 @@
+<mat-toolbar class="tool-bar">
+  <img (click)="home()" class="logo logo-login" src="../assets/pictures/BME_logo.png"/>
+  <div class="buttons" fxLayout="row" fxLayoutAlign="center center" >
+    <button class="menu-icon" mat-icon-button (click)="drawer.toggle()"><mat-icon class="icon">menu</mat-icon></button>
+  </div>
+</mat-toolbar>
+<mat-drawer-container class="sidenav" autosize [hasBackdrop]="true">
+  <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+    <div class="menu-buttons p-sm">
+      <button mat-button class="button w-100 p-sm" (click)="navigate('home')">Home</button>
+      <button mat-button class="button w-100 p-sm" (click)="navigate('videos')">Videos</button>
+      <button mat-button class="button w-100 p-sm" (click)="navigate('announcements')" *ngIf="adminPermission()">Announcements</button>
+      <button mat-button class="button w-100 p-sm" (click)="navigate('users')" *ngIf="adminPermission()">Users</button>
+      <button mat-button class="button w-100 p-sm" (click)="navigate('assistants')" *ngIf="adminPermission()">Assistants</button>
+      <button mat-button class="button w-100 p-sm" (click)="navigate('admins')" *ngIf="owerPermission()">Admins</button>
+      <button mat-button class="button w-100 p-sm" (click)="navigate('owners')" *ngIf="owerPermission()">Owners</button>
+    </div>
+  </mat-drawer>
+  <div class="side-drawer p-sm w-100" fxLayout="column">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

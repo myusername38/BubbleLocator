@@ -1,0 +1,55 @@
+@import '../../../../../vars.scss';
+@import '../../dashboard-colors.scss';
+
+.line-chart {
+  background-color: $background-color;
+  border-radius: $border-radius;
+}
+
+.title {
+  font-family: $roboto;
+  color: $text-color;
+  font-size: $font-lg;
+}
+
+::ng-deep .ngx-charts {
+  text{
+    fill: $text-color !important;
+  }
+}
+
+:host ::ng-deep .x.axis {
+  g {
+    .ng-star-inserted {
+      visibility: hidden;
+    }
+    .tick.ng-star-inserted {
+      visibility: visible;
+    }
+  }
+}
+
+:host ::ng-deep .ngx-charts {
+  .tick{
+    text{ // the tick lables
+      fill: $graphtick-color !important;
+      font-size: .6rem !important;
+      @media screen and (min-width: $screen-medium) {
+        font-size: .75rem !important;
+      }
+    }
+  }
+  text { // the headers
+    fill: $primary-color;
+    font-size: $font-md;
+    @media screen and (min-width: $screen-medium) {
+      font-size: $font-lg;
+    }
+  }
+  .gridline-path { // the color of the gridlines
+    stroke: $gridline-color !important;
+  }
+  .gridline-path-vertical { // displaying the vertical lines or not
+    display: none !important;
+  }
+}

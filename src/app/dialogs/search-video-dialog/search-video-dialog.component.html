@@ -1,0 +1,18 @@
+<div class="w-100 mb-sm" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<h1 class="mt-0 mb-xs mlr-auto">Find Video</h1>
+<form class="login-form w-100" fxLayout="column" fxLayoutAlign="center center" [formGroup]="searchVideoForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="w-100 mb-xs" appearance="fill">
+    <mat-label>Title:</mat-label>
+    <input type="text" formControlName="title" class="form-control white" matInput/>
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="mb-xs mt-xs w-100" [disabled]="searchVideoForm.invalid">
+    <div class="login-button" type="submit" fxLayout="row" fxLayoutAlign="center center">
+      <div class="placeholder mr-sm"></div>
+      <h1  class="mtb-sm">Search</h1>
+      <mat-spinner [diameter]="20" class="ml-sm" *ngIf="loading"></mat-spinner>
+      <div class="placeholder ml-sm" *ngIf="!loading"></div>
+    </div>
+  </button>
+</form>

@@ -1,0 +1,111 @@
+@import '../../../vars.scss';
+
+$table-max: $admin-table-width;
+$table-min: 900px;
+
+.main {
+  background-color: #DCDCDC;
+  width: 100vw;
+  height: calc(100vh);
+  overflow: hidden;
+}
+
+.content {
+  overflow: auto;
+}
+
+.placeholder {
+  height: 25px;
+  width: 25px;
+}
+
+.button-container {
+  margin-top: 8px;
+  @media screen and (min-width: $screen-medium) {
+    margin-top: -10px;
+  }
+}
+
+.subtitle-text {
+  font-family: $roboto;
+}
+
+.table-container {
+  width: 100%;
+  max-width: $table-max;
+  overflow: auto;
+}
+
+.menu-buttons {
+  color: white;
+  font-family: $roboto;
+  font-weight: 200;
+  button {
+    text-align: start;
+    font-size: 18px;
+  }
+}
+
+.buttons {
+  @media screen and (min-width: $screen-medium) {
+    margin-left: auto;
+    margin-right: 4px;
+  }
+}
+
+.radio-buttons {
+  margin-bottom: 8px;
+  @media screen and (min-width: $screen-medium) {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    margin-left: 4px;
+    margin-right: auto;
+  }
+}
+
+table {
+  width: 100%;
+  max-width: $admin-table-width;
+}
+
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
+}
+
+.button-container {
+  max-width: $table-max;
+}
+
+.paginator {
+  max-width: $table-max;
+}
+
+
+:host ::ng-deep .mat-row, .mat-header-row {
+  background: white;
+  width: 100%;
+  max-width: $admin-table-width;
+  min-width: $admin-table-min-width;
+}
+
+:host ::ng-deep .mat-table-sticky:last-child {
+  border-left: 1px solid #e0e0e0;
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
+  color: #757575;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  margin-top: 22px;
+}
+
+//::ng-deep .mat-sort-header-container:not(.mat-sort-header-sorted) .mat-sort-header-arrow {
+  //opacity: 0.54 !important;
+//  transform: translateY(0px) !important;
+//}
+
+.date {
+  padding-top: 16px;
+}

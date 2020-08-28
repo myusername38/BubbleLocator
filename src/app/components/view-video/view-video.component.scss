@@ -1,0 +1,20 @@
+@import '../../../vars.scss';
+
+.bottom-buttons {
+  background-color: #57b8ff;
+  margin-top: 8px;
+}
+
+:host ::ng-deep mat-frame-by-frame-control {
+  margin-left: -30px;
+  .mat-icon-button.mat-button-base:nth-child(1) {
+    visibility: hidden;
+  }
+  .mat-icon-button.mat-button-base:nth-child(4) {
+    visibility: hidden;
+  }
+}
+
+.buttons {
+  margin-top: -66px;
+}

@@ -3,6 +3,8 @@
 
 
 /* CUSTOM CLASSES  */
+.mtb-sm { margin-top: $spacing-sm !important; margin-bottom: $spacing-sm !important; }
+.m-auto { margin: auto !important; }
 .mlr-auto { margin-left: auto !important; margin-right: auto !important; }
 .m-0 { margin: 0; }
 .m-xs { margin: $spacing-xs !important; }
@@ -67,17 +69,42 @@
 .pl-md { padding-left: $spacing-md !important; }
 .pl-lg { padding-left: $spacing-lg !important; }
 .pl-xl { padding-left: $spacing-xl !important; }
+.pl-0 { padding-left: 0 !important; }
 .w-100 { width: 100% !important; }
 .h-100 { height: 100% !important; }
 // Text Align
 .text-center {
   text-align: center;
 }
-.ellipsis{
+
+.full-height {
+  height: calc(100vh - 85px);
+}
+
+.side-menu {
+  width: $side-menu-width;
+  height: 100%;
+  background-color: #1D1E2C;
+  position: fixed;
+}
+
+.content {
+
+}
+
+.ellipsis {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+}
+
+.scrollable {
+  overflow-y:auto;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 // Font Weights
@@ -133,12 +160,23 @@
 /* OTHER THINGS */
 
 body {
-  background-color: #587291;
-	background-repeat: no-repeat;
-	background-size: cover;
-  background-attachment: fixed;
+  background-color: #DCDCDC;
   padding: 0px;
   margin: 0px;
+}
+
+h1 {
+  width: fit-content;
+}
+h2 {
+  width: fit-content;
+}
+p {
+  width: fit-content;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html, body { height: 100%; }

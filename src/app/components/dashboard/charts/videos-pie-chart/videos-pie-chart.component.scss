@@ -1,0 +1,37 @@
+@import '../../../../../vars.scss';
+@import '../../dashboard-colors.scss';
+
+$fontSize: 20px;
+
+.container {
+  width: 100%;
+  background-color: $background-color;
+  border-radius: $border-radius
+}
+
+.title {
+  font-family: $roboto;
+  color: $text-color;
+  font-size: $font-lg;
+  @media screen and (max-width: $screen-medium) {
+    text-align: center;
+    line-height: 1.4;
+  }
+}
+
+.pie-chart {
+  width: 200px;
+}
+
+.square {
+  height: $fontSize;
+  width: $fontSize;
+  border-radius: 4px;
+  border: 2px solid $border-color;
+}
+
+.name {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  color: $text-color;
+}
