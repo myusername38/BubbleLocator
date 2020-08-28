@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "bme"
+  "defaultProject": "bme",
+  "cli": {
+    "analytics": "8dff8ce7-8b8d-4349-ba03-26c439dc7a52"
+  }
 }
