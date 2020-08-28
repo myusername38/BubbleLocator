@@ -1,0 +1,15 @@
+
+<mat-toolbar class="tool-bar">
+  <img class="logo logo-login mr-lg" src="../assets/pictures/BME_logo.png" fxHide.lt-md/>
+  <a href="https://www.diversalertnetwork.org/" rel="noopener noreferrer" target="_blank" fxHide.lt-sm>
+    <img class="dan-logo" src="../../../assets/pictures/DAN-logo.png"/>
+  </a>
+  <div class="buttons" fxLayout="row" fxLayoutAlign="center center" >
+    <button (click)="exitLocator()" mat-button class="exit-locator">
+      Exit Locator
+    </button>
+  </div>
+</mat-toolbar>
+<div class="locator">
+  <router-outlet></router-outlet>
+</div>

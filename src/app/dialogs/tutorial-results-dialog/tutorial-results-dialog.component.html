@@ -1,0 +1,23 @@
+<div class="w-100 mb-xs" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<div class="w-100 info" fxLayout="column" fxLayoutAlign="center center">
+  <div *ngIf="accepted">
+    <h1 class="mlr-auto">Great Job!</h1>
+    <p class="mlr-auto" *ngIf="!completed">Your rating was accepted</p>
+    <p class="mlr-auto" *ngIf="completed">Your rating was accepted and you have finished the tutorial!</p>
+    <p class="mlr-auto" *ngIf="completed">Now you can start rating videos!</p>
+  </div>
+  <div *ngIf="!accepted">
+    <h1 class="mlr-auto">Try again</h1>
+    <p class="mlr-auto">Your rating was not accepted</p>
+    <p class="mlr-auto">Please review the tutorial and try again</p>
+  </div>
+  <p class="mlr-auto">You have successfully completed {{ count }} / {{ toPass }} ratings</p>
+  <button mat-raised-button (click)="rateAnotherVideo()" class="p-xs pr-sm pl-sm mr-sm raised-button" *ngIf="!completed">
+    Rate Anoter Video
+  </button>
+  <button mat-raised-button (click)="rateVideo()" class="p-xs pr-sm pl-sm mr-sm raised-button" *ngIf="completed">
+    Rate Video
+  </button>
+</div>

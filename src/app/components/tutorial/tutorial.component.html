@@ -1,0 +1,31 @@
+
+<mat-toolbar class="tool-bar">
+  <img (click)="home()" fxHide.lt-sm class="logo logo-login" src="../assets/pictures/BME_logo.png"/>
+  <div class="top-button" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button class="return-button ml-auto mr-sm" (click)="home()">Return</button>
+  </div>
+</mat-toolbar>
+<div class="w-100">
+  <div class="tutorial-contents w-100 mt-sm" *ngIf="!completedTutorial" fxLayout="column" fxLayoutAlign="center center">
+    <h1>Step One</h1>
+    <p>Watch the tutorial video</p>
+  </div>
+  <div class="tutorial-contents w-100 mt-sm" *ngIf="completedTutorial" fxLayout="column" fxLayoutAlign="center center">
+    <h1>Rating video instructions</h1>
+    <p>Watch the tutorial video</p>
+  </div>
+  <div class="w-100 p-sm" fxLayoutAlign="center center">
+    <video class="mt-sm" controls>
+      <source src="https://www.dropbox.com/s/hu4ycl6r8mrga50/Martin%20%20Smolka%20-%20Tutorial%20updated%20beggining%20and%20washout.mp4?raw=1" type="video/mp4">
+    </video>
+  </div>
+  <div class="mt-md mb-xs tutorial-contents w-100 p-sm" *ngIf="!completedTutorial" fxLayout="column" fxLayoutAlign="center center">
+    <h1>Step two</h1>
+    <p>Correctly rate 4 of the tutorial videos and you will be done with the tutorial!</p>
+    <p>Remember if you are unsure about the process you can always re watch the tutorial video</p>
+  </div>
+  <div class="mlr-atuo mb-md" *ngIf="!completedTutorial" fxLayout="column" fxLayoutAlign="center center">
+    <button class="buttons fade-in-fast" mat-raised-button (click)="completeTutotiral()">Rate Tutorial Video</button>
+  </div>
+</div>
+

@@ -1,0 +1,50 @@
+<div class="w-100" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<div class="expand-video" fxLayout="column" fxLayoutAlign="center center">
+  <div class="title mb-xs" fxLayout="row" fxLayoutAlign="center center">
+    <h1 class="mb-xs mt-xs" fxHide.lt-sm>{{ videoData.title }}</h1>
+    <p class="field mb-xs mt-xs" fxHide.gt-sm>{{ videoData.title }}</p>
+    <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading" fxHide.lt-sm></mat-spinner>
+  </div>
+  <div class="video-info">
+    <p class="field capitalize mb-xs mt-xs">Status: {{ videoType }}</p>
+    <p class="field mb-xs mt-xs">Added: {{ getDate(videoData.added) }}</p>
+    <p class="field mb-xs mt-xs">Added By: {{ videoData.user }}</p>
+    <p class="field mb-xs mt-xs">FPS: {{ videoData.fps }}</p>
+    <p class="field mb-xs mt-xs" fxHide.lt-sm>Url: {{ videoData.url }}</p>
+    <p class="field mb-xs mt-xs" *ngIf="videoType === 'tutorial'">Average: {{ videoData.average }}</p>
+    <p class="field mb-xs mt-xs" *ngIf="videoType === 'tutorial'">Standard Deviation: {{ videoData.stdev }}</p>
+    <p class="field mb-xs mt-xs" *ngIf="videoType !== 'tutorial'">Reviews:</p>
+  </div>
+  <div class="table-container" *ngIf="videoType !== 'tutorial'">
+    <table mat-table [dataSource]="videoData?.raters" class="mat-elevation-z8 w-100">
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef fxFlex="50" fxLayoutAlign="start center">User</th>
+        <td mat-cell *matCellDef="let element" fxFlex="50" fxLayoutAlign="start center" class="ellipsis">{{ element }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef fxFlex="20" fxLayoutAlign="start center">Date</th>
+        <td mat-cell *matCellDef="let element" fxFlex="20" fxLayoutAlign="start center" class="ellipsis">{{ getDateFromUser(element) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef fxFlex="20" fxLayoutAlign="start center">Rating</th>
+        <td mat-cell *matCellDef="let element" fxFlex="20" fxLayoutAlign="start center" class="ellipsis">{{ getRating(element) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="expand" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center"></th>
+        <td mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="start center">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="View Program">
+            <mat-icon class="icon">more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="viewVideoRating(element)">View</button>
+            <button mat-menu-item (click)="deleteVideoRating(element)">Delete Rating</button>
+          </mat-menu>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

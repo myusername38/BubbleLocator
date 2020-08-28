@@ -1,0 +1,82 @@
+<div class="w-100" fxLayout="column">
+  <mat-toolbar class="tool-bar">
+    <div class="w-100 h-100" fxLayout="row" fxLayoutAlign="center center">
+      <img (click)="goToLanding()" class="logo logo-login" src="../assets/pictures/BME_logo.png"/>
+      <a href="https://www.diversalertnetwork.org/" rel="noopener noreferrer" target="_blank">
+        <img class="dan-logo" src="../../../assets/pictures/DAN-logo.png"/>
+      </a>
+      <div class="buttons mr-sm ml-auto" fxLayout="row" fxLayoutAlign="center center" >
+        <button mat-raised-button (click)="locateBubbles()" fxHide.lt-md class="p-xs pr-sm pl-sm mr-sm raised-button" *ngIf="completedTutorial">
+          Rate Video
+        </button>
+        <button mat-raised-button (click)="completeTutorial()" fxHide.lt-md class="p-xs pr-sm pl-sm mr-sm raised-button" *ngIf="!completedTutorial">
+          Complete Tutorial
+        </button>
+        <button (click)="goToLanding()" mat-button fxHide.xs>
+          Back
+        </button>
+        <button (click)="completeTutorial()" mat-button fxHide.xs>
+          Help
+        </button>
+        <button (click)="openUserInfoDialog()" mat-button fxHide.xs>
+          Account
+        </button>
+        <button mat-button (click)="adminNav()" *ngIf="admin" fxHide.xs>
+          Admin
+        </button>
+        <button class="login-button" mat-icon-button (click)="toggleMobileMenu()" fxHide.gt-xs><mat-icon class="icon">menu</mat-icon></button>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="mobile-nav-menu w-100 fade-in-fast" fxLayout="column" fxLayoutAlign="center center" *ngIf="mobileMenu">
+    <div class="buttons w-100" fxLayout="column" fxLayoutAlign="space-between center">
+      <button mat-button class="mobile-menu-button" (click)="goToLanding()">
+        Back
+      </button>
+      <button mat-button class="mobile-menu-button" (click)="completeTutorial()">
+        Help
+      </button>
+      <button mat-button class="mobile-menu-button" (click)="openUserInfoDialog()">
+        Account
+      </button>
+      <button mat-button class="mobile-menu-button" (click)="adminNav()" *ngIf="admin">
+        Admin
+      </button>
+      <button mat-button class="mobile-menu-button" (click)="toggleMobileMenu()">
+        Close
+      </button>
+    </div>
+  </div>
+  <div fxFlex="100" class="main p-sm">
+    <div class="w-100 announcement-tile fade-in-fast p-sm" *ngIf="announcement" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+      <div fxLayout="column" fxLayout.gt-xs="row">
+        <p class="announcement-text mt-xs mb-xs">{{ dateTickFormatting(announcement.added) }}: </p>
+        <p class="announcement-text mt-xs mb-xs ml-xs">{{ announcement.title }}</p>
+      </div>
+      <div class="expand-button">
+        <button mat-raised-button (click)="expandAnnouncement()">Expand</button>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="center center">
+      <div fxFlex="100" fxFlex.gt-sm="25" class="w-100 tile" *ngFor="let tile of tileData">
+        <app-info-tile [info]="tile"></app-info-tile>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="25" class="w-100 tile">
+        <app-info-tile [item]="'Your Ratings Accepted'" [value]="accepted"></app-info-tile>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="center start">
+      <div fxFlex.gt-sm="50" class="left-chart w-100">
+        <div class="graph-chart">
+          <app-reviews-per-day></app-reviews-per-day>
+        </div>
+      </div>
+      <div fxFlex.gt-sm="50" class="right-chart w-100">
+        <div class="mb-sm">
+          <app-videos-pie-chart></app-videos-pie-chart>
+        </div>
+        <app-top-user-score-chart [usersData]="topScoreData"></app-top-user-score-chart>
+      </div>
+    </div>
+  </div>
+</div>

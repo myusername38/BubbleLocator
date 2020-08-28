@@ -1,0 +1,12 @@
+<div class="outter w-100 p-sm" fxLayout="column" fxLayoutAlign="start center">
+  <div fxLayout="column" id="video-parent" class="p-0" [ngStyle]="{ 'width.px': videoWidth, 'height.px': videoHeight }">
+    <mat-video class="video" [keyboard]="false" [preload]="true" [fullscreen]="false"  #video [showFrameByFrame]="true" src="https://www.dropbox.com"></mat-video>
+  </div>
+</div>
+<div class="playbackBox mlr-auto" [ngStyle]="{ 'width.px': videoWidth }">
+  <mat-slider class="fade-in-fast" min="10" max="100" step="5" value="{{ playbackSpeed }}" (input)="setPlaybackSpeed($event)"></mat-slider>
+  <p class="m-0 ml-xs fade-in-fast">Playback speed: {{ playbackSpeed }}%</p>
+</div>
+<div class="mlr-atuo buttons" fxLayout="column" fxLayoutAlign="center center">
+  <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="returnToVideos()">Go back</button>
+</div>

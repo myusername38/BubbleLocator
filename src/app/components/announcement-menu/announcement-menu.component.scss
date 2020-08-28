@@ -1,0 +1,14 @@
+@import '../../../vars.scss';
+
+.announcement-box {
+  max-width: $admin-table-width;
+}
+
+.announcement-text {
+  background-color: white;
+  border-radius: 4px;
+  p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}

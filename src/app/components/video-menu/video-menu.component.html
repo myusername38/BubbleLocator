@@ -1,0 +1,66 @@
+<div fxLayout="row">
+  <div class="content p-sm w-100" fxLayout="column" fxLayoutAlign="start center">
+    <div class="title mt-sm" fxLayout="row" fxLayoutAlign="center start">
+      <div class="placeholder mr-sm"></div>
+      <h2 class="subtitle-text mlr-auto mt-0 mb-0 questerial">Videos</h2>
+      <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading"></mat-spinner>
+      <div class="placeholder ml-sm" *ngIf="!loading"></div>
+    </div>
+    <div class="w-100 button-container" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.lt-md="center center">
+      <div>
+        <mat-form-field class="display-videos" appearance="fill">
+          <mat-label>Displayed Videos</mat-label>
+          <mat-select [(ngModel)]="videosDisplayed">
+            <mat-option *ngFor="let option of videoTypes" value="{{ option.type }}" (click)="videoChange(option.type)">{{ option.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="buttons h-100" fxLayoutAlign="center center">
+        <button mat-raised-button class="mr-xs" (click)="searchVideo()">Search Video</button>
+        <button mat-raised-button (click)="addVideo()">Add Video</button>
+      </div>
+    </div>
+    <div class="table-container">
+      <table mat-table [dataSource]="videoTableData" class="mat-elevation-z8"
+             matSort matSortActive="added" matSortDisableClear matSortDirection="desc">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef fxFlex="40" fxLayoutAlign="start center">Title</th>
+          <td mat-cell *matCellDef="let element" fxFlex="40" fxLayoutAlign="start center" class="ellipsis"> {{ element?.title }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef fxFlex="15" fxLayoutAlign="start center">Status</th>
+          <td mat-cell *matCellDef="let element" fxFlex="15" fxLayoutAlign="start center" class="ellipsis capitalize">{{ element?.status }}</td>
+        </ng-container>
+        <ng-container matColumnDef="created">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear fxFlex="15">
+            Created
+          </th>
+          <td class="date" mat-cell *matCellDef="let row" fxFlex="15">{{ row.added | date }}</td>
+        </ng-container>
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef fxFlex="25" fxLayoutAlign="start center">Added By</th>
+          <td mat-cell *matCellDef="let element" fxFlex="25" fxLayoutAlign="start center" class="ellipsis">{{ element?.user }}</td>
+        </ng-container>
+        <ng-container matColumnDef="expand" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef fxFlex="5" fxLayoutAlign="start center"></th>
+          <td mat-cell *matCellDef="let element" fxFlex="5" fxLayoutAlign="start center">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="View Program">
+              <mat-icon class="icon">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="expandVideoData(element)"  *ngIf="videoDisplayedSubject.value !== 'flagged'">Expand</button>
+              <button mat-menu-item (click)="expandVideoData(element)"  *ngIf="videoDisplayedSubject.value === 'flagged'">View Ratings</button>
+              <button mat-menu-item (click)="viewVideo(element)">View Video</button>
+              <button mat-menu-item (click)="reviewFlaggedVideo(element)">Rerate Video</button>
+              <button mat-menu-item (click)="resetVideo(element?.title)" *ngIf="videoDisplayedSubject.value !== 'tutorial'">Reset Video</button>
+              <button mat-menu-item (click)="deleteVideo(element)">Delete Video</button>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator class="w-100 paginator" [pageSizeOptions]="[10, 25, 50]" [pageSize]="videosPerPage" [length]="numDocs" (page)="videosPerPage = $event.pageSize"></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,224 @@
+@import '../../../vars.scss';
+
+$large-text-size: 38px;
+$small-text-size: 18px;
+
+.landing-outter {
+  height: calc(100vh - 85px);
+  background-image: url('../../../assets/pictures/surface-of-ocean.jpg');
+  background-position : center bottom;
+  background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.bottom {
+  min-height: 300px;
+  font-family: $roboto;
+  background-color: #F2EFEA;
+  @media screen and (min-width: $screen-extra-small){
+    padding-top: 20px;
+  }
+  .button {
+    max-width: 300px;
+  }
+  .column {
+    width: 100%;
+    max-width: 1400px;
+  }
+}
+
+.rater-community {
+  background-color: rgba(#FFFFFF, .6);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 16px;
+  @media screen and(min-width: $screen-small) {
+    margin-top: -85px;
+  }
+  @media screen and (max-width: $screen-extra-small) {
+    margin-bottom: 4px;
+  }
+  @media screen and (min-width: 320px) {
+    padding-bottom: 32px;
+  }
+  @media screen and (min-width: 1920px) {
+    background-color: rgba(#FFFFFF, .85);
+  }
+}
+// p-sm pl-md pr-md mb-sm
+.analytic-box {
+  padding: 16px;
+  margin-bottom: 16px;
+  padding-left: 32px;
+  padding-right: 32px;
+  background-color: white;
+  color: #bb2031;
+  border-radius: 4px;
+  text-align: center;
+  width: 100%;
+  max-width: 330px;
+  @media screen and (min-width: $screen-small) {
+    margin-right: 16px;
+    margin-left: 16px;
+    min-width: 330px;
+  }
+  @media screen and (max-width: $screen-extra-small) {
+    margin-bottom: 4px;
+  }
+  p {
+    font-size: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.4;
+    @media screen and (max-width: $screen-medium) {
+      font-size: 20px;
+    }
+  }
+  -webkit-box-shadow: 1px 1px 10px 0px rgba(50, 50, 50, 0.86);
+  -moz-box-shadow:    1px 1px 10px 0px rgba(50, 50, 50, 0.86);
+  box-shadow:         1px 1px 10px 0px rgba(50, 50, 50, 0.86);
+}
+
+.analytics-outter {
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 8px;
+  @media screen and (min-width: $screen-extra-small) {
+    margin-bottom: 16px;
+  }
+}
+
+.register-button {
+  background-color: #bb2031;
+  p {
+    font-family: $roboto;
+    font-weight: 400;
+    font-size: 28px;
+    color: white;
+  }
+}
+
+.bottom-button {
+  .button {
+    width: 300px;
+    font-size: 32px;
+    border: 3px solid black;
+    border-radius: 4px;
+  }
+}
+
+.meet-the-team {
+  .divers-picture {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+.diver-picture {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+.about-paragraph {
+  max-width: 1000px;
+  text-align: center;
+  font-size: $small-text-size;
+  line-height: 1.4;
+}
+
+.help-paragraph {
+  text-align: center;
+  font-size: $small-text-size;
+  line-height: 1.4;
+  @media screen and (min-width: $screen-medium) {
+    max-width: 600px;
+  }
+  @media screen and (min-width: $screen-small) {
+    margin-right: 16px;
+  }
+  @media screen and (min-width: 1200){
+    margin-left: 0px;
+  }
+}
+
+video {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+}
+
+.about {
+  text-align: center;
+  line-height: 1.4;
+  font-size: $large-text-size;
+}
+
+.join-title {
+  text-align: center;
+  font-size: $large-text-size;
+  margin-bottom: 16px;
+  line-height: 1.2;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  @media screen and (min-width: $screen-extra-small) {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-bottom: 32px;
+    line-height: 1.4;
+  }
+}
+
+.logo {
+  margin-top: 32px;
+  width: 307px;
+  height: 56px;
+  @media screen and (min-width: $screen-small){
+    width: 576px;
+    height: 105px;
+    margin-top: 64px;
+  }
+  @media screen and (min-width: $screen-medium){
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+.dan-logo {
+  margin-top: 32px;
+  width: 250px;
+  @media screen and (min-width: $screen-medium){
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+
+.back-to-top {
+  color: black;
+  font-family: $roboto;
+  font-size: 32px;
+  font-weight: 300;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+.learn-more {
+  color: white;
+  font-family: $roboto;
+  font-size: 32px;
+  font-weight: 300;
+  position: absolute;
+  bottom: 16px;
+  @media screen and (max-height: 600px) {
+    bottom: -16px;
+  }
+  @media screen and (max-height: 600px) {
+    visibility: hidden;
+  }
+  @media screen and (max-width: 450px) {
+    visibility: hidden;
+  }
+}

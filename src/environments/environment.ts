@@ -3,7 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: 'AIzaSyBw1OrE537pT7SC1PSWHvRvx6DCgeaPifI',
+    authDomain: 'bubblelocatorapi.firebaseapp.com',
+    databaseURL: 'https://bubblelocatorapi.firebaseio.com',
+    projectId: 'bubblelocatorapi',
+    storageBucket: 'bubblelocatorapi.appspot.com',
+    messagingSenderId: '932510009393',
+    appId: '1:932510009393:web:d9b5ff2e6fb97fcca4ad10',
+    measurementId: 'G-F9F4SME7WN'
+  },
+  apiUrl: 'http://localhost:5000/bubblelocatorapi/us-central1/api'
 };
 
 /*

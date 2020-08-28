@@ -1,0 +1,23 @@
+<div class="content p-sm w-100" fxLayout="column" fxLayoutAlign="start center">
+  <div class="title mt-sm mb-xs" fxLayout="row" fxLayoutAlign="center start">
+    <div class="placeholder mr-sm"></div>
+    <h2 class="mlr-auto mt-0 mb-0 questerial">Announcements</h2>
+    <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading"></mat-spinner>
+    <div class="placeholder ml-sm" *ngIf="!loading"></div>
+  </div>
+  <button mat-raised-button class="annoucement-button" (click)="makeAnnouncement()">Make Announcement</button>
+  <div class="announcement-box w-100 mb-sm" *ngFor="let announcementDoc of announcements">
+    <div class="announcement-buttons pb-xs">
+      <button mat-raised-button class="annoucement-button mr-sm" (click)="editDoc(announcementDoc)">Edit</button>
+      <button mat-raised-button class="annoucement-button" (click)="deleteDoc(announcementDoc)">Delete</button>
+    </div>
+    <div class="announcement-box">
+      <div class="w-100">
+        <h1>{{ getTitle(announcementDoc) }}</h1>
+      </div>
+      <div class="announcement-text w-100 p-xs">
+        <p [innerHTML]="getAnnoucement(announcementDoc)"></p>
+      </div>
+    </div>
+  </div>
+</div>

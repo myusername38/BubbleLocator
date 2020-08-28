@@ -1,0 +1,45 @@
+@import '../../../vars.scss';
+
+.exit-icon {
+  margin-right: -25px;
+  margin-top: -25px;
+}
+
+.placeholder {
+  width: 20px;
+  height: 20px;
+}
+
+.expiration {
+  min-height: 75px;
+}
+
+.expiration-label {
+  @media screen and (min-width: $screen-small) {
+    margin-bottom: -19px;
+    margin-left: 2px;
+  }
+  font-size: 15px;
+}
+
+.announcement {
+  margin-top: -16px;
+}
+
+.submit-button {
+  max-width: 400px;
+}
+
+.hours-label {
+  font-size: 14px;
+  margin-top: 4px;
+  margin-left: 8px;
+}
+
+.custom-expiration {
+  margin-top: 16px;
+}
+
+:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: white !important;
+}

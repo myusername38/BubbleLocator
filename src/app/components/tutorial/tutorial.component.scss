@@ -1,0 +1,34 @@
+@import '../../../vars.scss';
+
+.logo {
+  width: 384px;
+  height: 70px;
+}
+
+.tool-bar {
+  height: 85px;
+}
+
+.tutorial-contents {
+  text-align: center
+}
+
+video {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+}
+
+.buttons {
+  background-color: #57b8ff;
+  margin-top: 8px;
+}
+
+.top-button {
+  margin-right: 10px;
+  margin-left: auto;
+}
+
+.return-button {
+  font-size: 18px;
+}

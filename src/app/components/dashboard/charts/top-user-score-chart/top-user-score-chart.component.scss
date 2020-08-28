@@ -1,0 +1,72 @@
+@import '../../../../../vars.scss';
+@import '../../dashboard-colors.scss';
+
+$fontSize: 20px;
+
+.bar-chart {
+  background-color: $background-color;
+  border-radius: $border-radius;
+}
+
+.title {
+  font-family: $roboto;
+  color: $text-color;
+  font-size: $font-lg;
+  @media screen and (max-width: $screen-medium) {
+    text-align: center;
+    line-height: 1.4;
+  }
+}
+
+.placeholder {
+  height: 25px;
+  width: 25px;
+}
+
+.chart {
+  height: 150px;
+  @media screen and (min-width: $screen-small) {
+    height: 200px;
+  }
+}
+
+:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: white !important;
+}
+
+.name {
+  color: $text-color;
+}
+
+
+:host ::ng-deep .ngx-charts {
+  .tick{
+    text{ // the tick lables
+      fill: $graphtick-color !important;
+      font-size: .8rem !important;
+      @media screen and (min-width: $screen-medium) {
+        font-size: .75rem !important;
+      }
+    }
+  }
+  text { // the headers
+    fill: $primary-color;
+    font-size: $font-md;
+    @media screen and (min-width: $screen-medium) {
+      font-size: $font-lg;
+    }
+  }
+  .gridline-path { // the color of the gridlines
+    stroke: $gridline-color !important;
+  }
+  .gridline-path-vertical { // displaying the vertical lines or not
+    display: none !important;
+  }
+}
+
+.square {
+  height: $fontSize;
+  width: $fontSize;
+  border-radius: 4px;
+  border: 2px solid $border-color;
+}

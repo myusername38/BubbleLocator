@@ -1,0 +1,67 @@
+<div class="landing" fxLayout="column">
+  <div class="landing-outter p-sm" fxLayout="column" fxLayoutAlign="center center">
+    <div class="rater-community fade-in-slow" fxLayout="column" fxLayoutAlign="center center" *ngIf="showJoinMessage">
+      <h1 class="mlr-auto join-title">Join the Rater Community</h1>
+      <div class="mlr-auto analytics-outter" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-around center">
+        <div class="analytic-box" fxLayout="column" fxHide.lt-md>
+          <p>Unique Raters</p>
+          <p>{{ raters }}</p>
+        </div>
+        <div class="analytic-box" fxLayout="column" fxHide.lt-md>
+          <p>Ratings Submitted</p>
+          <p>{{ ratings }}</p>
+        </div>
+        <div class="analytic-box" fxLayout="column" fxHide.gt-sm>
+          <p>Unique Raters: {{ raters }} </p>
+          <p class="mb-0">Ratings Submitted: {{ ratings }}</p>
+        </div>
+      </div>
+      <button mat-raised-button class="register-button mlr-auto p-xs pl-md pr-md">
+        <p class="mt-xs mb-xs" (click)="register()">Register Now</p>
+      </button>
+    </div>
+    <button mat-button (click)="learnMore()" class="learn-more mlr-auto mt-auto mb-lg">
+      <p class="mt-xs mb-xs">Learn More</p>
+    </button>
+  </div>
+  <div class="bottom">
+    <div class="w-100 p-sm" fxLayout="column" fxLayoutAlign="start center">
+      <div class="column w-100 mb-md" fxLayout="column" fxLayoutAlign="start center">
+        <h1 class="mt-xs mb-sm mlr-auto about">About DecoBubbles</h1>
+        <div class="about-paragraph">
+          <p>Our team works with ultrasound technologies and is experimenting with AI to personalize decompression procedures for divers. Ultrasound imaging can be used to observe nitrogen bubbles circulating in the body after a dive, which can sometimes result in decompression sickness. These bubbles are a marker of decompression stress and can help us understand someone’s individual susceptibility to decompression sickness. By using AI to locate these bubbles, it will allow us to study how the amount of bubbles vary for multiple hours post dive. If you have any questions or would like to colaborate, please email contact@decobubbles.com.</p>
+        </div>
+      </div>
+      <div class="column w-100 mb-md" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-around center">
+        <div>
+          <h1 class="mt-xs mb-sm mlr-auto about">We Need Your Help</h1>
+          <div class="help-paragraph">
+            <p>To build and train an AI to locate bubbles, it requires a large database of rated post-dive ultrasound videos, many more than our team can produce alone. That is why we are asking for volunteers to help build this database with us. We have developed this website so volunteers from around the world can come together and aid us in this first of its kind crowd sourcing campaign.</p>
+          </div>
+        </div>
+        <div>
+          <img class="diver-picture" src="../../../assets/pictures/happy-diver.jpg">
+        </div>
+      </div>
+      <div class="column w-100 mb-md meet-the-team" fxLayout="column" fxLayoutAlign="start center">
+        <p class="mt-xs mb-md mlr-auto about">Meet The Team</p>
+        <img class="divers-picture" alt="picture of divers on a boat" src="../../../assets/pictures/divers-on-boat.jpg">
+      </div>
+      <div class="column w-100 team-bios" fxLayout="column" fxLayoutAlign="start center" *ngFor="let contributor of decoBubblesTeam">
+        <app-contributor [conntributor]="contributor"></app-contributor>
+      </div>
+      <div class="column w-100 meet-the-team" fxLayout="column" fxLayoutAlign="start center">
+        <p class="mt-xs mlr-auto about">Collaborators</p>
+      </div>
+      <div class="column w-100 team-bios" fxLayout="column" fxLayoutAlign="start center" *ngFor="let contributor of collaboratorTeam">
+        <app-contributor [conntributor]="contributor"></app-contributor>
+      </div>
+      <div class="bottom-button p-sm pl-xs pr-xs" fxLayout="column" fxLayoutAlign="center center">
+        <button mat-button class="mb-sm" (click)="privacy()">Privacy Policy</button>
+        <button mat-button class="back-to-top">
+          <p class="mt-xs mb-xs" (click)="backToTop()">Back</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

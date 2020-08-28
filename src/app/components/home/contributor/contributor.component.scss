@@ -1,0 +1,36 @@
+@import '../../../../vars.scss';
+
+$picture-size: 124px;
+
+.contributor-outter {
+  max-width: 1000px;
+  h1 {
+    text-align: center;
+    font-family: $roboto;
+  }
+  p {
+    font-family: $roboto;
+    line-height: 1.4;
+    font-size: 17px;
+  }
+  .linkedin-icon {
+    width: 40px;
+  }
+  .bio-box {
+    @media screen and(max-width: $screen-medium) {
+      text-align: center;
+    }
+  }
+}
+
+.about-box {
+  @media screen and(min-width: $screen-extra-small) {
+    min-width: 300px !important;
+  }
+}
+
+.contributor-picture {
+  height: $picture-size;
+  width: $picture-size;
+  border-radius: 62px;
+}

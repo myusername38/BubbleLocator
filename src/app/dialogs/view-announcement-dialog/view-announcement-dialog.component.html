@@ -1,0 +1,10 @@
+<div class="w-100 outter">
+  <div class="w-100" fxLayoutAlign="end center">
+    <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+  </div>
+  <h1 class="mt-0 mb-xs mlr-auto">{{ announcement.title }}</h1>
+  <h2 class="mt-0 mb-xs mlr-auto date">{{ dateTickFormatting(announcement.added) }}</h2>
+  <div class="w-100">
+    <p [innerHTML]="formatAnnouncement(announcement.announcement)"></p>
+  </div>
+</div>

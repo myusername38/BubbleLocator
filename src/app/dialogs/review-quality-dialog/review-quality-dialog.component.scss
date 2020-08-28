@@ -1,0 +1,23 @@
+@import '../../../vars.scss';
+
+.placeholder {
+  width: 20px;
+  height: 20px;
+}
+
+:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: white !important;
+}
+
+.dialog-title {
+  font-size: 44px !important;
+}
+
+button {
+  width: 120px;
+}
+
+p {
+  color: white;
+  font-size: 24px;
+}
