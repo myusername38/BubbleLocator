@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   ];
   tileData = [{ item: 'Unique Raters', docRef: '/metadata/users' },
   { item: 'All Time Ratings', docRef: '/metadata/all-time-ratings' },
-  { item: 'Overall Videos Completed', docRef: '/metadata/complete-videos' },
+  { item: 'Videos in Database', docRef: '/metadata/videos-added' },
   ];
   barColorScheme = {
     domain: ['#00A7E1', '#D00000']
@@ -86,23 +86,37 @@ export class DashboardComponent implements OnInit {
       this.results[0].series = series;
       this.results = [...this.results];
     });
-    if (this.completedTutorial) {
-      this.db.collection('announcements').ref.limit(1).orderBy('added', 'desc').onSnapshot(data => {
-        data.forEach(doc => {
-          const announcement = (doc.data() as Announcement);
-          if (announcement.expire > Date.now()) { // making sure the announcement has not expired
-            this.announcement = announcement;
-            if (!localStorage[doc.id] && this.router.isActive('/home', true)) {
-              this.announcementId = doc.id;
-              this.expandAnnouncement();
-            }
+    this.getUsersData();
+    this.getAnnouncement();
+  }
+
+  async getAnnouncement() {
+    try {
+      this.loading = true;
+      const docs = (await this.db.collection('announcements').ref.limit(1).orderBy('added', 'desc').get());
+      docs.forEach(doc => {
+        const announcement = (doc.data() as Announcement);
+        if (announcement.expire > Date.now()) { // making sure the announcement has not expired
+          this.announcement = announcement;
+          if (!localStorage[doc.id] && this.router.isActive('/home', true)) {
+            this.announcementId = doc.id;
           }
-        });
+        }
       });
-    } else if (!localStorage.completedFirst) {
+      this.showDialog();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  showDialog() {
+    if (this.completedTutorial && this.announcementId) {
+      this.expandAnnouncement();
+    } else if (!(localStorage.completedFirst || this.completedTutorial)) {
       this.showWelcomeMessage();
     }
-    this.getUsersData();
   }
 
   goToLanding() {
@@ -174,6 +188,7 @@ export class DashboardComponent implements OnInit {
     try {
       this.loading = true;
       await this.userService.removeUserAccount();
+      this.authService.logout();
       this.snackbacService.showInfo('Account successfully removed');
       this.router.navigate(['/']);
     } catch (err) {

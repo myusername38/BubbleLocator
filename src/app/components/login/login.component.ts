@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../services/snackbar.service';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +19,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private snackbarService: SnackbarService,
-    private dialog: MatDialog,
     private authService: AuthService) { }
 
   ngOnInit() {

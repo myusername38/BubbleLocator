@@ -67,12 +67,15 @@ export class RegisterComponent implements OnInit {
     };
   }
 
+  privacyPolicy() {
+    this.router.navigate(['privacy-policy']);
+  }
+
   login() {
     this.router.navigate(['login']);
   }
 
   async onSubmit() {
-
     try {
       const formData = this.registerForm.getRawValue();
       this.loading = true;

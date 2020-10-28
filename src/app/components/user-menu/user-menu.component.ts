@@ -31,17 +31,8 @@ export class UserMenuComponent implements OnInit {
   numDocs = 0;
   loading = true;
   role = '';
-  userTypes = [
-    { type: 'all', title: 'All Users' },
-    { type: 'owners', title: 'Owners' },
-    { type: 'admins', title: 'Admins' },
-    { type: 'assistants', title: 'Assistants' },
-    { type: 'raters', title: 'Raters' },
-    { type: 'incomplete', title: 'Incomplete' },
-  ];
   pageDirection = '';
-  usersDisplayed = this.userTypes[0].type;
-  usersDisplayedSubject: BehaviorSubject<string> = new BehaviorSubject(this.usersDisplayed);
+  updateUsers: BehaviorSubject<string> = new BehaviorSubject('Update');
   displayColumns: string[] = ['uid', 'role', 'score', 'rejected', 'expand'];
   query = null;
   direction = '';
@@ -80,7 +71,7 @@ export class UserMenuComponent implements OnInit {
       this.lastDoc = [];
     });
 
-    merge(this.sort.sortChange, this.paginator.page, this.usersDisplayedSubject)
+    merge(this.sort.sortChange, this.paginator.page, this.updateUsers)
     .pipe(
       switchMap(() => {
         this.query = this.createQuery(this.sort.active, this.sort.direction);
@@ -118,7 +109,7 @@ export class UserMenuComponent implements OnInit {
       if (active === 'score') {
         orderBy = 'userScore';
       } else if (active === 'rejected') {
-        orderBy = 'ratingsRejected';
+        orderBy = 'outliers';
       }
       this.active = active;
       this.direction = direction;
@@ -223,20 +214,35 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
-  /*
-  expandVideoData(video: VideoMetadata) {
-    const dialogRef = this.dialog.open(ExpandVideoDialogComponent, {
-      width: '800px',
-      data: {
-        video,
-        type: this.videoDisplayedSubject.value,
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'Confirm') {
-        this.deleteVideo(video);
-      }
-    });
+  resetUserScores() {
+      const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+        width: '500px',
+        data: {
+          options: [
+            'Confirm', 'Cancel',
+          ],
+          message: `Confirm Reset`,
+          description: 'This action sets all user scores to 0 and cannot be undone.'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'Confirm') {
+          this.resetScores();
+        }
+      });
   }
-  */
+
+  async resetScores() {
+    try {
+      this.loading = true;
+      await this.userService.resetUserScores();
+      setTimeout(() => {
+        this.updateUsers.next('update');
+      }, 500);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
+  }
 }

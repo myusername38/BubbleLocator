@@ -9,7 +9,7 @@ export const decoBubblesTeam: Contributor[] = [
     linkedIn: 'https://www.linkedin.com/in/martin-smolka-759283191/'
   },
   {
-    name: 'David Lee',
+    name: 'David Le',
     bio: `David graduated from George Mason University with a Bachelor’s in Bioengineering where his research focused on using ultrasound imaging to study myofascial pain syndrome. He started his Ph.D studies at the University of North Carolina at Chapel Hill in 2017 working on new ultrasound imaging and image processing techniques for the study of decompression bubbles. He is the lead AI developer and will be using the data gathered by DecoBubbles to train the AI-powered bubble detection system.`,
     title: 'AI Developer',
     picture: 'david.jpg',
@@ -18,30 +18,34 @@ export const decoBubblesTeam: Contributor[] = [
   {
     name: 'Kamellia Karimpour',
     bio: `Kamellia Karimpour is a sophomore in Biomedical Engineering with minors in French and Chemistry on the pre-med track at the University of North Carolina at Chapel Hill. She is a research assistant on Dr. Papadopoulou’s Team where she studies venous gas emboli. Kamellia has much experience analyzing echocardiograms and was consulting during each stage of development of DecoBubbles to provide feedback on how to improve the interface.`,
-    title: 'Undergrad Researcher',
+    title: 'UI Analyst',
     picture: 'kamellia.jpg',
     linkedIn: 'https://www.linkedin.com/in/kamellia-karimpour-8a61791b0/',
   },
   {
     name: 'Dr. Papadopoulou',
-    bio: `Dr. Papadopoulou is a Research Assistant Professor in the Joint Department of Biomedical Engineering at the UNC Chapel Hill & NC State University and leads the DecoBubbles team. Her research aims to bridge the different areas dealing with bubbles in the bloodstream, from environmentally triggered endogenous bubbles, to engineered contrast agents for ultrasound imaging and therapy. She has been awarded the 2017 Divers Alert Network/Bill Hamilton Memorial Grant by the Women Divers Hall of Fame, the 2020 Undersea and Hyperbaric Medicine Young Scientist Award, as well as the title of Divers Alert Network Scholar since 2018, for her on-going work creating a dynamic ultrasonic assessment of decompression bubbles.`,
+    bio: `Dr. Virginie Papadopoulou is a Research Assistant Professor in the Joint Department of Biomedical Engineering at the UNC Chapel Hill & NC State University and leads the DecoBubbles team. Her research aims to bridge the different areas dealing with bubbles in the bloodstream, from environmentally triggered endogenous bubbles, to engineered contrast agents for ultrasound imaging and therapy. She has been awarded the 2017 Divers Alert Network/Bill Hamilton Memorial Grant by the Women Divers Hall of Fame, the 2020 Undersea and Hyperbaric Medicine Young Scientist Award, as well as the title of Divers Alert Network Scholar since 2018, for her on-going work creating a dynamic ultrasonic assessment of decompression bubbles.`,
     title: 'Principal Investigator',
     picture: 'Virginie_Papadopoulou.jpg',
     linkedIn: 'https://www.linkedin.com/in/virginie-papadopoulou-51b2b942/',
-  }
-];
-
-export const collaborators: Contributor[] = [
+  },
   {
-    name: 'Frauke  Tillmans',
-    bio: `Dr. Tillmans is the Research Director at Divers Alert Network (DAN). She holds a PhD in Human Biology and has dedicated her career to diving safety. She has participated in global collaborative projects covering all aspects of diving physiology. Being an experienced diver, over the years Frauke has led numerous field projects with divers involving acquisition of ultrasound recordings. She has coordinated the DAN dataset contribution to DecoBubbles.`,
+    name: 'Dr. Tillmans',
+    bio: `Dr. Frauke Tillmans is the Research Director at Divers Alert Network (DAN). She holds a PhD in Human Biology and has dedicated her career to diving safety. She has participated in global collaborative projects covering all aspects of diving physiology. Being an experienced diver, over the years Frauke has led numerous field projects with divers involving acquisition of ultrasound recordings. She has coordinated the DAN dataset contribution to DecoBubbles.`,
+    title: 'Collaboration Lead',
     picture: 'tillmans.jpg',
+    linkedIn: 'https://www.linkedin.com/in/frauke-tillmans-275579184/'
   },
   {
     name: 'Alexandra V. Romfoe',
-    bio: `Alexandra is a Research Associate at DAN. Her background is in Biology and Public Health. Since interning at DAN in 2018, Alexandra has been able to watch DecoBubbles grow into what it is today. As an employee of DAN, Alexandra has had the opportunity to go on research trips to collect some of the videos being analyzed on DecoBubbles and count the bubbles in those videos for research projects.`,
+    bio: `Alexandra worked as a Research Associate at DAN. Her background is in Biology and Public Health. Since interning at DAN in 2018, Alexandra was able to watch DecoBubbles grow into what it is today. Alexandra has had the opportunity to not only count bubbles, but also go on field trips with DAN Research to collect some of the videos being analyzed on DecoBubbles.`,
+    title: 'QA Analyst',
     picture: 'alexandra.jpg',
+    linkedIn: 'https://www.linkedin.com/in/alexandra-v-romfoe-ab1b24127/'
   },
+];
+
+export const collaborators: Contributor[] = [
   {
     name: 'Costantino Balestra',
     bio: `Prof. Costantino Balestra started to study neurophysiology of fatigue then investigated environmental (Integrative)physiology issues. He teaches physiology, biostatistics, research methodology, as well as other subjects. He Is the Director of the Integrative Physiology Laboratory and a full time professor at the Haute Ecole Bruxelles-Brabant (Brussels). He is VP of DAN Europe for research and education, Past President of the European Underwater and Baromedical Society.`,
