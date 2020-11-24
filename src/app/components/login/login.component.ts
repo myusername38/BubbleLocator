@@ -45,15 +45,14 @@ export class LoginComponent implements OnInit {
   async onSubmit() {
     try {
       this.loading = true;
-      if (this.authService._user) {
-        await this.authService.logout();
-      }
       await this.authService.login(this.loginForm.getRawValue());
-      if (this.authService.currentUserEmailVerified()) {
-        this.router.navigate(['/home']);
-      } else {
-        this.router.navigate(['/verify-email']);
-      }
+      await setTimeout(() => {
+        if (this.authService.currentUserEmailVerified()) {
+          this.router.navigate(['/home']);
+        } else {
+          this.router.navigate(['/verify-email']);
+        }
+      }, 500);
     } catch ({ message = 'Error authentication, please try again' }) {
       this.snackbarService.showError(message, 'Close');
     } finally {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/d
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   mobileMenu = false;
   loading = false;
@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
   percentage = 'Accepted percentage: 100%';
   announcement: Announcement = null;
   announcementId = '';
+  firstLoad = true;
 
   constructor(private authService: AuthService,
               private db: AngularFirestore,
@@ -69,6 +70,10 @@ export class DashboardComponent implements OnInit {
         this.admin = true;
       }
       this.completedTutorial = this.authService.completedTutorial;
+      if (role && this.firstLoad) {
+        this.loadData();
+        this.firstLoad = false;
+      }
     });
   }
 
@@ -76,7 +81,7 @@ export class DashboardComponent implements OnInit {
     return new Date(val).toLocaleDateString();
   }
 
-  ngOnInit() {
+  loadData() {
     this.db.collection('ratingsPerDay').ref.limit(10).orderBy('date', 'asc').onSnapshot((data) => {
       const series = [];
       data.forEach(doc => {
@@ -103,7 +108,7 @@ export class DashboardComponent implements OnInit {
           }
         }
       });
-      this.showDialog();
+      // this.showDialog();
     } catch (err) {
       console.log(err);
     } finally {
@@ -209,7 +214,7 @@ export class DashboardComponent implements OnInit {
       let topRater = null;
       let user = null;
       await Promise.all([
-        user = (await this.db.doc(`/users/${ this.authService.user.uid }`).ref.get()).data(),
+        user = (await this.db.doc(`/users/${ this.authService.uid }`).ref.get()).data(),
         (await this.db.collection(`users`).ref.limit(1).orderBy('userScore', 'desc').get()).forEach(rater => {
           topRater = rater.data();
         })

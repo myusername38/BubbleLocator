@@ -4,7 +4,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { id } from '@swimlane/ngx-charts';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +16,18 @@ export class AuthService {
   public _user = null;
   // tslint:disable-next-line: variable-name
   public _token = null;
+  // tslint:disable-next-line: variable-name
+  public _uid = null;
 
   url = environment.apiUrl;
-
+  emailVerified = false;
   userRole = new BehaviorSubject(null);
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject(null);
   userSubject: BehaviorSubject<any> = new BehaviorSubject(null);
   _completedTutorial = false;
-  sendEmail = false;
 
   get uid() {
-    return this._user.uid;
+    return this._uid;
   }
 
   get user() {
@@ -47,7 +49,7 @@ export class AuthService {
     this.firebaseAuth.user.subscribe(async user => {
       this._user = user;
       this.userSubject.next(user);
-      if (user) {
+      if (user && user !== undefined) {
         this.userService.testToken();
         this._token = await user.getIdToken();
         this.tokenSubject.next(this._token);
@@ -56,14 +58,12 @@ export class AuthService {
       } else {
         this.userRole.next('unathorized');
       }
+      console.log(this.emailVerified);
     });
   }
 
   currentUserEmailVerified() {
-    if (this.firebaseAuth.auth.currentUser) {
-      return this.firebaseAuth.auth.currentUser.emailVerified;
-    }
-    return false;
+    return this.emailVerified;
   }
 
   async resendEmail() {
@@ -72,12 +72,11 @@ export class AuthService {
     }
   }
 
-  async login({ email, password }: { email: string; password: string; }): Promise<any> {
-    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  async login(loginData: { email: string; password: string; }): Promise<any> {
+    await this.firebaseAuth.signInWithEmailAndPassword(loginData.email, loginData.password);
   }
 
-  async register(email: string, password: string): Promise<any> {
-    this.sendEmail = true;
+  async register({ email, password }: { email: string; password: string; }): Promise<any> {
     return this.http.post(`${ this.url }/signup`, { email, password }).toPromise();
   }
 
@@ -87,6 +86,8 @@ export class AuthService {
   }
 
   getRole(idTokenResult) {
+    this.emailVerified = idTokenResult.claims.email_verified;
+    this._uid = idTokenResult.claims.user_id;
     if (idTokenResult.claims.completedTutorial) {
       this._completedTutorial = idTokenResult.claims.completedTutorial;
     } else {
@@ -109,15 +110,18 @@ export class AuthService {
   }
 
   async sendPasswordResetEmail(email: string) {
-    return this.firebaseAuth.auth.sendPasswordResetEmail(email);
+    return this.firebaseAuth.sendPasswordResetEmail(email);
   }
 
-  async sendVerificationEmail(email: string, password: string) {
-    await this.login({ email, password });
-    return this.firebaseAuth.auth.currentUser.sendEmailVerification();
+  async sendVerificationEmail(verificationData: { email: string; password: string; }) {
+    await this.login(verificationData);
+    await setTimeout(() => {}, 300);
+    return (await this.firebaseAuth.currentUser).sendEmailVerification();
   }
 
-  logout() {
-    return this.firebaseAuth.auth.signOut();
+  async logout() {
+    if (this._user) {
+      return this.firebaseAuth.signOut();
+    }
   }
 }

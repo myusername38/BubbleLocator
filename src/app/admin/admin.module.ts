@@ -82,11 +82,11 @@ import { AdminComponent } from './admin.component';
   entryComponents: [
     AddPermissionDialogComponent,
     DeleteUserDialogComponent,
-    DialogConfirmationComponent,
-    AddVideoDialogComponent,
-    ExpandVideoDialogComponent,
-    SearchVideoDialogComponent,
     AnnouncementFormDialogComponent,
+    ExpandVideoDialogComponent,
+    ExpandUserDialogComponent,
+    SearchDialogComponent,
+    SearchVideoDialogComponent,
   ],
 })
 export class AdminModule { }

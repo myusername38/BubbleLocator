@@ -77,13 +77,13 @@ export class RegisterComponent implements OnInit {
 
   async onSubmit() {
     try {
-      const formData = this.registerForm.getRawValue();
       this.loading = true;
-      await this.authService.register(formData.email, formData.password);
-      await this.authService.sendVerificationEmail(formData.email, formData.password);
+      const formData = this.registerForm.getRawValue();
+      await this.authService.register({ email: formData.email, password: formData.password });
+      await this.authService.sendVerificationEmail({ email: formData.email, password: formData.password });
       this.router.navigate(['verify-email']);
     } catch (err) {
-      if (err.error.email) {
+      if (err.error && err.error.email) {
         this.snackbarService.showError(err.error.email);
       } else {
         console.log(err);

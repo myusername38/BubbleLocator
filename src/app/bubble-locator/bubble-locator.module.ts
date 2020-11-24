@@ -58,6 +58,8 @@ import { TutorialResultsDialogComponent } from '../dialogs/tutorial-results-dial
   entryComponents: [
     DialogConfirmationComponent,
     ResolutionDialogComponent,
+    ReviewQualityDialogComponent,
+    TutorialResultsDialogComponent,
   ],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }

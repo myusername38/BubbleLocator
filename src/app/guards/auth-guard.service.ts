@@ -83,6 +83,10 @@ export class AuthGuard implements CanActivate {
     /*Routes without params */
     switch (state.url ) { // for role based locations
       case '/home': {
+        if (!this.authService.currentUserEmailVerified()) {
+          this.snackbar.showError('You must verify your email');
+          return false;
+        }
         return true;
       }
       case '/bubbleLocator': {

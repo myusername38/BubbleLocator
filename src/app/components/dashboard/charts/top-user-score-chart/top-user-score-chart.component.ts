@@ -28,9 +28,4 @@ export class TopUserScoreChartComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
-  async getUsersData() {
-    await this.db
-  }
-
 }
