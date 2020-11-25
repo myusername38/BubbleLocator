@@ -25,6 +25,7 @@ import { LocatorComponent } from './locator.component';
 import { TutorialLocatorComponent } from '../components/tutorial-locator/tutorial-locator.component';
 import { ViewVideoComponent } from '../components/view-video/view-video.component';
 import { TutorialResultsDialogComponent } from '../dialogs/tutorial-results-dialog/tutorial-results-dialog.component';
+import { CompletedRatingDialogComponent } from '../dialogs/completed-rating-dialog/completed-rating-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { TutorialResultsDialogComponent } from '../dialogs/tutorial-results-dial
     TutorialLocatorComponent,
     ViewVideoComponent,
     TutorialResultsDialogComponent,
+    CompletedRatingDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +62,7 @@ import { TutorialResultsDialogComponent } from '../dialogs/tutorial-results-dial
     ResolutionDialogComponent,
     ReviewQualityDialogComponent,
     TutorialResultsDialogComponent,
+    CompletedRatingDialogComponent
   ],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }
