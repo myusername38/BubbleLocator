@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserService } from '../../../../services/user.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material/dialog';
+import { UserScoreDialogComponent } from '../../../../dialogs/user-score-dialog/user-score-dialog.component';
 
 @Component({
   selector: 'app-top-user-score-chart',
@@ -23,9 +23,18 @@ export class TopUserScoreChartComponent implements OnInit {
       }
     ];
 
-  constructor(private db: AngularFirestore) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
+  }
+
+  moreInfo() {
+    const dialogRef = this.dialog.open(UserScoreDialogComponent, {
+      disableClose: true,
+      width: '800px',
+      data: { }
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }

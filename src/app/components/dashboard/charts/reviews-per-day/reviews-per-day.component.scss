@@ -7,6 +7,14 @@
 }
 
 .title {
+  margin-bottom: 8px;
+  @media screen and (min-width: $screen-medium) {
+    margin-bottom: 16px;
+  }
+}
+
+
+.title {
   font-family: $roboto;
   color: $text-color;
   font-size: $font-lg;

@@ -1,0 +1,17 @@
+<div class="w-100 mb-xs" fxLayoutAlign="end center">
+  <button (click)="close()" class="exit-icon" mat-icon-button><mat-icon>clear</mat-icon></button>
+</div>
+<div class="confirmation" fxLayout="column" fxLayoutAlign="center center">
+  <div class="title">
+    <h1 class="mb-sm">User rating system</h1>
+  </div>
+  <div class="more-info">
+    <p class="mt-0">Every rating you submit grants you one point and every rating that is in agreement with other raters will grant you and extra 10 points. This chart shows your score as well as the top rater score.
+    </p>
+  </div>
+  <div class="button-row mt-xs" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button class="mr-xs p-xs" (click)="close()" [ngStyle]="{ 'background-color': '#57b8ff' }">
+      <p class="m-auto">Close</p>
+    </button>
+  </div>
+</div>
