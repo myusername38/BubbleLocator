@@ -1,9 +1,10 @@
 <div class="contributor-outter w-100 p-sm" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
   <div class="about-box w-100" fxLayout="column" fxLayoutAlign="center center">
     <h1>{{ conntributor.name }}</h1>
-    <a href="{{ conntributor.linkedIn }}" rel="noopener noreferrer" target="_blank">
+    <a href="{{ conntributor.linkedIn }}" rel="noopener noreferrer" target="_blank" *ngIf="conntributor.linkedIn">
       <img class="contributor-picture" alt="picture of {{ conntributor.name }}" src='../../../../assets/pictures/contributor-pictures/{{ conntributor.picture }}'>
     </a>
+    <img class="contributor-picture" alt="picture of {{ conntributor.name }}" src='../../../../assets/pictures/contributor-pictures/{{ conntributor.picture }}' *ngIf="!conntributor.linkedIn">
     <p class="mt-xs">{{ conntributor.title }}</p>
   </div>
   <div class="bio-box">

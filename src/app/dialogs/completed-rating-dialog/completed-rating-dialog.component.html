@@ -1,0 +1,16 @@
+<div class="confirmation" fxLayout="column" fxLayoutAlign="center center">
+  <div class="title">
+    <h1 class="mb-sm">Rating Submitted!</h1>
+  </div>
+  <div class="more-info">
+    <p class="mt-0">Do you wish to continue?</p>
+  </div>
+  <div class="button-row" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button class="mr-xs p-xs" (click)="click('Continue')" [ngStyle]="{ 'background-color': '#57b8ff' }">
+      <p class="m-auto">Continue</p>
+    </button>
+    <button mat-button class="ml-xs p-xs" (click)="click('Exit')" [ngStyle]="{ 'background-color': '#6F8695' }">
+      <p class="m-auto">Exit</p>
+    </button>
+  </div>
+</div>

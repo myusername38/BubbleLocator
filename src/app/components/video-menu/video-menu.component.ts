@@ -51,7 +51,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
   displayColumns: string[] = this.incomleteColumns;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private authService: AuthService,
               private router: Router,

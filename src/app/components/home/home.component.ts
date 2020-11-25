@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router, private db: AngularFirestore) {}
 
   ngOnInit() {
+    window.scroll(0, 0);
     this.backToTop();
     this.getData();
     setTimeout(() => {

@@ -1,4 +1,25 @@
+@import '../../../vars.scss';
 
 .privacy-policy {
   background-color: #F2EFEA;
+  height: 100%;
+}
+
+.placeholder {
+  height: 40px;
+}
+.back {
+  margin-top: 16px;
+  color: black;
+  font-family: $roboto;
+  font-size: 22px;
+  font-weight: 300;
+  border: 2px solid black;
+  border-radius: 4px;
+  p {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 8px;
+    margin-left: 8px;
+  }
 }

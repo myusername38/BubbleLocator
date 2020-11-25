@@ -4,7 +4,7 @@ $large-text-size: 38px;
 $small-text-size: 18px;
 
 .landing-outter {
-  height: calc(100vh - 85px);
+  height: calc(100vh);
   background-image: url('../../../assets/pictures/surface-of-ocean.jpg');
   background-position : center bottom;
   background-size: cover;
@@ -28,7 +28,7 @@ $small-text-size: 18px;
 }
 
 .rater-community {
-  background-color: rgba(#FFFFFF, .6);
+  background-color: rgba(#FFFFFF, .7);
   border-radius: 8px;
   z-index: 1;
   padding: 16px;
@@ -41,7 +41,7 @@ $small-text-size: 18px;
   @media screen and (min-width: 320px) {
     padding-bottom: 32px;
   }
-  @media screen and (min-width: 1920px) {
+  @media screen and (min-width: 1400px) {
     background-color: rgba(#FFFFFF, .85);
   }
 }

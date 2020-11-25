@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/d
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   mobileMenu = false;
   loading = false;
@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   ];
   tileData = [{ item: 'Unique Raters', docRef: '/metadata/users' },
   { item: 'All Time Ratings', docRef: '/metadata/all-time-ratings' },
-  { item: 'Overall Videos Completed', docRef: '/metadata/complete-videos' },
+  { item: 'Videos in Database', docRef: '/metadata/videos-added' },
   ];
   barColorScheme = {
     domain: ['#00A7E1', '#D00000']
@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
   percentage = 'Accepted percentage: 100%';
   announcement: Announcement = null;
   announcementId = '';
+  firstLoad = true;
 
   constructor(private authService: AuthService,
               private db: AngularFirestore,
@@ -69,6 +70,10 @@ export class DashboardComponent implements OnInit {
         this.admin = true;
       }
       this.completedTutorial = this.authService.completedTutorial;
+      if (role && this.firstLoad) {
+        this.loadData();
+        this.firstLoad = false;
+      }
     });
   }
 
@@ -76,7 +81,7 @@ export class DashboardComponent implements OnInit {
     return new Date(val).toLocaleDateString();
   }
 
-  ngOnInit() {
+  loadData() {
     this.db.collection('ratingsPerDay').ref.limit(10).orderBy('date', 'asc').onSnapshot((data) => {
       const series = [];
       data.forEach(doc => {
@@ -86,23 +91,37 @@ export class DashboardComponent implements OnInit {
       this.results[0].series = series;
       this.results = [...this.results];
     });
-    if (this.completedTutorial) {
-      this.db.collection('announcements').ref.limit(1).orderBy('added', 'desc').onSnapshot(data => {
-        data.forEach(doc => {
-          const announcement = (doc.data() as Announcement);
-          if (announcement.expire > Date.now()) { // making sure the announcement has not expired
-            this.announcement = announcement;
-            if (!localStorage[doc.id] && this.router.isActive('/home', true)) {
-              this.announcementId = doc.id;
-              this.expandAnnouncement();
-            }
+    this.getUsersData();
+    this.getAnnouncement();
+  }
+
+  async getAnnouncement() {
+    try {
+      this.loading = true;
+      const docs = (await this.db.collection('announcements').ref.limit(1).orderBy('added', 'desc').get());
+      docs.forEach(doc => {
+        const announcement = (doc.data() as Announcement);
+        if (announcement.expire > Date.now()) { // making sure the announcement has not expired
+          this.announcement = announcement;
+          if (!localStorage[doc.id] && this.router.isActive('/home', true)) {
+            this.announcementId = doc.id;
           }
-        });
+        }
       });
-    } else if (!localStorage.completedFirst) {
+      // this.showDialog();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  showDialog() {
+    if (this.completedTutorial && this.announcementId) {
+      this.expandAnnouncement();
+    } else if (!(localStorage.completedFirst || this.completedTutorial)) {
       this.showWelcomeMessage();
     }
-    this.getUsersData();
   }
 
   goToLanding() {
@@ -174,6 +193,7 @@ export class DashboardComponent implements OnInit {
     try {
       this.loading = true;
       await this.userService.removeUserAccount();
+      this.authService.logout();
       this.snackbacService.showInfo('Account successfully removed');
       this.router.navigate(['/']);
     } catch (err) {
@@ -194,7 +214,7 @@ export class DashboardComponent implements OnInit {
       let topRater = null;
       let user = null;
       await Promise.all([
-        user = (await this.db.doc(`/users/${ this.authService.user.uid }`).ref.get()).data(),
+        user = (await this.db.doc(`/users/${ this.authService.uid }`).ref.get()).data(),
         (await this.db.collection(`users`).ref.limit(1).orderBy('userScore', 'desc').get()).forEach(rater => {
           topRater = rater.data();
         })

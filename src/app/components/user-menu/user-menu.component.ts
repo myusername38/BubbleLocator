@@ -48,7 +48,7 @@ export class UserMenuComponent implements OnInit {
   active = '';
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -223,20 +223,35 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
-  /*
-  expandVideoData(video: VideoMetadata) {
-    const dialogRef = this.dialog.open(ExpandVideoDialogComponent, {
-      width: '800px',
+  resetUserScores() {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
       data: {
-        video,
-        type: this.videoDisplayedSubject.value,
+        options: [
+          'Confirm', 'Cancel',
+        ],
+        message: `Confirm Reset`,
+        description: 'This action sets all user scores to 0 and cannot be undone.'
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'Confirm') {
-        this.deleteVideo(video);
+        this.resetScores();
       }
     });
   }
-  */
+
+  async resetScores() {
+    try {
+      this.loading = true;
+      await this.userService.resetUserScores();
+      setTimeout(() => {
+        this.usersDisplayedSubject.next('update');
+      }, 500);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
+  }
 }

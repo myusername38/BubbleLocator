@@ -12,6 +12,7 @@ import { VideoMetadata } from 'src/app/interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatVideoComponent } from 'mat-video/lib/video.component';
+import { CompletedRatingDialogComponent } from 'src/app/dialogs/completed-rating-dialog/completed-rating-dialog.component';
 
 export interface DialogData {
   frame: number;
@@ -74,7 +75,6 @@ export class BubbleLocatorComponent implements OnInit {
   constructor(private renderer: Renderer2,
               public dialog: MatDialog,
               private router: Router,
-              private route: ActivatedRoute,
               private videoService: VideoService,
               private snackbarService: SnackbarService,
               private db: AngularFirestore ) {
@@ -130,6 +130,7 @@ export class BubbleLocatorComponent implements OnInit {
       width: '500px',
     });
     dialogRef.afterClosed().subscribe(result => {
+      dialogRef.close();
       switch (result) {
         case 'Good':
           this.firstPass = false;
@@ -323,6 +324,21 @@ export class BubbleLocatorComponent implements OnInit {
     }
   }
 
+  showCompletedRatingDialog() {
+    const dialogRef = this.dialog.open(CompletedRatingDialogComponent, {
+      width: '550px',
+      data: { }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Continue') {
+        location.reload();
+      } else {
+        this.router.navigate(['/home']);
+        this.snackbarService.showInfo('Thank you for rating on decobubbles!');
+      }
+    });
+  }
+
   async submit() {
     try {
       this.loading = true;
@@ -333,8 +349,7 @@ export class BubbleLocatorComponent implements OnInit {
         });
       });
       await this.videoService.addVideoRating({ title: this.reviewVideo.title, rating: bubbleArray} );
-      this.snackbarService.showInfo('Video rating submitted');
-      this.router.navigate(['/home']);
+      this.showCompletedRatingDialog();
     } catch (err) {
       if (err.message === 'Video has been reviewed or does not exist') {
         this.snackbarService.showInfo('Rating unable to be submitted');

@@ -9,8 +9,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
-import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -92,6 +92,11 @@ import { UserInfoDialogComponent } from './dialogs/user-info-dialog/user-info-di
     MatInputModule,
     AdminModule,
     BubbleLocatorModule,
+  ],
+  entryComponents: [
+    ViewAnnouncementDialogComponent,
+    WelcomeDialogComponent,
+    UserInfoDialogComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },

@@ -76,4 +76,8 @@ export class UserService {
     const params = new HttpParams().set('uid', uid);
     return this.http.delete(`${ this.url }/remove-permissions`, { params }).toPromise();
   }
+
+  resetUserScores() {
+    return this.http.post(`${ this.url}/reset-user-scores`, {}).toPromise();
+  }
 }
