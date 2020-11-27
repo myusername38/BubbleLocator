@@ -87,6 +87,7 @@ import { AdminComponent } from './admin.component';
     ExpandUserDialogComponent,
     SearchDialogComponent,
     SearchVideoDialogComponent,
+    AddVideoDialogComponent,
   ],
 })
 export class AdminModule { }

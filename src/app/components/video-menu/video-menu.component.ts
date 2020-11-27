@@ -143,9 +143,14 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
         map(data => {
           this.loading = false;
           if (data) {
-            // @ts-ignore
-            this.lastDoc.push(data.docs[data.docs.length - 1]);
-            // @ts-ignore
+            if (this.paginator.pageIndex === 0) {
+              // @ts-ignore:
+              this.lastDoc = [data.docs[data.docs.length - 1]];
+            } else {
+               // @ts-ignore:
+              this.lastDoc.push(data.docs[data.docs.length - 1]);
+            }
+            // @ts-ignore:
             return data.docs;
           }
           return data;
@@ -270,7 +275,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
   async deleteVideo(video: VideoMetadata) {
     try {
       this.loading = true;
-      await this.videoService.deleteVideo({ title: video.title });
+      await this.videoService.deleteVideo({ title: video.title, location: this.videosDisplayed });
       this.videoChange(this.videoDisplayedSubject.value);
     } catch (err) {
       console.log(err);
@@ -331,6 +336,17 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
 
   resetParams() {
     window.history.replaceState({}, '', `/admin/videos`);
+  }
+
+  async updateCount() {
+    try {
+      this.loading = true;
+      await this.videoService.updateLocationCount(`${ this.videosDisplayed }-videos`);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
   }
 
   searchVideo() {

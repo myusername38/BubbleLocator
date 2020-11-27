@@ -62,5 +62,8 @@
       </table>
     </div>
     <mat-paginator class="w-100 paginator" [pageSizeOptions]="[10, 25, 50]" [pageSize]="videosPerPage" [length]="numDocs" (page)="videosPerPage = $event.pageSize"></mat-paginator>
+    <div class="w-100 update-count pt-sm" fxLayoutAlign="end center" *ngIf="role === 'owner' || role === 'admin'">
+      <button mat-raised-button class="mr-xs" (click)="updateCount()">Update Count</button>
+    </div>
   </div>
 </div>

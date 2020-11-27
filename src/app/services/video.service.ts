@@ -33,8 +33,9 @@ export class VideoService {
     return this.http.get<ReviewVideoData>(`${ this.url }/get-review-video`).toPromise();
   }
 
-  deleteVideo(video: { title: string }) {
-    const params = new HttpParams().set('title', video.title);
+  deleteVideo(video: { title: string, location: string }) {
+    let params = new HttpParams().set('title', video.title);
+    params = params.append('location', video.location);
     return this.http.delete(`${ this.url }/delete-video`, { params }).toPromise();
   }
 
@@ -68,5 +69,9 @@ export class VideoService {
 
   addTutorialRating(video: { title: string, average: number }) {
     return this.http.post<TutorialResponse>(`${ this.url }/add-tutorial-rating`, video ).toPromise();
+  }
+
+  updateLocationCount(location: string) {
+    return this.http.post(`${ this.url }/update-count`, { location }).toPromise();
   }
 }

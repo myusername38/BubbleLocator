@@ -80,4 +80,8 @@ export class UserService {
   resetUserScores() {
     return this.http.post(`${ this.url}/reset-user-scores`, {}).toPromise();
   }
+
+  updateUserCount() {
+    return this.http.post(`${ this.url}/update-user-count`, {}).toPromise();
+  }
 }
