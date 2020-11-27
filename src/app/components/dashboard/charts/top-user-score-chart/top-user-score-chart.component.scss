@@ -64,6 +64,15 @@ $fontSize: 20px;
   }
 }
 
+.more-info {
+  font-family: $roboto;
+  color: $text-color;
+  @media screen and (min-width: $screen-medium) {
+    margin-bottom: -8px;
+    margin-top: -8px;
+  }
+}
+
 .square {
   height: $fontSize;
   width: $fontSize;

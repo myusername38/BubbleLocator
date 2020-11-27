@@ -45,6 +45,7 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { ContributorComponent } from './components/home/contributor/contributor.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { UserInfoDialogComponent } from './dialogs/user-info-dialog/user-info-dialog.component';
+import { UserScoreDialogComponent } from './dialogs/user-score-dialog/user-score-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { UserInfoDialogComponent } from './dialogs/user-info-dialog/user-info-di
     ContributorComponent,
     GdprComponent,
     UserInfoDialogComponent,
+    UserScoreDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +99,7 @@ import { UserInfoDialogComponent } from './dialogs/user-info-dialog/user-info-di
     ViewAnnouncementDialogComponent,
     WelcomeDialogComponent,
     UserInfoDialogComponent,
+    UserScoreDialogComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },

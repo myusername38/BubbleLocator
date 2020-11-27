@@ -94,8 +94,13 @@ export class UserMenuComponent implements OnInit {
       map(data => {
         this.loading = false;
         if (data) {
-          // @ts-ignore:
-          this.lastDoc.push(data.docs[data.docs.length - 1]);
+          if (this.paginator.pageIndex === 0) {
+            // @ts-ignore:
+            this.lastDoc = [data.docs[data.docs.length - 1]];
+          } else {
+             // @ts-ignore:
+            this.lastDoc.push(data.docs[data.docs.length - 1]);
+          }
           // @ts-ignore:
           return data.docs;
         }
@@ -104,7 +109,6 @@ export class UserMenuComponent implements OnInit {
     ).subscribe(data => {
       if (data) {
         this.videoTableData = data.map(doc => doc.data());
-
       }
     });
   }
@@ -239,6 +243,17 @@ export class UserMenuComponent implements OnInit {
         this.resetScores();
       }
     });
+  }
+
+  async updateUserCount() {
+    try {
+      this.loading = true;
+      await this.userService.updateUserCount();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
+    }
   }
 
   async resetScores() {
