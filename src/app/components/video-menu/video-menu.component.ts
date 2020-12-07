@@ -280,7 +280,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     } catch (err) {
       console.log(err);
     } finally {
-      this.loading = true;
+      this.loading = false;
     }
   }
 
@@ -320,7 +320,6 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
   async reviewFlaggedVideo(video: VideoMetadata) {
     try {
       this.loading = true;
-      console.log(video.title);
       this.videoService.reviewFlaggedVideo(video.title);
     } catch (err) {
       console.log(err);
