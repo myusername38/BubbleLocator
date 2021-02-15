@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { SnackbarService } from 'src/app/services/snackbar.service';
+import { SnackbarService } from '../../services/snackbar.service';
 import { AddVideoDialogComponent } from '../../dialogs/add-video-dialog/add-video-dialog.component';
 import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { VideoMetadata } from '../../interfaces/video-metadata';
@@ -160,6 +160,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
           let docData = data.map(doc => doc.data());
           docData = docData.map(doc => {
             doc.date = new Date(doc.date).toLocaleDateString();
+            doc.location = this.videoDisplayedSubject.value;
             if (doc.raters && doc.raters.length !== 0) {
               doc.status = `${ doc.raters.length } Rating`;
               if (doc.raters.length !== 1) {
@@ -301,8 +302,7 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(ExpandVideoDialogComponent, {
       width: '800px',
       data: {
-        video,
-        type: this.videoDisplayedSubject.value,
+        video
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -354,8 +354,19 @@ export class VideoMenuComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.video) {
+        result.video.location = this.getStatus(result.video.location);
         this.expandVideoData(result.video);
       }
     });
+  }
+
+  getStatus(status: String) {
+    switch(status){
+      case 'incomplete-videos': return 'Incomplete'
+      case 'unusable-videos': return 'Unusable'
+      case 'flagged-videos': return 'Flagged'
+      case 'complete-videos': return 'Complete'
+      default: return 'Error'
+    }
   }
 }

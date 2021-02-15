@@ -106,3 +106,10 @@ $button-font-size: 22px;
 .place-holder {
   height: 85px;
 }
+
+:host ::ng-deep .mat-button-ripple.mat-ripple.mat-button-ripple-round {
+  top: -4px !important;
+  left: -1px !important;
+  height: 50px !important;
+  width: 50px !important;
+}

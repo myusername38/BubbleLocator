@@ -47,3 +47,10 @@ $toolbar-height: 85px;
   max-width: 200px;
 }
 
+:host ::ng-deep .mat-button-ripple.mat-ripple.mat-button-ripple-round {
+  top: -4px !important;
+  left: -1px !important;
+  height: 50px !important;
+  width: 50px !important;
+}
+
