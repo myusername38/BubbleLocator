@@ -4,11 +4,11 @@
 <div class="expand-video" fxLayout="column" fxLayoutAlign="center center">
   <div class="title mb-xs" fxLayout="row" fxLayoutAlign="center center">
     <h1 class="mb-xs mt-xs" fxHide.lt-sm>{{ videoData.title }}</h1>
-    <p class="field mb-xs mt-xs" fxHide.gt-sm>{{ videoData.title }}</p>
+    <p class="field mb-xs mt-xs" fxHide.gt-xs>{{ videoData.title }}</p>
     <mat-spinner [diameter]="25" class="ml-sm" *ngIf="loading" fxHide.lt-sm></mat-spinner>
   </div>
   <div class="video-info">
-    <p class="field capitalize mb-xs mt-xs">Status: {{ videoType }}</p>
+    <p class="field capitalize mb-xs mt-xs">Status: {{ videoData.location }}</p>
     <p class="field mb-xs mt-xs">Added: {{ getDate(videoData.added) }}</p>
     <p class="field mb-xs mt-xs">Added By: {{ videoData.user }}</p>
     <p class="field mb-xs mt-xs">FPS: {{ videoData.fps }}</p>

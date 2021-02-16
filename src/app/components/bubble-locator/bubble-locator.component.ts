@@ -8,11 +8,11 @@ import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
 import { ReviewVideoData } from '../../interfaces/review-video-data';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { VideoMetadata } from 'src/app/interfaces/video-metadata';
+import { VideoMetadata } from '../../interfaces/video-metadata';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatVideoComponent } from 'mat-video/lib/video.component';
-import { CompletedRatingDialogComponent } from 'src/app/dialogs/completed-rating-dialog/completed-rating-dialog.component';
+import { CompletedRatingDialogComponent } from '../../dialogs/completed-rating-dialog/completed-rating-dialog.component';
 
 export interface DialogData {
   frame: number;
@@ -63,6 +63,10 @@ export class BubbleLocatorComponent implements OnInit {
   canPlay = false;
   invalidDialog = null;
   oneTimeThrough = false;
+  short = false;
+  shortMinimumFrames = 3;
+  regularMinimumFrames = 8;
+  minimumFrames = this.regularMinimumFrames;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -118,8 +122,29 @@ export class BubbleLocatorComponent implements OnInit {
         this.videoWidth = this.videoWidth / 2;
         this.scaled = true;
       }
+      if (this.video.duration < 6) {
+        this.short = true;
+        this.minimumFrames = this.shortMinimumFrames;
+        this.showVideoShortDialog();
+      }
       this.widthOffset = Math.floor((window.innerWidth - this.videoWidth) / 2);
       this.generateFrameButtons();
+    });
+  }
+
+  showVideoShortDialog() {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
+      data: {
+        frame: this.getCurrentFrame(),
+        options: [
+          'Confirm',
+        ],
+        message: 'This is a short video',
+        description: `This video only requires ${ this.shortMinimumFrames } frames to submit`
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 
@@ -130,7 +155,6 @@ export class BubbleLocatorComponent implements OnInit {
       width: '500px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      dialogRef.close();
       switch (result) {
         case 'Good':
           this.firstPass = false;
@@ -293,7 +317,7 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   confirmSubmit(option: string = 'Good', bubble: Bubble = null) {
-    if (this.bubbles.length >= 8 || option !== 'Good') {
+    if (this.bubbles.length >= this.minimumFrames || option !== 'Good') {
       let message = 'Submit video rating';
       let description = '';
       if (option !== 'Good') {

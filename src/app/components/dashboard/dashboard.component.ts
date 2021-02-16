@@ -108,7 +108,7 @@ export class DashboardComponent {
           }
         }
       });
-      // this.showDialog();
+      this.showDialog();
     } catch (err) {
       console.log(err);
     } finally {

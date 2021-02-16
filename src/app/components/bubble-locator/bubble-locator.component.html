@@ -31,12 +31,12 @@
     </div>
   </div>
   <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="firstPass && oneTimeThrough">
-    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="openReviewDialog()">Rate Quality</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="openReviewDialog()">Assess Video</button>
   </div>
   <div class="mlr-atuo" fxLayout="column" fxLayoutAlign="center center"  *ngIf="!locatingBubbles && canPlay && !firstPass">
     <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="locateBubbles()">Locate Bubbles</button>
-    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="reassessVideoQuality()">Reassess Quality</button>
-    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="confirmSubmit()" *ngIf="bubbles.length >= 8">Submit Assessment</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="reassessVideoQuality()">Reassess Video</button>
+    <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="confirmSubmit()" *ngIf="bubbles.length >= minimumFrames">Submit Rating</button>
   </div>
   <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="canPlay && !firstPass">
     <button class="bottom-buttons fade-in-fast" mat-raised-button (click)="doneLocatingBubbles()" *ngIf="locatingBubbles && !deletingBubbles">Done Locating Bubbles</button>

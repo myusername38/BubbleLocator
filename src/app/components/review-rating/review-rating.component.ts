@@ -148,6 +148,7 @@ export class ReviewRatingComponent implements OnInit {
         this.date = new Date(data.ratings[videoQueryData.user].added);
       } else {
         this.reviewVideo = await this.videoService.getReviewVideo();
+        this.reviewVideo.url = "/Users/martinsmolka/Downloads/RPReplay_Final1589855838.MP4"
       }
       this.setVideoPlayer();
     } catch (err) {

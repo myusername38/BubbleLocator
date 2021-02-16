@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ReviewQualityDialogComponent implements OnInit {
 
-  options = ['Good Quality', 'Bad Quality', 'Wash-Out', 'No Bubbles'];
+  options = ['Good Quality', 'Bad Quality', 'No Bubbles'];
   selected = this.options[0];
   loading = false;
 

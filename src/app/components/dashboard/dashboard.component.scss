@@ -229,3 +229,10 @@ $graphtick-color: green;
     color: white;
   }
 }
+
+:host ::ng-deep .mat-button-ripple.mat-ripple.mat-button-ripple-round {
+  top: -4px !important;
+  left: -12px !important;
+  height: 50px !important;
+  width: 50px !important;
+}

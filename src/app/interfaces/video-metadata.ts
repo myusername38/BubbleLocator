@@ -1,7 +1,7 @@
 
 export interface VideoMetadata {
   added: Date;
-  status: string;
+  location: string;
   title: string;
   url: string;
   user: string;

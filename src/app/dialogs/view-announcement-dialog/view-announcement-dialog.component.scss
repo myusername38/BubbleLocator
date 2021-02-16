@@ -14,4 +14,13 @@
   @media screen and (max-width: $screen-small){
     min-width: 65vw;
   }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.2;
+  }
 }
