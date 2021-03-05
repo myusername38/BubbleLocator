@@ -31,8 +31,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AdminModule } from './admin/admin.module';
 import { BubbleLocatorModule } from './bubble-locator/bubble-locator.module';
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { GestureConfig } from '@angular/material/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { ReviewsPerDayComponent } from './components/dashboard/charts/reviews-per-day/reviews-per-day.component';
 import { VideosPieChartComponent } from './components/dashboard/charts/videos-pie-chart/videos-pie-chart.component';
@@ -103,7 +102,6 @@ import { UserScoreDialogComponent } from './dialogs/user-score-dialog/user-score
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     AngularFireAuthGuard
   ],
   bootstrap: [AppComponent]

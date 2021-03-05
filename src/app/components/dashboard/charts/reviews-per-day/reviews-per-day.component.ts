@@ -24,6 +24,8 @@ export class ReviewsPerDayComponent implements OnInit {
   colorScheme = {
     domain: ['#D00000', '#A10A28', '#C7B42C', '#AAAAAA']
   };
+  dates = [];
+  cstOffset = 2 * 60 * 60 * 1000;
 
   constructor(private db: AngularFirestore) { }
 
@@ -32,7 +34,7 @@ export class ReviewsPerDayComponent implements OnInit {
       let series = [];
       data.forEach(doc => {
         const d = doc.data();
-        series.push({ value: d.ratings, name: new Date(d.date).toISOString(), date: d.date });
+        series.push({ value: d.ratings, name: d.day, date: d.date });
       });
       series = series.sort((a, b) => a.date - b.date);
       this.results[0].series = series;
@@ -41,6 +43,6 @@ export class ReviewsPerDayComponent implements OnInit {
   }
 
   public dateTickFormatting(val: any): string {
-    return new Date(val).toLocaleDateString();
+    return val.replace(/[.]/g, '/');
   }
 }
