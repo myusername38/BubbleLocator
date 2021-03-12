@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ResolutionDialogComponent } from '../../dialogs/resolution-dialog/resolution-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
@@ -63,6 +63,7 @@ export class ReviewRatingComponent implements OnInit {
   collection = '';
   title = '';
   invalidDialog = null;
+  videoQueryData = null;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -71,7 +72,7 @@ export class ReviewRatingComponent implements OnInit {
     this.bubbles = [...this.bubbles];
   }
 
-  constructor(private renderer: Renderer2,
+  constructor(
               public dialog: MatDialog,
               private router: Router,
               private route: ActivatedRoute,
@@ -79,27 +80,30 @@ export class ReviewRatingComponent implements OnInit {
               private snackbarService: SnackbarService,
               private db: AngularFirestore ) {
                 this.incompleteVideoCollection = this.db.collection('incomplete-videos');
+                console.log('here')
                 this.route.queryParams.subscribe(params => {
-                  if (params.collection && params.user && params.title && params.type) {
-                    const videoQueryData = { collection: params.collection, title: params.title, user: params.user, type: params.type };
+                  if (params.user && params.title && params.type) {
+                    this.videoQueryData = { title: params.title, user: params.user, type: params.type };
                     this.uid = params.user;
                     this.type = params.type;
                     this.collection = params.collection;
                     this.title = params.title;
+
                     if (this.collection !== 'rejected') {
-                      this.getVideoUrl(videoQueryData);
+                      this.getVideoUrl(this.videoQueryData);
                     } else {
                       this.getVideoRejected(this.title, this.uid);
                     }
                   } else {
                     this.returnToVideos();
-                    // go back to admin page
                   }
                 });
               }
 
   ngOnInit() {
     this.checkWindow();
+    console.log();
+
   }
 
   checkWindow() {
@@ -133,23 +137,15 @@ export class ReviewRatingComponent implements OnInit {
     });
   }
 
-  async getVideoUrl(videoQueryData: { collection: string, title: string, user: string, type: string } = null) {
+  async getVideoUrl(videoQueryData: { title: string, user: string, type: string } = null) {
     try {
       this.loading = true;
-      if (videoQueryData) {
-        let collection = 'incomplete-videos';
-        if (videoQueryData.collection !== 'incomplete') {
-          collection = 'complete-videos';
-        }
-        const data = (await this.db.doc(`/${ collection }/${ videoQueryData.title }`).ref.get()).data();
-        this.reviewVideo = { title: data.title, url: data.url, fps: data.fps };
-        this.viewRating(data.ratings[videoQueryData.user].rating);
-        this.rating = this.getRating(data.ratings[videoQueryData.user].rating);
-        this.date = new Date(data.ratings[videoQueryData.user].added);
-      } else {
-        this.reviewVideo = await this.videoService.getReviewVideo();
-        this.reviewVideo.url = "/Users/martinsmolka/Downloads/RPReplay_Final1589855838.MP4"
-      }
+      const video = (await this.db.doc(`/videos/${ videoQueryData.title }`).ref.get()).data();
+      const data = (await this.db.doc(`/${ video.location }/${ videoQueryData.title }`).ref.get()).data();
+      this.reviewVideo = { title: data.title, url: data.url, fps: data.fps };
+      this.viewRating(data.ratings[videoQueryData.user].rating);
+      this.rating = this.getRating(data.ratings[videoQueryData.user].rating);
+      this.date = new Date(data.ratings[videoQueryData.user].added);
       this.setVideoPlayer();
     } catch (err) {
       if (err.error && err.error.message === 'No more videos to review') {
@@ -336,7 +332,7 @@ export class ReviewRatingComponent implements OnInit {
     });
     this.showFrames = true;
     const average = bubbles.length / frames.length;
-    return `Average: ${ average }`;
+    return `Average: ${ Math.round(average * 100) / 100 }`;
   }
 
   async deleteVideoRating() {

@@ -27,7 +27,7 @@
 <div class="video-info" [ngStyle]="{ 'width.px': videoWidth }" fxLayout="column" fxLayoutAlign="start end">
   <div class="ml-sm" fxLayout="column" fxLayoutAlign="start start">
     <p class="field capitalize mb-xs mt-xs">User Rating: {{ rating }}</p>
-    <p class="field mb-xs mt-xs">Date: {{ date | date:'medium' }}</p>
+    <p class="field mb-xs mt-xs">{{ date | date:'medium' }}</p>
   </div>
 </div>
 <div class="mlr-auto" fxLayout="column" fxLayoutAlign="center center" *ngIf="locatingBubbles">

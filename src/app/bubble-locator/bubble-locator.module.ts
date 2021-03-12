@@ -26,6 +26,9 @@ import { TutorialLocatorComponent } from '../components/tutorial-locator/tutoria
 import { ViewVideoComponent } from '../components/view-video/view-video.component';
 import { TutorialResultsDialogComponent } from '../dialogs/tutorial-results-dialog/tutorial-results-dialog.component';
 import { CompletedRatingDialogComponent } from '../dialogs/completed-rating-dialog/completed-rating-dialog.component';
+import { DownloadResultsDialogComponent } from '../dialogs/download-results-dialog/download-results-dialog.component';
+import { SelectFilesDialogComponent } from '../dialogs/select-files-dialog/select-files-dialog.component';
+import { LocalLocatorComponent } from '../components/local-locator/local-locator.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,9 @@ import { CompletedRatingDialogComponent } from '../dialogs/completed-rating-dial
     ViewVideoComponent,
     TutorialResultsDialogComponent,
     CompletedRatingDialogComponent,
+    SelectFilesDialogComponent,
+    LocalLocatorComponent,
+    DownloadResultsDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -31,7 +31,7 @@ export interface FrameLocations {
 })
 export class TutorialLocatorComponent implements OnInit {
 
-  @ViewChild('video', { static: false }) matVideo: MatVideoComponent;
+  @ViewChild('video') matVideo: MatVideoComponent;
   incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
   video: HTMLVideoElement;
   tutorialVideo: TutorialVideoData = { title: '', url: '', fps: 0, noBubbles: false, washOut: false, badQuality: false };

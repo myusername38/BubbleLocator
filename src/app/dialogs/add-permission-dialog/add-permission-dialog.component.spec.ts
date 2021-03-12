@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AddPermissionDialogComponent } from './add-permission-dialog.component';
 
@@ -6,7 +6,7 @@ describe('AddPermissionDialogComponent', () => {
   let component: AddPermissionDialogComponent;
   let fixture: ComponentFixture<AddPermissionDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AddPermissionDialogComponent ]
     })

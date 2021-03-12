@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { OwnerMenuComponent } from './owner-menu.component';
 
@@ -6,7 +6,7 @@ describe('OwnerMenuComponent', () => {
   let component: OwnerMenuComponent;
   let fixture: ComponentFixture<OwnerMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ OwnerMenuComponent ]
     })

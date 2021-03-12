@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CompletedRatingDialogComponent } from './completed-rating-dialog.component';
 
@@ -6,7 +6,7 @@ describe('CompletedRatingDialogComponent', () => {
   let component: CompletedRatingDialogComponent;
   let fixture: ComponentFixture<CompletedRatingDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CompletedRatingDialogComponent ]
     })

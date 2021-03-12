@@ -46,7 +46,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.url.endsWith('/logout') || request.url.endsWith('/token-refresh'), request.url.endsWith('/signup')) {
+    if (request.url.endsWith('/logout') || request.url.endsWith('/token-refresh') || request.url.endsWith('/signup')) {
       return next.handle(request);
     } else if (this.token) {
       return next.handle(this.updateHeader(request)).pipe(catchError(error => {

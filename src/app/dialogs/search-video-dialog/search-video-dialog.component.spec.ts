@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SearchVideoDialogComponent } from './search-video-dialog.component';
 
@@ -6,7 +6,7 @@ describe('SearchVideoDialogComponent', () => {
   let component: SearchVideoDialogComponent;
   let fixture: ComponentFixture<SearchVideoDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchVideoDialogComponent ]
     })

@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from '../../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { ReviewQualityDialogComponent } from '../../dialogs/review-quality-dialog/review-quality-dialog.component';
 import { ResolutionDialogComponent } from '../../dialogs/resolution-dialog/resolution-dialog.component';
+import { SelectFilesDialogComponent } from '../../dialogs/select-files-dialog/select-files-dialog.component';
+import { DownloadResultsDialogComponent } from '../../dialogs/download-results-dialog/download-results-dialog.component';
 import { Bubble } from '../../interfaces/bubble';
 import { MatSliderChange } from '@angular/material/slider';
 import { VideoService } from '../../services/video.service';
@@ -14,25 +16,31 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatVideoComponent } from 'mat-video/lib/video.component';
 import { CompletedRatingDialogComponent } from '../../dialogs/completed-rating-dialog/completed-rating-dialog.component';
 
+
 export interface DialogData {
   frame: number;
 }
+
+export interface VideoData {
+  name: string;
+  url: string;
+}
+
 export interface FrameLocations {
   frameSlot: number;
   time: number;
 }
 
 @Component({
-  selector: 'app-bubble-locator',
-  templateUrl: './bubble-locator.component.html',
-  styleUrls: ['./bubble-locator.component.scss']
+  selector: 'app-local-locator',
+  templateUrl: './local-locator.component.html',
+  styleUrls: ['./local-locator.component.scss']
 })
-export class BubbleLocatorComponent implements OnInit {
+export class LocalLocatorComponent implements OnInit {
 
   @ViewChild('video') matVideo: MatVideoComponent;
   incompleteVideoCollection: AngularFirestoreCollection<VideoMetadata>;
   video: HTMLVideoElement;
-  reviewVideo: ReviewVideoData = { title: '', url: '', fps: 0 };
   firstPass = true;
   bubbleRadius = 12;
   frameOptions = 'Good';
@@ -67,6 +75,9 @@ export class BubbleLocatorComponent implements OnInit {
   shortMinimumFrames = 3;
   regularMinimumFrames = 8;
   minimumFrames = this.regularMinimumFrames;
+  currentVideo: VideoData = null;
+  videoRatings: { title: string, rating: string }[] = [];
+  reviewVideos: VideoData[] = [];
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -79,15 +90,29 @@ export class BubbleLocatorComponent implements OnInit {
   constructor(private renderer: Renderer2,
               public dialog: MatDialog,
               private router: Router,
-              private videoService: VideoService,
-              private snackbarService: SnackbarService,
-              private db: AngularFirestore ) {
-                this.incompleteVideoCollection = this.db.collection('incomplete-videos');
-              }
+              private snackbarService: SnackbarService ) { }
 
   ngOnInit() {
     this.checkWindow();
-    this.getVideoUrl();
+    this.getVideos();
+  }
+
+  getVideos() {
+    const dialogRef = this.dialog.open(SelectFilesDialogComponent, {
+      disableClose: true,
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result)
+        this.reviewVideos = result.videos;
+        this.currentVideo = this.reviewVideos.pop();
+        this.setVideoPlayer();
+      } else {
+        this.snackbarService.showError('No Files chosen')
+        this.router.navigate(['home'])
+      }
+    });
   }
 
   checkWindow() {
@@ -101,10 +126,10 @@ export class BubbleLocatorComponent implements OnInit {
       this.invalidDialog = null;
     }
   }
-
+  /* takes the currentVideo and sets the video player for it */
   setVideoPlayer() {
     this.video = this.matVideo.getVideoTag();
-    this.video.src = this.reviewVideo.url;
+    this.video.src = this.currentVideo.url;
     this.renderer.listen(this.video, 'ended', (e) => console.log('video ended'));
     this.video.addEventListener('ended', (e) => {
       if (this.firstPass) {
@@ -230,14 +255,6 @@ export class BubbleLocatorComponent implements OnInit {
   bubbleToAdd(result): Bubble {
     let bubbleToAdd: Bubble = null;
     switch (result) {
-      case 'Wash-Out':
-        bubbleToAdd = {
-          x: -1,
-          y: -1,
-          frame: -1,
-          time: -1,
-        };
-        break;
       case 'No Bubbles':
         bubbleToAdd = {
           x: -2,
@@ -258,29 +275,12 @@ export class BubbleLocatorComponent implements OnInit {
     return bubbleToAdd;
   }
 
-  async getVideoUrl() {
-    try {
-      this.loading = true;
-      this.reviewVideo = await this.videoService.getReviewVideo();
-      this.setVideoPlayer();
-    } catch (err) {
-      if (err.error && err.error.message === 'No more videos to review') {
-        this.snackbarService.showError(err.error.message);
-        this.router.navigate(['/home']);
-      } else {
-        console.log(err);
-      }
-    } finally {
-      this.loading = false;
-    }
-  }
-
   getCurrentFrame() {
-    return Math.floor(this.video.currentTime * this.reviewVideo.fps); /* fix this with the actual framerate */
+    return Math.floor(this.video.currentTime * 30); /* fix this with the actual framerate */
   }
 
   getFrame(time) {
-    return Math.floor(time * this.reviewVideo.fps);  /* fix this eventually */
+    return Math.floor(time * 30);  /* fix this eventually */
   }
 
   locateBubbles() {
@@ -364,24 +364,34 @@ export class BubbleLocatorComponent implements OnInit {
   }
 
   async submit() {
-    try {
-      this.loading = true;
-      const bubbleArray: Bubble[] = [];
+    let currentVideoRating = '';
+    if (this.bubbles.length > 1) {
+      let count = 0;
       this.bubbles.forEach(frame => {
         frame.bubbles.forEach(bubble => {
-          bubbleArray.push(bubble);
+          count += 1;
         });
       });
-      await this.videoService.addVideoRating({ title: this.reviewVideo.title, rating: bubbleArray} );
-      this.showCompletedRatingDialog();
-    } catch (err) {
-      if (err.message === 'Video has been reviewed or does not exist') {
-        this.snackbarService.showInfo('Rating unable to be submitted');
-        this.router.navigate(['/home']);
+      currentVideoRating =  `${ Math.round(100 * (count / this.bubbles.length)) / 100 }`;
+    } else {
+      if (this.bubbles[0].bubbles[0].x === -2) {
+        currentVideoRating = 'No Bubbles';
+      } else {
+        currentVideoRating = 'Bad Quality';
       }
-      console.log(err);
-    } finally {
-      this.loading = false;
+    }
+    this.videoRatings.push({ title: this.currentVideo.name, rating: currentVideoRating });
+    if (this.reviewVideos.length >= 1) {
+      this.currentVideo = this.reviewVideos.pop();
+      this.resetVariables();
+      this.video.src = this.currentVideo.url;
+    } else {
+      const dialogRef = this.dialog.open(DownloadResultsDialogComponent, {
+        width: '500px',
+        data: { ratings: this.videoRatings }
+      });
+        dialogRef.afterClosed().subscribe(result => {
+      });
     }
   }
 
@@ -549,5 +559,33 @@ export class BubbleLocatorComponent implements OnInit {
 
   getFilteredCurrentFrameBubbles() {
     return this.currentFrameBubbles.filter(b => b.x !== -2 && b.y !== -2);
+  }
+
+  resetVariables() {
+    this.firstPass = true;
+    this.frameOptions = 'Good';
+    this.frame = 0;
+    this.count = 0;
+    this.paused = false;
+    this.loading = false;
+    this.locatingBubbles = false;
+    this.deletingBubbles = false;
+    this.widthOffset = 0;
+    this.heightOffset = 85 + 16;
+    this.videoHeight = 450;
+    this.videoWidth = 600;
+    this.bubbles = [];
+    this.currentFrameBubbles = [];
+    this.times = [];
+    this.frameLocations = [];
+    this.edited = false;
+    this.scaled = false;
+    this.canPlay = false;
+    this.invalidDialog = null;
+    this.oneTimeThrough = false;
+    this.short = false;
+    this.shortMinimumFrames = 3;
+    this.regularMinimumFrames = 8;
+    this.minimumFrames = this.regularMinimumFrames;
   }
 }

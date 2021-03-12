@@ -1,0 +1,17 @@
+<div class="confirmation" fxLayout="column" fxLayoutAlign="center center">
+  <div class="title">
+    <h1 class="mb-sm">Select Echos to Rate</h1>
+  </div>
+  <div class="more-info" >
+    <p class="mt-0">The videos must be 30fps and MP4 format</p>
+  </div>
+  <div class="button-row" fxLayout="column" fxLayoutAlign="center center">
+    <div class="form-group">
+      <label for="file" class="mr-sm">Choose File(s):</label>
+      <input type="file"
+              id="file"
+              multiple
+              (change)="handleFileInput($event.target.files)">
+    </div>
+  </div>
+</div>

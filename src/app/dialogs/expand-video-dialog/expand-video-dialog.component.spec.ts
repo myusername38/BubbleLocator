@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ExpandVideoDialogComponent } from './expand-video-dialog.component';
 
@@ -6,7 +6,7 @@ describe('ExpandVideoDialogComponent', () => {
   let component: ExpandVideoDialogComponent;
   let fixture: ComponentFixture<ExpandVideoDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ExpandVideoDialogComponent ]
     })

@@ -12,7 +12,7 @@ export class AdminComponent implements OnInit {
 
   showFiller = false;
   role = '';
-  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
+  @ViewChild('drawer') drawer: MatSidenav;
 
   constructor(private authService: AuthService, private router: Router) { }
 

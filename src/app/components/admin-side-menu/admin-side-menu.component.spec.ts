@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AdminSideMenuComponent } from './admin-side-menu.component';
 
@@ -6,7 +6,7 @@ describe('AdminSideMenuComponent', () => {
   let component: AdminSideMenuComponent;
   let fixture: ComponentFixture<AdminSideMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AdminSideMenuComponent ]
     })

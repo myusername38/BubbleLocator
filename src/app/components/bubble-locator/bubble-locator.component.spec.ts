@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BubbleLocatorComponent } from './bubble-locator.component';
 
@@ -6,7 +6,7 @@ describe('BubbleLocatorComponent', () => {
   let component: BubbleLocatorComponent;
   let fixture: ComponentFixture<BubbleLocatorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BubbleLocatorComponent ]
     })
