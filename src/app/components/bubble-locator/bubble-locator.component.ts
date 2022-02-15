@@ -375,7 +375,7 @@ export class BubbleLocatorComponent implements OnInit {
       await this.videoService.addVideoRating({ title: this.reviewVideo.title, rating: bubbleArray} );
       this.showCompletedRatingDialog();
     } catch (err) {
-      if (err.message === 'Video has been reviewed or does not exist') {
+      if (err.error && err.error.message === 'Video has been reviewed or does not exist') {
         this.snackbarService.showInfo('Rating unable to be submitted');
         this.router.navigate(['/home']);
       }

@@ -11,7 +11,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
       FlexLayoutModule
      ],
     declarations: [
-        DialogConfirmationComponent
+      DialogConfirmationComponent
     ],
     exports: [
       DialogConfirmationComponent

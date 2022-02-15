@@ -21,12 +21,6 @@
   font-family: $roboto;
 }
 
-.table-container {
-  width: 100%;
-  max-width: $admin-table-width;
-  overflow: auto;
-}
-
 .menu-buttons {
   color: white;
   font-family: $roboto;
@@ -39,6 +33,12 @@
 
 .button-container {
   max-width: $admin-table-width;
+}
+
+.table-container {
+  width: 100%;
+  max-width: $admin-table-width;
+  overflow: auto;
 }
 
 table {
